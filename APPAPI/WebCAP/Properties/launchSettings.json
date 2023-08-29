@@ -1,0 +1,30 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:5000",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "WebCAP": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "SecretKey": "sk_test_51IFGVwAU5WVl2sjcL0th6BnIrDGdxASwnWEfVp0c2MLTvHGdKOLy37NjHyCvnC8y5Oci81o7RJMSRF10pcfbuWmh00NToT84hV",
+        "Domain": "http://localhost:4200",
+        "PublishableKey": "pk_test_51IFGVwAU5WVl2sjcxEZWYlCDbKEFhXWllnVmCwWpNgqtMCoMIbxUyUdpyYHW6muvUoCw6PlBu1TVhPMCdmaqDj2e00vpSaRVs2",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:5000"
+    }
+  }
+}

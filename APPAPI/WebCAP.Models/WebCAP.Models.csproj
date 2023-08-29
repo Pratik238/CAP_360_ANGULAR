@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{439CBB88-2DBF-4F18-A725-83BF11159038}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebGYM.Models</RootNamespace>
+    <AssemblyName>WebGYM.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attendance.cs" />
+    <Compile Include="Contactus.cs" />
+    <Compile Include="WebsiteContactus.cs" />
+    <Compile Include="DignasticTest.cs" />
+    <Compile Include="EnglishQuestionFilters.cs" />
+    <Compile Include="EnglishQuestionsviewModel.cs" />
+    <Compile Include="EnglishParagraph.cs" />
+    <Compile Include="EnglishExamIds.cs" />
+    <Compile Include="ExamIds.cs" />
+    <Compile Include="Franchise.cs" />
+    <Compile Include="EnglishQuestions.cs" />
+    <Compile Include="HomeWorkEnglishQuestion.cs" />
+    <Compile Include="PracticeExamEnglishQuestion.cs" />
+    <Compile Include="QuestionFilters.cs" />
+    <Compile Include="SATExamEnglishJumbleQuestion.cs" />
+    <Compile Include="SATExamEnglishQuestion.cs" />
+    <Compile Include="SATExamJumbleQuestion.cs" />
+    <Compile Include="SATExamQuestion.cs" />
+    <Compile Include="SATExamAssign.cs" />
+    <Compile Include="StripeCustomer.cs" />
+    <Compile Include="StripePayment.cs" />
+    <Compile Include="VerificationCodes.cs" />
+    <Compile Include="HomeWorkQuestion.cs" />
+    <Compile Include="PracticeExamQuestion.cs" />
+    <Compile Include="UploadVideos.cs" />
+    <Compile Include="HomeWorkAssign.cs" />
+    <Compile Include="BatchAssign.cs" />
+    <Compile Include="CapBaseClass.cs" />
+    <Compile Include="CommonParams.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="DynamicExtensions.cs" />
+    <Compile Include="MemberRegistration.cs" />
+    <Compile Include="PeriodTB.cs" />
+    <Compile Include="QueryParameters.cs" />
+    <Compile Include="QueryParametersExtensions.cs" />
+    <Compile Include="ReferenceTable.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Batch.cs" />
+    <Compile Include="Questions.cs" />
+    <Compile Include="StudentAdmission.cs" />
+    <Compile Include="Users.cs" />
+    <Compile Include="UsersInRoles.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
