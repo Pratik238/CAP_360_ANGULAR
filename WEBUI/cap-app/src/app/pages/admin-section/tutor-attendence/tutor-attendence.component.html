@@ -1,0 +1,86 @@
+<div class="col-12">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <p-toast></p-toast>
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4" style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Tutor Attendence
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <form [formGroup]="attendanceForm">
+                <div class="row">
+                  <div class="col-12 col-md-8 form-group">
+                    <label for="BatchId">Batch <span class="required-label">*</span></label>
+                    <select class="form-control" formControlName="BatchId" (change)="onChangeBatch($event)">
+                      <option [value]="null"> -- Select -- </option>
+                      <option *ngFor="let batch of batches" [value]="batch.BatchId" >{{batch.BatchName}}</option>
+                  </select> 
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 col-md-8 form-group">
+                    <label for="TopicId">Topic <span class="required-label">*</span></label>
+                    <select class="form-control" formControlName="TopicId" (change)="onChangeTopic($event)">
+                      <option [value]="null">--Select--</option>
+                      <option *ngFor="let topic of topics" [value]="topic.TopicId">{{topic.TopicName}}</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-12 col-md-8 form-group">
+                    <label for="SubTopicId">Sub Topics <span class="required-label">*</span></label>
+                    <select class="form-control" formControlName="SubTopicId">
+                      <option [value]="null"> -- Select -- </option>
+                      <option *ngFor="let batch of subTopics" [value]="batch.SubTopicId" >{{batch.SubTopicName}}</option>
+                  </select> 
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="isShowStudents">
+                  <div class="col-12 card">
+                    <div class="row">
+                      <div class="col-4 seperate-contenet">Students</div>
+                      <div class="col-6 individual-contenet">
+                        <p-calendar [minDate]="minDateValue" [maxDate]="maxDateValue" formControlName="AttendanceDate" placeholder="Choose date" [readonlyInput]="true"></p-calendar>
+                      </div>
+                    </div>
+                    <!-- list of studentAttendance -->
+                     <div class="row" formArrayName="studentAttendance">
+                       <div class="col-12" *ngFor="let address of ordersFormArray.controls; let i=index">
+                         <div class="row" [formGroupName]="i" *ngIf="allStudents[i] !== undefined">
+                           <div class="col-4 remove-border-right align-content">
+                            <input type="hidden" formControlName="StudentId"  [ngModel]="allStudents[i].StudentId">
+                             {{allStudents[i].Studentname}}
+                           </div>
+                           <div class="col-6 align-content">
+                            <p-dropdown [options]="attendance" formControlName="AttendanceState" placeholder="--" optionValue="name" optionLabel="name"></p-dropdown>
+                           </div>
+                           <div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                  </div>
+                </div>
+                </form>
+
+                  <hr>
+                  <div class="co-12 report-issue-btn-container">
+                    <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormsValid()" (click)="saveAttendence()">Submit</button>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,35 @@
+<body>
+
+  <form [formGroup]="accountForm">
+    <input type="hidden" name="source" />
+    <div class="group">
+      <label>
+        <span>Name</span>
+        <input id="name" class="field" formControlName="name" placeholder="name" />
+      </label>
+      <label>
+        <span>Type</span>
+        <select id="type" class="field" formControlName="type">
+          <option value="individual">Individual</option>
+        </select>
+      </label>
+      <label>
+        <span>Routing number</span>
+        <input id="routing-number" formControlName="routing_number" class="field" placeholder="110000000" />
+      </label>
+      <label>
+        <span>Account number</span>
+        <input id="account-number" formControlName="account_number" class="field" placeholder="000123456789" />
+      </label>
+    </div>
+    <button type="submit" (click)="bankAccount()" [disabled]="accountForm.invalid">Submit</button>
+    <div class="outcome">
+      <div class="error">
+       
+      </div>
+      
+    </div>
+  </form>
+ </body>
+
+

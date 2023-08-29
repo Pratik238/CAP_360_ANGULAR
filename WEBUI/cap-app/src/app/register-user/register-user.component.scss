@@ -1,0 +1,57 @@
+.student-info-header {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: #000000;
+  letter-spacing: 0.5px;
+}
+
+.user-regisration {
+  padding-top: 2em;
+  background-color: #ffffff;
+  padding-bottom: 5em;
+
+  label {
+    font-size: 13px;
+    font-weight: normal;
+  }
+}
+
+.madatory-field-label {
+  font-size: 13px;
+  font-style: italic;
+  color: #a94442;
+  margin-top: 3em;
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+}
+
+.required-label {
+  color: #a94442;
+}
+
+.register-form-container {
+  margin-bottom: 2em;
+}
+
+.button-container {
+  margin-top: 25px;
+}
+
+.small-text-error {
+  font-size: 13px;
+  color: red;
+}
+
+.registration-btn {
+  background: #fa9046;
+  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.align-checkbox-center {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}

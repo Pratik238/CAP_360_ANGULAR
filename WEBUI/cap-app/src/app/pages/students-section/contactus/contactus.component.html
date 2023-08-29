@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-8 offset-md-2">
+        <div class="row">
+            <div class="col-12 box-shadow">
+              <span class="text-muted contact-header">Fill the form below</span>
+            </div>
+          </div>
+          <p-toast></p-toast>
+          <div class="row">
+            <div class="col-md-12 card contact-form">
+                <div class="card-body">
+                    <form [formGroup]="contactForm">
+                        <div class="form-group">
+                            <label for="EmailTo">Email To<span class="required-label">*</span> </label>
+                            <select class="form-control" formControlName="EmailTo" required >
+                                <option [value]="null" disabled="true">Select</option>
+                                <option *ngFor="let e of senndingEmails" [value]="e.id" >{{e.value}}</option>
+                            </select> 
+                        </div>
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <input type="text" formControlName="Name" placeholder="Name" class="form-control"
+                             [ngClass]="{ 'is-invalid': f.Name.errors && (f.Name.touched || f.Name.dirty)}" />
+                            <div *ngIf="f.Name.errors" class="invalid-feedback">
+                                <div *ngIf="f.Name.errors.required">Name is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Phone">Phone</label>
+                            <input type="number" formControlName="Phone" placeholder="Phone Number" class="form-control"
+                             [ngClass]="{ 'is-invalid': f.Phone.errors && (f.Phone.touched || f.Phone.dirty) }" />
+                            <div *ngIf="f.Phone.errors" class="invalid-feedback">
+                                <div *ngIf="f.Phone.errors.required">phone Number is required</div>
+                                <div *ngIf="f.Phone.errors.maxLength">Minimum Phone Number</div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label for="EmailId">Email</label>
+                            <input type="text" formControlName="EmailId" placeholder="Email ID" class="form-control"
+                             [ngClass]="{ 'is-invalid': f.EmailId.errors && (f.EmailId.touched || f.EmailId.dirty)}" />
+                            <div *ngIf="f.EmailId.errors" class="invalid-feedback">
+                                <div *ngIf="f.EmailId.errors.required">EmailId is required</div>
+                                <div *ngIf="f.EmailId.errors.Email">Invalid email</div>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label for="Subject">Subject</label>
+                            <input type="text" formControlName="Subject" placeholder="Subject" class="form-control"
+                             [ngClass]="{ 'is-invalid': f.Subject.errors && (f.Subject.touched || f.Subject.dirty)}" />
+                            <div *ngIf="f.Subject.errors" class="invalid-feedback">
+                                <div *ngIf="f.Subject.errors.required">Subject is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Message">Message</label>
+                            <textarea formControlName="Message" placeholder="Message" rows="5" class="form-control"
+                             [ngClass]="{ 'is-invalid': f.Message.errors && (f.Message.touched || f.Message.dirty) }">
+                            </textarea> 
+                            <div *ngIf="f.Message.errors" class="invalid-feedback">
+                             <div *ngIf="f.Message.errors.required">Message is required</div>
+                         </div>
+                        </div>
+                        <div class="form-group">
+                            <button [disabled]="!allFormsValid()" class="btn btn-success" (click)="saveContact()">
+                                <!-- <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span> -->
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+              </div>
+          </div>
+    </div>
+</div>
+<!-- 
+<div class="row" *ngIf="!isShowContactForm">
+    <div class="card col-8 offset-md-2" style="max-width: 18rem;">
+        <div class="card-header">Mail sent successfully...</div>
+    </div>
+    <button class="btn btn-primary" (click)="backToContact()">Back to Contact US</button>
+</div> -->
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

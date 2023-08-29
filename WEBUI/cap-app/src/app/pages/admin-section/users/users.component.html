@@ -1,0 +1,496 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              List of Students
+            </div>
+            <!-- <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="addNewSubTopic()">Add New User</button>
+            </div> -->
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <!-- <p-table [value]="allUsers" [lazy]="true" (onLazyLoad)="loadUsersData($event)" [autoLayout]="true"
+                [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"> -->
+              <p-table #datatable styleClass="p-datatable-striped" [value]="allUsers" [metaKeySelection]="true"
+                [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="multiple" [autoLayout]="true"
+                [responsive]="true" [scrollable]="true" [lazy]="false"
+                [globalFilterFields]="['StudentId','StudentFirstName','Program','FranchiseTitle','EmailId','Zipcode']">
+
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="datatable.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(csvData)"
+                        class="export-button-align p-button-success" pTooltip="CSV" tooltipPosition="top"></button>
+                    </div>
+                    <!-- <label class="add-padding-right">
+                      <input type="radio" name="status" value="Active" (click)="loadUsersData($event,'Active')" checked
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>Active</label>
+                    <label class="">
+                      <input type="radio" name="statusc" value="InActive" (click)="loadUsersData($event,'InActive')"
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>In-Active</label> -->
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Student ID
+                        <p-columnFilter type="text" field="StudentId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Name
+                        <p-columnFilter type="text" field="StudentFirstName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Email
+                        <p-columnFilter type="text" field="EmailId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Program
+                        <p-columnFilter type="text" field="Program" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Franchise
+                        <p-columnFilter type="checkbox" field="FranchiseTitle" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        ZIP code
+                        <p-columnFilter type="checkbox" field="Zipcode" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Is payment done
+                        <p-columnFilter type="checkbox" field="ispaymentdone" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Status
+                        <!-- <p-columnFilter type="checkbox" field="FirstName" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Actions
+                        <!-- <p-columnFilter type="checkbox" field="FirstName" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <!-- <th scope="col">Student ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Program</th>
+                    <th scope="col">Franchise</th>
+                    <th scope="col">ZIP code</th>
+                    <th scope="col">Is payment done</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.StudentId }} </td>
+                    <td>{{ rowData?.StudentFirstName }} </td>
+                    <td> {{ rowData?.EmailId }} </td>
+                    <td> {{ rowData?.Program }} </td>
+                    <td> {{ rowData?.FranchiseTitle }} </td>
+                    <td> {{ rowData?.Zipcode }} </td>
+                    <td> {{ rowData?.ispaymentdone ? 'Yes' : 'No' }} </td>
+                    <td> {{ rowData?.IsActive ? 'Active' : 'In-Active' }} </td>
+                    <td style="    position: sticky; width: 150px;">
+                      <button class="btn btn-sm btn-primary" pTooltip="View" tooltipPosition="top"
+                        (click)="viewTopic(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="top"
+                        class="p-button-success p-mr-2"
+                        style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                        (click)="editUsers(rowData)"></button>
+                      <button class="btn btn-sm btn-danger" pTooltip="Delete" tooltipPosition="top"
+                        (click)="removeTopic(rowData)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="5">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<ng-template #addNewSubTopicForm let-modal>
+  <div class="modal-header report-issue-header form-group">
+    <h4 class="modal-title modal-header-title">Update Student</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="tutorForm">
+          <div class="col-12 form-group">
+            <label for="FirstName">First Name <span class="required-label">*</span></label>
+            <input type="text" id="FirstName" formControlName="StudentFirstName" class="form-control p-inputtext-lg"
+              placeholder="Enter First Name"
+              [ngClass]="{ 'is-invalid': tutorForm.get('StudentFirstName').errors && (tutorForm.get('StudentFirstName').touched || tutorForm.get('StudentFirstName').dirty) }" />
+            <div
+              *ngIf="tutorForm.get('StudentFirstName').errors && (tutorForm.get('StudentFirstName').touched || tutorForm.get('StudentFirstName').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('StudentFirstName').errors.required">First Name is required</div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="LastName">Last Name <span class="required-label">*</span></label>
+            <input type="text" id="LastName" formControlName="StudentLastName" class="form-control p-inputtext-lg"
+              placeholder="Enter Last Name"
+              [ngClass]="{ 'is-invalid': tutorForm.get('StudentLastName').errors && (tutorForm.get('StudentLastName').touched || tutorForm.get('StudentLastName').dirty) }" />
+            <div
+              *ngIf="tutorForm.get('StudentLastName').errors && (tutorForm.get('StudentLastName').touched || tutorForm.get('StudentLastName').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('StudentLastName').errors.required">Last Name is required</div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="EmailId">Email <span class="required-label">*</span> </label>
+            <input id="EmailId" name="EmailId" formControlName="EmailId" type="email" class="form-control"
+              placeholder="Enter Email"
+              [ngClass]="{'is-invalid': tutorForm.get('EmailId').errors && (tutorForm.get('EmailId').touched || tutorForm.get('EmailId').dirty)}">
+            <div
+              *ngIf="tutorForm.get('EmailId').errors && (tutorForm.get('EmailId').touched || tutorForm.get('EmailId').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('EmailId').errors.required">Email Id is required</div>
+              <div *ngIf="tutorForm.get('EmailId').errors.email">Invalid email Id</div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="Program">Program <span class="required-label">*</span></label>
+            <!-- <select class="form-control" formControlName="Program">
+          <option [value]="null">--Select--</option>
+          <option *ngFor="let program of programs" [value]="program.name" >{{program.name}}</option>
+        </select>  -->
+            <p-multiSelect [options]="programs" formControlName="Program" optionValue="name"
+              styleClass="homework-dropdown" defaultLabel="Select" optionLabel="name" display="chip"
+              class="multiselect-custom"></p-multiSelect>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="Contactno">Phone Number <span class="required-label">*</span> </label>
+            <input id="Contactno" name="Contactno" formControlName="Contactno" type="text" class="form-control"
+              placeholder="Enter Phone Number"
+              [ngClass]="{'is-invalid': tutorForm.get('Contactno').errors && (tutorForm.get('Contactno').touched || tutorForm.get('Contactno').dirty)}">
+            <div
+              *ngIf="tutorForm.get('Contactno').errors && (tutorForm.get('Contactno').touched || tutorForm.get('Contactno').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('Contactno').errors.required">Phone number is required</div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="Password">Password <span class="required-label">*</span> </label>
+            <input type="Password" formControlName="Password" placeholder="Enter Password" class="form-control"
+              [ngClass]="{ 'is-invalid': tutorForm.get('Password').errors && (tutorForm.get('Password').touched || tutorForm.get('Password').dirty)}" />
+            <div
+              *ngIf="tutorForm.get('Password').errors && (tutorForm.get('Password').touched || tutorForm.get('Password').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('Password').errors.required">Password is required</div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="StreetAddress">Street Address <span class="required-label">*</span> </label>
+            <input type="text" id="StreetAddress" formControlName="StreetAddress" class="form-control p-inputtext-lg"
+              placeholder="Enter Street Address"
+              [ngClass]="{ 'is-invalid': tutorForm.get('StreetAddress').errors && (tutorForm.get('StreetAddress').touched || tutorForm.get('StreetAddress').dirty)}" />
+            <div
+              *ngIf="tutorForm.get('StreetAddress').errors && (tutorForm.get('StreetAddress').touched || tutorForm.get('StreetAddress').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('StreetAddress').errors.required">Street Address is required</div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="StreetAddress2">Street Address Line 2 <span class="required-label">*</span> </label>
+            <input type="text" id="StreetAddress2" formControlName="StreetAddress2" class="form-control p-inputtext-lg"
+              placeholder="Enter Street Address Line 2"
+              [ngClass]="{ 'is-invalid': tutorForm.get('StreetAddress2').errors && (tutorForm.get('StreetAddress2').touched || tutorForm.get('StreetAddress2').dirty)}" />
+            <div
+              *ngIf="tutorForm.get('StreetAddress2').errors && (tutorForm.get('StreetAddress2').touched || tutorForm.get('StreetAddress2').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('StreetAddress2').errors.required">Street Address is required</div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="Zipcode">ZIP/Postal Code <span class="required-label">*</span> </label>
+            <input id="Zipcode" name="Zipcode" formControlName="Zipcode" type="text" class="form-control"
+              placeholder="Enter ZIP/Postal Code" (change)="filterZipCode($event.target.value)"
+              [ngClass]="{ 'is-invalid': tutorForm.get('Zipcode').errors && (tutorForm.get('Zipcode').touched || tutorForm.get('Zipcode').dirty)}">
+            <div
+              *ngIf="tutorForm.get('Zipcode').errors && (tutorForm.get('Zipcode').touched || tutorForm.get('Zipcode').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('Zipcode').errors.required">ZIP Code is required</div>
+            </div>
+            <span class="invalid-feedback"
+              *ngIf="tutorForm.get('Zipcode').touched && tutorForm.get('Zipcode').errors?.invalidZipcode">
+              Invalid US Zipcode
+            </span>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label>Centers <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="FranchiseId">
+                <option [value]="null" disabled="true">Select</option>
+                <option *ngFor="let center of availableCenters" [value]="center.FranchiseId">
+                  {{center.FranchiseMappedName}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="City">City <span class="required-label">*</span> </label>
+            <input id="City" name="City" formControlName="City" type="text" class="form-control"
+              placeholder="Enter City" disabled='false'
+              [ngClass]="{ 'is-invalid': tutorForm.get('City').errors && (tutorForm.get('City').touched || tutorForm.get('City').dirty) }">
+            <div *ngIf="tutorForm.get('City').errors && (tutorForm.get('City').touched || tutorForm.get('City').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('City').errors.required">City is required</div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="State">State <span class="required-label">*</span> </label>
+            <input id="State" name="State" formControlName="State" type="text" class="form-control"
+              placeholder="Enter State" disabled='false'
+              [ngClass]="{ 'is-invalid': tutorForm.get('State').errors && (tutorForm.get('State').touched || tutorForm.get('State').dirty) }">
+            <div
+              *ngIf="tutorForm.get('State').errors && (tutorForm.get('State').touched || tutorForm.get('State').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('State').errors.required">State is required</div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-group">
+              <label>County <span class="required-label">*</span> </label>
+              <input id="CountryName" name="CountryName" formControlName="CountryName" type="text" class="form-control"
+                placeholder="Enter Country Name" disabled='false'
+                [ngClass]="{ 'is-invalid': tutorForm.get('CountryName').errors && (tutorForm.get('CountryName').touched || tutorForm.get('CountryName').dirty) }">
+              <div
+                *ngIf="tutorForm.get('CountryName').errors && (tutorForm.get('CountryName').touched || tutorForm.get('CountryName').dirty)"
+                class="invalid-feedback">
+                <div *ngIf="tutorForm.get('CountryName').errors.required">Country name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 form-group">
+            <label>How did you hear about us </label>
+            <select class="form-control" formControlName="HearAboutUs" (change)="selectChangeHandler($event)">
+              <option [value]="null" disabled="true">Select</option>
+              <option *ngFor="let country of generalInfo" [value]="country.value">{{country.value}}</option>
+            </select>
+          </div>
+
+          <div class="col-12 form-group" *ngIf="isSelectedOther">
+            <label for="OtherExplanation">Other Explain <span class="required-label">*</span> </label>
+            <input type="text" id="OtherExplanation" formControlName="OtherExplanation"
+              class="form-control p-inputtext-lg" placeholder="Explain here"
+              [ngClass]="{ 'is-invalid': tutorForm.get('OtherExplanation').errors && (tutorForm.get('OtherExplanation').touched || tutorForm.get('OtherExplanation').dirty)}" />
+            <div
+              *ngIf="tutorForm.get('OtherExplanation').errors && (tutorForm.get('OtherExplanation').touched || tutorForm.get('OtherExplanation').dirty)"
+              class="invalid-feedback">
+              <div *ngIf="tutorForm.get('OtherExplanation').errors.required">Please Provide Other Explanation !!</div>
+            </div>
+          </div>
+
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" (click)="saveStudentInfo()"
+              [disabled]="!allFormsValid()">Update</button>
+            <button class="btn btn-danger" (click)="cancelStudentInfo()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+<ng-template #displayTopics let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Student Details: {{tutorData?.id}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">First Name :</span><span class="value"> {{ tutorData?.StudentFirstName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Last Name :</span><span class="value"> {{ tutorData?.StudentLastName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Email :</span><span class="value"> {{ tutorData?.EmailId }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Phone :</span><span class="value"> {{ tutorData?.Contactno }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Grade :</span><span class="value"> {{ tutorData?.Grade }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Parent First Name :</span><span class="value"> {{ tutorData?.ParentFirstName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Parent Last Name :</span><span class="value"> {{ tutorData?.ParentLastName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Program :</span><span class="value"> {{ tutorData?.Program }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Franchise :</span><span class="value"> {{ tutorData?.FranchiseTitle }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Zipcode :</span><span class="value"> {{ tutorData?.Zipcode }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">City :</span><span class="value"> {{ tutorData?.City }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">State :</span><span class="value"> {{ tutorData?.State }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">County :</span><span class="value"> {{ tutorData?.CountryName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Street Address :</span><span class="value"> {{ tutorData?.StreetAddress }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Street Address2 :</span><span class="value"> {{ tutorData?.StreetAddress2 }}</span>
+          </div>
+        </div>
+        <div class="row form-group" *ngIf="tutorData?.OtherExplanation !== null">
+          <div class="col-12">
+            <span class="label">Other Explanation :</span><span class="value"> {{ tutorData?.OtherExplanation }}</span>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created Date :</span><span class="value">
+              {{ tutorData?.CreatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated Date :</span><span class="value">
+              {{ tutorData?.UpdatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelStudentInfo()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12" style="font-size: 20px; text-align: center;">
+            Do you want to remove {{ tutorData?.StudentFirstName }} user?
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary next-button" (click)="deleteTopic(tutorData)">Ok</button>
+          </div>
+          <div class="col-6" style="text-align: left;">
+            <button class="btn btn-danger cancel-button" (click)="cancelStudentInfo()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->

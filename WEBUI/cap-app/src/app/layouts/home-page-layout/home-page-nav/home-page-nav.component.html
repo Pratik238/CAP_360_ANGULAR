@@ -1,0 +1,84 @@
+<div class="page">
+  <!-- Page Header-->
+  <header class="section page-header page-header-2 section-custom-1-ally">
+    <div class="preloader">
+      <div class="preloader-inner">
+        <div class="preloader-top">
+          <div class="preloader-top-sun">
+            <div class="preloader-top-sun-bg"></div>
+            <div class="preloader-top-sun-line preloader-top-sun-line-0"></div>
+            <div class="preloader-top-sun-line preloader-top-sun-line-45"></div>
+            <div class="preloader-top-sun-line preloader-top-sun-line-90"></div>
+            <div class="preloader-top-sun-line preloader-top-sun-line-135"></div>
+            <div class="preloader-top-sun-line preloader-top-sun-line-180"></div>
+            <div class="preloader-top-sun-line preloader-top-sun-line-225"></div>
+            <div class="preloader-top-sun-line preloader-top-sun-line-270"></div>
+            <div class="preloader-top-sun-line preloader-top-sun-line-315"></div>
+          </div>
+        </div>
+        <div class="preloader-bottom">
+          <div class="preloader-bottom-line preloader-bottom-line-lg"></div>
+          <div class="preloader-bottom-line preloader-bottom-line-md"></div>
+          <div class="preloader-bottom-line preloader-bottom-line-sm"></div>
+          <div class="preloader-bottom-line preloader-bottom-line-xs"></div>
+        </div>
+      </div>
+    </div>
+    <!-- RD Navbar-->
+    <div class="rd-navbar-wrap">
+      <nav class="rd-navbar rd-navbar-creative" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-fixed" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-lg-stick-up-offset="95px" data-xl-stick-up-offset="95px" data-xxl-stick-up-offset="95px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+        <div class="rd-navbar-main-outer">
+          <div class="rd-navbar-main">
+            <!-- RD Navbar Panel-->
+            <div class="rd-navbar-panel">
+
+              <!-- RD Navbar Toggle-->
+              <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap, .rd-navbar-toggle-element">
+                <span class="rd-navbar-toggle-inner"><span class="rd-navbar-toggle-element"><span></span></span><span class="rd-navbar-toggle-text on">Menu</span><span class="rd-navbar-toggle-text off">Close</span></span></button>
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand"><a class="brand" [routerLink]="['/home']"><img class="brand-logo-dark" src="../../../../assets/home/images/cap-logo.png" alt="" width="158" height="39"/><img class="brand-logo-light" src="../../../../assets/home/images/cap-logo.png" alt="" width="158" height="39"/></a>
+              </div>
+            </div>
+            <div class="rd-navbar-aside-outer">
+              <button class="rd-navbar-aside-toggle" data-multitoggle="#rd-navbar-aside" aria-label="Aside Toggle"><span></span></button>
+              <div class="rd-navbar-aside" id="rd-navbar-aside">
+                <ul class="rd-navbar-aside-list">
+                  <li><span class="icon mdi mdi-map-marker"></span><a href="#">135 E. Algonquin Road, Suite B, Arlington Heights, IL 60005.</a></li>
+                  <li><span class="icon mdi mdi-phone"></span><a href="tel:571-279-0000">571-279-0000</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="rd-navbar-nav-wrap">
+            <!-- RD Navbar Nav-->
+            <ul class="rd-navbar-nav">
+              <li class="rd-nav-item active"><a class="rd-nav-link" (click)="redirectToHome()">Home</a>
+              </li>
+              <li class="rd-nav-item"><a class="rd-nav-link"  [routerLink]="['/home/our-program']">Our Programs</a>
+                <!-- RD Navbar Dropdown-->
+                <ul class="rd-menu rd-navbar-dropdown">
+                  <li class="rd-dropdown-item"><a class="rd-dropdown-link" [routerLink]="['/home/smartsat']">Smartsat</a></li>
+                  <li class="rd-dropdown-item"><a class="rd-dropdown-link" [routerLink]="['/home/cap-360']">Cap360</a></li>
+                  <li class="rd-dropdown-item"><a class="rd-dropdown-link" [routerLink]="['/home/bootcamp']">BOOT CAMP</a></li>
+                  <li class="rd-dropdown-item"><a class="rd-dropdown-link" href="#">Counseling</a></li>
+                </ul>
+              </li>
+              <li class="rd-nav-item"><a class="rd-nav-link" [routerLink]="['/home/why-cap']">Why Cap</a>
+              </li>
+              <li class="rd-nav-item"><a class="rd-nav-link" [routerLink]="['/home/who-we-are']">Who we are</a>
+              </li>
+              <li class="rd-nav-item"><a class="rd-nav-link" [routerLink]="['/home/team']">Team</a>
+              </li>
+              <li class="rd-nav-item"><a class="rd-nav-link" [routerLink]="['/home/gallery']">Gallery</a></li>
+              <li class="rd-nav-item"><a class="rd-nav-link" href="javascript:void(0);">Blog</a></li>              
+              <li class="rd-nav-item"><a class="rd-nav-link" (click)="redirectToContactUs()">Contact Us</a>
+              </li>
+              <li class="rd-nav-item"><a class="rd-nav-link" [routerLink]="['/home/sign-in']">Sign In</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+</div>
+<div class="snackbars" id="form-output-global"></div>

@@ -1,0 +1,58 @@
+.test-details {
+    margin-top: 15px;
+}
+
+.test-details td,
+.test-details th {
+    font-size: 18px !important;
+    padding: 5px !important;
+    color: #ff6100;
+}
+
+.test-details thead {
+    background: #cccccc;
+}
+
+.test-details th {
+    color: #464646;
+    font-weight: normal;
+}
+
+.test-details td select {
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 2px 5px;
+    min-width: 180px;
+}
+
+.test-details tfoot th {
+    line-height: 32px !important;
+    text-align: center;
+}
+
+.test-details td {
+    color: #555 !important;
+    font-size: 16px !important;
+}
+
+.test-details .qcorrect {
+    color: #019d41 !important;
+    font-weight: bold;
+}
+
+.test-details .qwrong {
+    color: #e74c3c !important;
+    font-weight: bold;
+}
+
+.test-details .qall {
+    color: #0c7cf5 !important;
+    font-weight: bold;
+}
+
+.test-details td:first-child,
+.dashboard .test-details th {
+    font-size: 15px !important;
+    font-weight: 500;
+}

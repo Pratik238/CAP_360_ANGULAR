@@ -1,0 +1,74 @@
+
+<div class="row">
+  <div class="col-12">
+    <div class="col-12 warning-message-header" *ngIf="!isDislayExamInfo">
+      <!-- {{ displayUserFreindlyMessage }} -->
+      Currently there is no assigned SAT Exam
+    </div>
+    <div class="col-12" *ngIf="isDislayExamInfo">
+      <div class="row">
+        <div class="col-12">
+          <div class="col-12 box-shadow">
+            <span class="text-muted maths-card-header">SAT EXAM</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th scope="col" class="text-muted"></th>
+                <th scope="col" class="text-muted">Calculator Section</th>
+                <th scope="col" class="text-muted">No-Calculator Section</th>
+                <th scope="col" class="text-muted">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="text-muted">Duration (Minutes)</th>
+                <td class="row-label">55</td>
+                <td class="row-label">25</td>
+                <td class="row-label">80</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-muted">Multiple Choice</th>
+                <td class="row-label">30</td>
+                <td class="row-label">15</td>
+                <td class="row-label">45</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-muted">Grid-in</th>
+                <td class="row-label">8</td>
+                <td class="row-label">5</td>
+                <td class="row-label">13</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-muted">Total Questions</th>
+                <td class="row-label">38</td>
+                <td class="row-label">20</td>
+                <td class="row-label">58</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-12 form-group button-align">
+          <button class="btn btn-success" (click)="onClickGoToStartExam()">
+            Start Exam<i class="pi pi-arrow-circle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row" *ngIf="scoreMessage !== null">
+        <div class="col-12 score-message-label">Based on last exam your SAT score would be: {{ scoreMessage }} </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

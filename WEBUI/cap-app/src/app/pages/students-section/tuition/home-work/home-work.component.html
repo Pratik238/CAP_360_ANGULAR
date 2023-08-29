@@ -1,0 +1,57 @@
+<div class="container" style="background: #ffffff">
+  <div class="row">
+    <div class="col-12" *ngIf="isShowMessage">
+      <div class="row">
+        <div class="col-12 submitted-label">
+          Homework submitted successfully...
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Choose topic code starts here -->
+  <div class="row align-center">
+    <div class="col-12 col-md-8 english-test-container">
+      <form [formGroup]="homeworkForm">
+        <div class="row">
+          <div class="col-12 madatory-field-label">
+            * Marked Fields are Required</div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="SubjectId">Subject <span class="required-label">*</span> </label>
+            <select class="form-control" formControlName="SubjectId" required (change)="onChangeSubject($event)">
+                <option [value]="null" disabled="true">Select</option>
+                <option *ngFor="let subject of subjects" [value]="subject.id" >{{subject.name}}</option>
+            </select> 
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <label for="HomeWorkIds">Homework <span class="required-label">*</span> </label>
+            <p-multiSelect [options]="homeWork" formControlName="HomeWorkIds" optionValue="HomeWorkId" defaultLabel="Select" optionLabel="HomeWorkName" display="chip" class="multiselect-custom"></p-multiSelect>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-12 btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormsValid()"
+              (click)="generateTest()">Generate Homework</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(visible)]="displayWarningMsg">
+  No homework questions assigned
+</p-dialog>
+
+<router-outlet></router-outlet>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

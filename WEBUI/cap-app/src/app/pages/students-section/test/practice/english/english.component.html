@@ -1,0 +1,37 @@
+<div class="row align-center">
+  <div class="col-12 col-md-8 english-test-container">
+    <form [formGroup]="englishForm">
+      <div class="row">
+        <div class="col-12 madatory-field-label">
+          * Marked Fields are Required</div>
+      </div>
+      <div class="row">
+        <div class="col-12 form-group">
+          <label for="TopicId">Topic <span class="required-label">*</span></label>
+          <select class="form-control" formControlName="TopicId" (change)="onChangeTopic($event)">
+            <option [value]="null">--Select--</option>
+            <option *ngFor="let status of topics" [value]="status.TopicId">{{status.TopicName}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <label for="SubTopicId">Sub Topic <span class="required-label">*</span></label>
+          <p-multiSelect [options]="subTopics" formControlName="SubTopicId" optionValue="SubTopicId" defaultLabel="Select" optionLabel="SubTopicName" display="chip" class="multiselect-custom"></p-multiSelect>
+        </div>
+      </div>
+
+      <hr>
+      <div class="co-12 start-test-btn-container">
+        <button class="btn btn-success start-test-btn-label" [disabled]="!allFormsValid()"
+          (click)="generateTest()">Generate Test</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

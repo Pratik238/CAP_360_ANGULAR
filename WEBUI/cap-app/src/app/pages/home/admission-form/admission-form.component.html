@@ -1,0 +1,321 @@
+<div>
+  <!-- Page Header-->
+  <header class="section page-header page-header-1 context-dark">
+
+    <!--<a href="index.html" id="hometab" class="fa fa-home"></a>-->
+    <div class="page-header-1-figure m-parallax">
+      <div class="page-header-1-image m-parallax-image"
+        style="background-image: url(../../../../assets/home/images/bg-image-4.jpg);"></div>
+    </div>
+    <section class="breadcrumbs-custom">
+      <div class="breadcrumbs-custom-inner">
+        <div class="container">
+          <div class="breadcrumbs-custom-main m-parallax-content">
+            <svg class="breadcrumbs-custom-line" width="70" height="8" viewBox="0 0 70 8" fill="none">
+              <path
+                d="M0 1C5 1 5 7 9.92 7C14.84 7 14.92 1 19.85 1C24.78 1 24.85 7 29.77 7C34.69 7 34.77 1 39.71 1C44.65 1 44.71 7 49.63 7C54.55 7 54.63 1 59.57 1C64.51 1 64.57 7 69.5 7"
+                stroke-width="1.98" stroke-miterlimit="10"></path>
+            </svg>
+            <h2 class="breadcrumbs-custom-title text-uppercase">ENROLL</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+  </header>
+  <section class="section">
+    <div class="user-regisration">
+      <div class="p-grid p-nogutter p-justify-center p-align-center" style="height:100%">
+        <div class="col-md-10 offset-md-1 register-form-container">
+          <p class="text-danger">* Marked Fields are Required</p>
+          <h4>Student Information</h4>
+          <hr>
+          <form [formGroup]="userform">
+            <div class="row">
+              <div class="col-12 col-md-6 form-group">
+                <label for="StudentFirstName">Student First Name <span class="required-label">*</span> </label>
+                <input type="text" id="StudentFirstName" formControlName="StudentFirstName"
+                  class="form-control p-inputtext-lg" placeholder="Enter First Name"
+                  [ngClass]="{ 'is-invalid': userform.get('StudentFirstName').errors && (userform.get('StudentFirstName').touched || userform.get('StudentFirstName').dirty) }" />
+                <div
+                  *ngIf="userform.get('StudentFirstName').errors && (userform.get('StudentFirstName').touched || userform.get('StudentFirstName').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('StudentFirstName').errors.required">First Name is required</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="lastName">Student Last Name <span class="required-label">*</span> </label>
+                <input type="text" id="StudentLastName" formControlName="StudentLastName"
+                  class="form-control p-inputtext-lg" placeholder="Enter Last Name"
+                  [ngClass]="{ 'is-invalid': userform.get('StudentLastName').errors && (userform.get('StudentLastName').touched || userform.get('StudentLastName').dirty)}" />
+                <div
+                  *ngIf="userform.get('StudentLastName').errors && (userform.get('StudentLastName').touched || userform.get('StudentLastName').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('StudentLastName').errors.required">Last Name is required</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <div class="form-group">
+                  <label>Student Age(years) <span class="required-label">*</span> </label>
+                  <select class="form-control" formControlName="Age" required>
+                    <option [value]="null" disabled="true">Select</option>
+                    <option *ngFor="let age of studentAge" [value]="age.id">{{age.age}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Student Grade (2020-21 year) <span class="required-label">*</span> </label>
+                  <select class="form-control" formControlName="Grade">
+                    <option [value]="null" disabled="true">Select</option>
+                    <option *ngFor="let grade of studentGrade" [value]="grade.value">{{grade.value}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <div class="">Programs <span class="required-label">*</span> </div>
+                <div class="form-check form-check-inline" *ngFor="let program of programs">
+                  <input class="form-check-input p-label-disabled" (click)="onChangeProgram($event)" [(ngModel)]="radioSelected"
+                    [checked]="program.ischecked" [disabled]="program.isDisable" type="radio" name="Program"
+                    [id]="program.name" [value]="program.name" required id="Program" formControlName="Program"
+                    [ngClass]="{ 'is-invalid': userform.get('Program').errors && (userform.get('Program').touched || userform.get('Program').dirty)}">
+                  <label class="form-check-label" for="Program" mat-raised-button matTooltipPosition="above">
+                    {{ program?.name }}
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <!-- <div class="row" *ngIf="isProgramCost !== ''">
+              <div class="col-12">Cost</div>
+              <div class="col-12"> {{ isProgramCost }} </div>
+            </div> -->
+              </div>
+              <div class="col-12 col-md-12 form-group">
+                <label for="EmailId">Student Email <span class="required-label">*</span> </label>
+                <input id="EmailId" name="EmailId" formControlName="EmailId" [(ngModel)]="emailId" type="EmailId"
+                  class="form-control" placeholder="Enter Email"
+                  [ngClass]="{'is-invalid': userform.get('EmailId').errors && (userform.get('EmailId').touched || userform.get('EmailId').dirty)}">
+                <div
+                  *ngIf="userform.get('EmailId').errors && (userform.get('EmailId').touched || userform.get('EmailId').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('EmailId').errors.required">Email Id is required</div>
+                  <div *ngIf="userform.get('EmailId').errors.email">Invalid email Id</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="password">Enter your Password <span class="required-label">*</span> </label>
+                <input type="password" formControlName="Password" placeholder="Password"
+                  class="form-control p-inputtext-lg"
+                  [ngClass]="{ 'is-invalid': f.Password.errors && (userform.get('Password').touched || userform.get('Password').dirty)}" />
+                <div *ngIf="f.Password.errors && (userform.get('Password').touched || userform.get('Password').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="f.Password.errors.required">Password is required</div>
+                </div>
+                <span class="invalid-feedback"
+                  *ngIf="userform.get('Password').touched && userform.get('Password').errors?.invalidPassword">
+                  Password should have minimum 6 characters, at least 1 uppercase letter, 1 lowercase
+                  letter and 1 number
+                </span>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="confirmPassword">Enter your Confirm Password <span class="required-label">*</span> </label>
+                <input type="password" formControlName="confirmPassword" placeholder="Password"
+                  class="form-control p-inputtext-lg"
+                  [ngClass]="{ 'is-invalid': f.confirmPassword.errors && (userform.get('confirmPassword').touched || userform.get('confirmPassword').dirty) }" />
+                <span class="invalid-feedback"
+                  *ngIf="(userform.get('confirmPassword').touched || submitted)&& f.confirmPassword.errors?.required">
+                  Confirm Password is required
+                </span>
+                <span class="invalid-feedback"
+                  *ngIf="userform.get('confirmPassword').touched && f.confirmPassword.errors?.passwordMismatch">
+                  Passwords doesnot match
+                </span>
+              </div>
+
+              <div class="col-12 student-info-header"> Parent Information </div>
+              <hr>
+              <div class="col-12 col-md-6 form-group">
+                <label for="ParentFirstName">Parent First Name <span class="required-label">*</span> </label>
+                <input type="text" id="ParentFirstName" formControlName="ParentFirstName"
+                  class="form-control p-inputtext-lg" placeholder="Enter Parent First Name"
+                  [ngClass]="{ 'is-invalid': userform.get('ParentFirstName').errors && (userform.get('ParentFirstName').touched || userform.get('ParentFirstName').dirty)}" />
+                <div
+                  *ngIf="userform.get('ParentFirstName').errors && (userform.get('ParentFirstName').touched || userform.get('ParentFirstName').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('ParentFirstName').errors.required">Parent Name is required</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="ParentLastName">Parent Last Name <span class="required-label">*</span> </label>
+                <input type="text" id="ParentLastName" formControlName="ParentLastName"
+                  class="form-control p-inputtext-lg" placeholder="Enter Parent Last Name"
+                  [ngClass]="{ 'is-invalid': userform.get('ParentLastName').errors && (userform.get('ParentLastName').touched || userform.get('ParentLastName').dirty)}" />
+                <div
+                  *ngIf="userform.get('ParentLastName').errors && (userform.get('ParentLastName').touched || userform.get('ParentLastName').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('ParentLastName').errors.required">Parent Name is required</div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 form-group">
+                <label for="EmailId">Parent Email <span class="required-label">*</span> </label>
+                <input id="ParentEmailId" name="ParentEmailId" formControlName="ParentEmailId" type="email"
+                  class="form-control" placeholder="Enter Parent Email"
+                  [ngClass]="{'is-invalid': userform.get('ParentEmailId').errors && (userform.get('ParentEmailId').touched || userform.get('ParentEmailId').dirty)}">
+                <div
+                  *ngIf="userform.get('ParentEmailId').errors && (userform.get('ParentEmailId').touched || userform.get('ParentEmailId').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('ParentEmailId').errors.required">Email Id is required</div>
+                  <div *ngIf="userform.get('ParentEmailId').errors.email">Invalid email Id</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="Contactno">Phone Number <span class="required-label">*</span> </label>
+                <input id="Contactno" name="Contactno" formControlName="Contactno" type="number" class="form-control"
+                  placeholder="Enter Phone Number"
+                  [ngClass]="{'is-invalid': userform.get('Contactno').errors && (userform.get('Contactno').touched || userform.get('Contactno').dirty)}">
+                <div
+                  *ngIf="userform.get('Contactno').errors && (userform.get('Contactno').touched || userform.get('Contactno').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('Contactno').errors.required">Phone number is required</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="StreetAddress">Street Address <span class="required-label">*</span> </label>
+                <input type="text" id="StreetAddress" formControlName="StreetAddress"
+                  class="form-control p-inputtext-lg" placeholder="Enter Street Address"
+                  [ngClass]="{ 'is-invalid': userform.get('StreetAddress').errors && (userform.get('StreetAddress').touched || userform.get('StreetAddress').dirty)}" />
+                <div
+                  *ngIf="userform.get('StreetAddress').errors && (userform.get('StreetAddress').touched || userform.get('StreetAddress').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('StreetAddress').errors.required">Street Address is required</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="StreetAddress2">Street Address Line 2  </label>
+                <input type="text" id="StreetAddress2" formControlName="StreetAddress2"
+                  class="form-control p-inputtext-lg" placeholder="Enter Street Address Line 2"
+                  [ngClass]="{ 'is-invalid': userform.get('StreetAddress2').errors && (userform.get('StreetAddress2').touched || userform.get('StreetAddress2').dirty)}" />
+               
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="Zipcode">ZIP/Postal Code <span class="required-label">*</span> </label>
+                <input id="Zipcode" name="Zipcode" formControlName="Zipcode" type="text" class="form-control"
+                  placeholder="Enter ZIP/Postal Code" (change)="filterZipCode($event)"
+                  [ngClass]="{ 'is-invalid': userform.get('Zipcode').errors && (userform.get('Zipcode').touched || userform.get('Zipcode').dirty)}">
+                <div
+                  *ngIf="userform.get('Zipcode').errors && (userform.get('Zipcode').touched || userform.get('Zipcode').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('Zipcode').errors.required">ZIP Code is required</div>
+                </div>
+                <span class="invalid-feedback"
+                  *ngIf="userform.get('Zipcode').touched && userform.get('Zipcode').errors?.invalidZipcode">
+                  Invalid US Zipcode
+                </span>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Centers<span class="required-label">*</span> </label>
+                  <select class="form-control" formControlName="FranchiseId">
+                    <option [value]="null" disabled="true">Select</option>
+                    <option *ngFor="let center of availableCenters" [value]="center.FranchiseId">
+                      {{center.FranchiseMappedName}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="City">City <span class="required-label">*</span> </label>
+                <input id="City" name="City" formControlName="City" type="text" class="form-control"
+                  placeholder="Enter City" disabled='false'
+                  [ngClass]="{ 'is-invalid': userform.get('City').errors && (userform.get('City').touched || userform.get('City').dirty) }">
+                <div *ngIf="userform.get('City').errors && (userform.get('City').touched || userform.get('City').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('City').errors.required">City is required</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="State">State <span class="required-label">*</span> </label>
+                <input id="State" name="State" formControlName="State" type="text" class="form-control"
+                  placeholder="Enter State" disabled='false'
+                  [ngClass]="{ 'is-invalid': userform.get('State').errors && (userform.get('State').touched || userform.get('State').dirty) }">
+                <div
+                  *ngIf="userform.get('State').errors && (userform.get('State').touched || userform.get('State').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('State').errors.required">State is required</div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Country <span class="required-label">*</span> </label>
+                  <input id="CountryName" name="CountryName" formControlName="CountryName" type="text"
+                    class="form-control" placeholder="Enter Country Name" disabled='false'
+                    [ngClass]="{ 'is-invalid': userform.get('CountryName').errors && (userform.get('CountryName').touched || userform.get('CountryName').dirty) }">
+                  <div
+                    *ngIf="userform.get('CountryName').errors && (userform.get('CountryName').touched || userform.get('CountryName').dirty)"
+                    class="invalid-feedback">
+                    <div *ngIf="userform.get('CountryName').errors.required">Country name is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label>How did you hear about us </label>
+                <select class="form-control" formControlName="HearAboutUs" (change)="selectChangeHandler($event)">
+                  <option [value]="null" disabled="true">Select</option>
+                  <option *ngFor="let country of generalInfo" [value]="country.value">{{country.value}}</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6 form-group align-checkbox-center">
+                <label></label>
+                <mat-checkbox formControlName="IsAdsoEmploye"> Are you an employe of Advansoft </mat-checkbox>
+              </div>
+
+              <div class="col-12 form-group" *ngIf="isSelectedOther">
+                <label for="OtherExplanation">Other Explain <span class="required-label">*</span> </label>
+                <input type="text" id="OtherExplanation" formControlName="OtherExplanation"
+                  class="form-control p-inputtext-lg" placeholder="Explain here"
+                  [ngClass]="{ 'is-invalid': userform.get('OtherExplanation').errors && (userform.get('OtherExplanation').touched || userform.get('OtherExplanation').dirty)}" />
+                <div
+                  *ngIf="userform.get('OtherExplanation').errors && (userform.get('OtherExplanation').touched || userform.get('OtherExplanation').dirty)"
+                  class="invalid-feedback">
+                  <div *ngIf="userform.get('OtherExplanation').errors.required">Please Provide Other Explanation !!
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row button-container">
+              <div class="col-6">
+                <button type="button" class="btn registration-btn btn-block" [disabled]="!allFormsValid()"
+                  (click)="onClickRegisterUser()">Submit</button>
+              </div>
+              <div class="col-6">
+                <!-- <button type="button" class="btn registration-btn btn-block"
+                (click)="onClickGoToLogin()">Login</button> -->
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+    [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+  </ngx-spinner>

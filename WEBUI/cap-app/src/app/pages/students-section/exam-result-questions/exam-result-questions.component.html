@@ -1,0 +1,171 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <!-- <div class="card-header">
+          <div class="row">
+            <div class="col-4" style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              EXAM ID: {{ ExamId }} - {{ getTypeName(this.questionType) }}
+            </div>
+          </div>
+        </div> -->
+        <div class="card-body">
+         <div class="row">
+           <div class="col-12">
+             <p-table [rows]="10" [value]="allQuestionData" [lazy]="true" (onLazyLoad)="loadAllQuestions($event)"
+               [autoLayout]="true" [paginator]="true" [totalRecords]="totalRecords"
+              [reorderableColumns]="true"
+               [loading]="loading">
+               <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                  EXAM ID: {{ ExamId }} - {{ getTypeName(this.questionType) }}
+                </div>
+                <!-- <span style="width: 150px;">
+                  <p-button icon="pi pi-angle-left" (click)="navigateToResults()">Back</p-button>
+                </span> -->
+            </ng-template>
+               <ng-template pTemplate="header" let-columns>
+                 <tr>
+                   <th>S.No.</th>
+                   <th>Question</th>
+                   <th>Topic</th>
+                   <th>Sub Topic</th>
+                   <th>Correct Option</th>
+                   <th>Selected Option</th>
+                   <th>Actions</th>
+                 </tr>
+               </ng-template>
+               <ng-template pTemplate="body" 
+               let-rowData
+               let-rowIndex="rowIndex"
+               let-columns="columns">
+                 <tr>
+                   <td> {{ rowData?.QuestionId }} </td>
+                   <td>
+                    <app-mathjax [content]='rowData?.QuestionText' class="box"></app-mathjax>
+                  </td>
+                   <td> {{ rowData?.TopicName }} </td>
+                   <td>{{ rowData?.SubTopicName}} </td>
+                   <td> {{ rowData?.Answer }} </td>
+                   <td> {{ rowData?.SelectedAnswer }} </td>
+                   <td>
+                     <button class="btn btn-sm btn-primary" (click)="viewTopic(rowData)">View Explanation</button>
+                 </tr>
+               </ng-template>
+               <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="10">No Records.</td>
+                </tr>
+              </ng-template>
+             </p-table>
+           </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #displayQuestions let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Exam Question Details : {{selectedExamInfo?.QuestionId }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Topic :</span><span class="content-value"> {{ selectedExamInfo?.TopicName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Sub Topic :</span><span class="content-value"> {{ selectedExamInfo?.SubTopicName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Can Use Calculator :</span><span class="content-value"> {{ selectedExamInfo?.CalculatorId ? 'Yes' : 'No'}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Multiple Choice :</span><span class="content-value"> {{ selectedExamInfo?.isMultipleChoice ? 'Yes' : 'No'}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Grid In :</span><span class="content-value"> {{ selectedExamInfo?.GridName}}</span>
+          </div>
+        </div>
+        <div class="row add-margin-bottom"></div>
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">Question :</span>
+          </div>
+        </div>
+        <div class="row content-field">
+          <div class="col-12 form-group">
+            <span class="content-label" style="color:#000000 !important" >
+              <app-mathjax [content]="selectedExamInfo?.QuestionText.toString()" class="box"></app-mathjax>
+            </span>
+          </div>
+          <div class="col-12 selected-option" *ngIf="selectedExamInfo?.GridId.toString() === '2'">
+            <table class="row table table-striped table-bordered">
+              <td class="col-12" [class.active]="selectedExamInfo.Answer.toString() === '1'">
+                <app-mathjax [content]="selectedExamInfo?.Option1" class="box"></app-mathjax>
+              </td>
+              <td class="col-12" [class.active]="selectedExamInfo.Answer.toString() === '2'">
+                <app-mathjax [content]="selectedExamInfo?.Option2" class="box"></app-mathjax>
+              </td>
+              <td class="col-12" [class.active]="selectedExamInfo.Answer.toString() === '3'">
+                <app-mathjax [content]="selectedExamInfo?.Option3" class="box"></app-mathjax>
+              </td>
+              <td class="col-12" [class.active]="selectedExamInfo.Answer.toString() === '4'">
+                <app-mathjax [content]="selectedExamInfo?.Option4" class="box"></app-mathjax>
+              </td>
+            </table>
+          </div>
+
+          <div class="col-12" *ngIf="selectedExamInfo?.GridId.toString() === '1'">
+            <span>Answer :</span><span>
+              <app-mathjax [content]="selectedExamInfo?.Option4" class="box"></app-mathjax>
+            </span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Correct Option :</span><span class="content-value"> {{ selectedExamInfo.Answer}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">User Selected Option :</span><span class="content-value"> {{ selectedExamInfo.SelectedAnswer}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Is Score Given :</span><span class="content-value"> {{ 'Yes'}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field question-explanation">
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important; font-size: 15px;font-weight: 600; letter-spacing: 1.2px;">Rationale :</span>
+          </div>
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">
+              <app-mathjax [content]="selectedExamInfo?.Explanation"></app-mathjax>
+            </span>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelQuestion()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<button class="btn btn-lg btn-success" (click)="navigateToResults()">back</button>

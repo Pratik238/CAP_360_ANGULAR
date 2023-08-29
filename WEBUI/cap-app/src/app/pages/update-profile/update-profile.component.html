@@ -1,0 +1,111 @@
+<div class="col-12">
+  <div class="row">
+    <div class="col-12" *ngIf="isShowProfileDetails">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #7f8c8d; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Profile Details:
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row form-group">
+            <div class="col-12">
+              <span class="label">First Name :</span><span class="value"> {{ profileData?.FirstName ? profileData?.FirstName : profileData?.StudentFirstName }}</span>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <span class="label">Last Name :</span><span class="value"> {{ profileData?.LastName ? profileData?.LastName : profileData?.StudentLastName }}</span>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <span class="label">Email ID :</span><span class="value"> {{ profileData?.EmailId }}</span>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-12">
+              <span class="label">Contact Number :</span><span class="value"> {{ profileData?.PhoneNumber ? profileData?.PhoneNumber : profileData?.Contactno }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="co-12 report-issue-btn-container">
+          <button class="btn btn-success" style="margin-left: 15px;color:#ffffff;" (click)="editProfile()">Edit Profile</button>
+        </div>
+      </div>
+    </div>
+    <p-toast></p-toast>
+    <div class="col-12" *ngIf="!isShowProfileDetails">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4" style="color: #7f8c8d; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Edit Profile:
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8">
+              <form [formGroup]="updateProfilelForm">
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <label for="FirstName">First Name : <span class="required-label">*</span></label>
+                    <input type="text" id="FirstName" formControlName="FirstName" class="form-control p-inputtext-lg"
+                      placeholder="Enter First Name" [ngClass]="{ 'is-invalid': updateProfilelForm.get('FirstName').errors && (updateProfilelForm.get('FirstName').touched || updateProfilelForm.get('FirstName').dirty) }" />
+                    <div *ngIf="updateProfilelForm.get('FirstName').errors && (updateProfilelForm.get('FirstName').touched || updateProfilelForm.get('FirstName').dirty)" class="invalid-feedback">
+                      <div *ngIf="updateProfilelForm.get('FirstName').errors.required">First Name is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <label for="LastName">Last Name : <span class="required-label">*</span></label>
+                    <input type="text" id="LastName" formControlName="LastName" class="form-control p-inputtext-lg"
+                      placeholder="Enter Last Name" [ngClass]="{ 'is-invalid': updateProfilelForm.get('LastName').errors && (updateProfilelForm.get('LastName').touched || updateProfilelForm.get('LastName').dirty) }" />
+                    <div *ngIf="updateProfilelForm.get('LastName').errors && (updateProfilelForm.get('LastName').touched || updateProfilelForm.get('LastName').dirty)" class="invalid-feedback">
+                      <div *ngIf="updateProfilelForm.get('LastName').errors.required">Last Name is required</div>
+                    </div>
+                  </div>
+                </div>
+               
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <label for="EmailId">Email :<span class="required-label">*</span> </label>
+                    <input id="EmailId" name="EmailId" formControlName="EmailId" type="email" class="form-control" placeholder="Enter Email"
+                    [ngClass]="{'is-invalid': updateProfilelForm.get('EmailId').errors && (updateProfilelForm.get('EmailId').touched || updateProfilelForm.get('EmailId').dirty)}">
+                    <div *ngIf="updateProfilelForm.get('EmailId').errors && (updateProfilelForm.get('EmailId').touched || updateProfilelForm.get('EmailId').dirty)" class="invalid-feedback">
+                      <div *ngIf="updateProfilelForm.get('EmailId').errors.required">Email Id is required</div>
+                      <div *ngIf="updateProfilelForm.get('EmailId').errors.email">Invalid email Id</div>
+                    </div>
+                </div> 
+              </div>
+                
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label for="PhoneNumber">Phone Number :<span class="required-label">*</span> </label>
+                  <input id="PhoneNumber" name="PhoneNumber" formControlName="PhoneNumber" type="number" class="form-control" placeholder="Enter Phone Number"
+                  [ngClass]="{'is-invalid': updateProfilelForm.get('PhoneNumber').errors && (updateProfilelForm.get('PhoneNumber').touched || updateProfilelForm.get('PhoneNumber').dirty)}">
+                  <div *ngIf="updateProfilelForm.get('PhoneNumber').errors && (updateProfilelForm.get('PhoneNumber').touched || updateProfilelForm.get('PhoneNumber').dirty)" class="invalid-feedback">
+                    <div *ngIf="updateProfilelForm.get('PhoneNumber').errors.required">Phone number is required</div>
+                  </div>
+                </div>
+              </div>
+
+                  <hr>
+                  <div class="co-12 report-issue-btn-container">
+                    <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormsValid()" (click)="updateProfile()">Update</button>
+                    <button class="btn btn-danger" style="margin-right: 10px;color:#ffffff;" (click)="cancelProfile()">Cancel</button>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

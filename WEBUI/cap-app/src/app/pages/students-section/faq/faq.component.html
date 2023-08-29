@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-12">
+    <div class="col-10 offset-md-1">
+      <div class="row">
+        <div class="col-9">
+          <h2 class="text-muted">No FAQs Found.!!!</h2>
+        </div>
+        <div class="col-3">
+          <div class="card">
+            <div class="card-body align-center">
+              <h3 class="card-subtitle mb-2 text-muted">Can't find the answer?</h3>
+              <button type="button" class="btn btn-success" (click)="navigateToContact()">Contact Us</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

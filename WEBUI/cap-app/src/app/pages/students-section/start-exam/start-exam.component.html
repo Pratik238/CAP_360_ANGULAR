@@ -1,0 +1,194 @@
+<div class="container" [hidden]="isBreakTime">
+  <div class="row" *ngFor="let qstn of combinedArray; let i = index;">
+    <div  *ngIf="page === i">
+      <div class="col-12 exam-section">
+        <div class="row">
+          <div class="col-5 section-label align-items">{{ qstn?.CalculatorId === constants.CalculatorId ? 'Calculator' : 'Non Calculator'}} - {{ isShowMultipleChoiceHeader ? 'Multiple Choice' : 'Grid In' }} <span class="label">(
+              {{ getTimeByCalculatorId(qstn?.CalculatorId) }} )</span> </div>
+          <div class="col-2 align-items">
+            <h3 class="text-muted">CAP</h3>
+          </div>
+          <div class="col-5 text-align"><i class="fa fa-clock-o" aria-hidden="true">Time Left: <span
+                class="section-label"> {{ displayMinutes + 'm' }} , {{ displaySeconds + 's'  }}</span></i> </div>
+        </div>
+      </div>
+  
+      <div class="col-12 box-container">
+        <div class="row">
+          <div class="col-12 seperator-line">
+            <div class="row">
+              <div class="col-6">
+                <span>Question: {{ (qstn?.CalculatorId) === constants.CalculatorId ? (calcCurrentPageIndex + 1) : (nonCalcCurrentPageIndex + 1) }} of {{ qstn?.CalculatorId === 1 ? calcQuestions.length : nonCalcQuestions.length }}</span>
+                <span class="report-label" (click)="reportQuestion(qstn)">Report</span>
+              </div>
+              <div class="col-6 questions-container">
+                <span class="next-question-label" *ngIf="qstn?.GridId === constants.MultipleChoiceId" (click)="nextQuestion(qstn, i)"> Next Question</span>
+                <span class="next-question-label" *ngIf="qstn?.GridId === constants.CalculatorId" (click)="onSubmitGridInQuestion(qstn, i)">Submit and Go to Next Question</span>
+                <span class="skip-question-label" (click)="skipQuestion(qstn, i)" [hidden]="!isOptionSelectedHideSkipQstn || ((qstn?.SelectedAnswer === 1) ? true : false)">Skip this Question</span>
+                <span class="end-exam-label" (click)="endThisExam()">End Exam</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div>
+              <div class="row">
+                <div class="col-12">
+                  <app-exam-test [allQestions]="qstn" (dataChange)="onSelectedAnswer($event)"></app-exam-test>
+                  </div>
+              </div>
+            </div>
+            <div *ngIf="qstn?.CalculatorId === constants.CalculatorId">
+              <ul class="nav horizontal" *ngFor="let p of calcQuestions; let j =index;">
+                <li class="nav-item">
+                  <a class="nav-link" 
+                  [ngClass]="{ 'active': j === calcpager.index }" 
+                  (click)="qstn.GridId === constants.nonCalculatorId &&  setCalcPageIndex(j, qstn) || qstn.GridId === constants.CalculatorId && onSubmitGridInQuestion(qstn, i)"> {{ j+1 }} </a>
+                  
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="qstn?.CalculatorId === constants.nonCalculatorId">
+              <ul class="nav horizontal" *ngFor="let p of nonCalcQuestions; let j =index;">
+                <li class="nav-item">
+                  <a class="nav-link" 
+                  [ngClass]="{ 'active': j === nonCalcpager.index }"
+                  (click)="qstn.GridId === constants.nonCalculatorId &&  setNonCalcPageIndex(j, qstn) || qstn.GridId === constants.CalculatorId && onSubmitGridInQuestion(qstn, i)   "> {{ j+1 }} </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<div class="row" [hidden]="!isBreakTime" style="text-align: center;padding: 13em;">
+  <div class="col-12" style="text-align: center;">
+   <h3> Non Calculator quesions are completed and calculator Questions will start after <span style="color: red;"> <i>"</i>  {{ displayMinutes + 'm' }} , {{ displaySeconds + 's'  }} <i>"</i></span> of break time.</h3>
+  </div>
+  <div class="col-12" style="text-align: center;">
+    -Or-
+  </div>
+  <div class="col-12" style="text-align: center;">
+    <button class="btn-primary" (click)="showCalcSection()">Skip Break and Continue Exam</button>
+  </div>
+</div>
+
+  <ng-template #reportInvalidQuestion>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 report-issue-header">Report Issue</div>
+        <div class="col-12">
+          <form [formGroup]="reportQuestionForm">
+            <div class="col-12 form-group">
+              <label for="Description" class="description-label">Description</label>
+              <textarea type="text" id="Description" formControlName="Description" rows="5" class="md-textarea form-control" mdbInput></textarea>
+            </div>
+            <hr>
+            <div class="co-12 report-issue-btn-container">
+              <button class="btn btn-warning" style="margin-right: 10px;color:#ffffff;" (click)="cancelReportQuestionDiaouge()">Cancel</button>
+              <button class="btn btn-success" [disabled]="!reportFormValid()" (click)="reportIssue()">Report Issue</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Confirmation message for non-calc section code starts here -->
+  <ng-template #nonCalcWarningMessage>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 modal-header report-issue-header">Are you sure you want to end this Non Calculator Section?</div>
+        <div class="col-12">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <p>You have <span> {{ unSelectedQuestionsNonCalcCount }} </span> more Question(s) to answer. You can not answer the remaining questions later, if you end the section now.</p>
+              </div>
+              <hr>
+              <div class="col-12 warning-message-btn-container">
+                <button pButton type="button" style="margin-right: 10px;" label="Yes. End this section" class="p-button-danger" (click)="endNonCalcSectionMessage()"></button>
+                <button pButton type="button" label="No. take back to skipped questions" class="p-button-success" (click)="cancelNavigateToCalcSection()"></button>
+              </div>
+            </div>
+          </div>   
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Confirmation message for non-calc section code ends here -->
+
+  <!-- Confirmation message for calc section code starts here -->
+  <ng-template #calcWarningMessage>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 modal-header report-issue-header">Are you sure you want to end this Calculator Section?</div>
+        <div class="col-12">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <p>You have <span> {{ unSelectedQuestionsCalcCount }} </span> more Question(s) to answer. You can not answer the remaining questions later, if you end the section now.</p>
+              </div>
+              <hr>
+              <div class="col-12 warning-message-btn-container">
+                <button pButton type="button" style="margin-right: 10px;" label="Yes. End this section" class="p-button-danger" (click)="closeCalcSectionWarningPopup()"></button>
+                <button pButton type="button" label="No. take back to skipped questions" class="p-button-success" (click)="cancelNavigateToCalcSection()"></button>
+              </div>
+            </div>
+          </div>   
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Confirmation message for calc section code ends here -->
+
+  <!-- Confirmation message for calc section code starts here -->
+  <ng-template #endExamWarningMessage>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 modal-header report-issue-header">Are you sure you want to end this exam ?</div>
+        <div class="col-12">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <p>You can not answer the remaining questions later, if you end the exam now. Do you want to proceed?</p>
+              </div>
+              <hr>
+              <div class="col-12 warning-message-btn-container">
+                <button pButton type="button" style="margin-right: 10px;" label="Yes. End the exam" class="p-button-danger" (click)="endExam()"></button>
+                <button pButton type="button" label="No. take back to remaining questions" class="p-button-success" (click)="cancelNavigateToCalcSection()"></button>
+              </div>
+            </div>
+          </div>   
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Confirmation message for calc section code ends here -->
+
+  <p-confirmDialog icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+  <!-- End Exam confirmation popup code starts here -->
+  <ng-template #endExamConfirmation let-modal>
+  <div class="modal-header">
+    <h5 class="report-issue-header">Are you sure you want to end this exam ?</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>You can not answer the remaining questions later, if you end the exam now. Do you want to proceed?</p>
+  </div>    	
+    <div class="modal-footer">
+      <a class="btn btn-danger endbutton">Yes. End the exam</a>
+  <button type="button" class="btn btn-success btn-md" data-dismiss="modal" onclick="$('#timerdisp').removeClass('in').hide(); $('#tmsg').html('');">No. Take back to remaining questions</button>
+    </div>
+  </ng-template>
+  <!-- End Exam confirmation popup code ends here -->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

@@ -1,0 +1,59 @@
+
+<div class="row">
+  <div class="col-12">
+    <div class="col-12 warning-message-header" *ngIf="!isDislayExamInfo">
+      <!-- {{ displayUserFreindlyMessage }} -->
+      Currently there is no assigned SAT Exam
+    </div>
+    <div class="col-12 card" *ngIf="isDislayExamInfo">
+      <div class="row">
+        <div class="col-12">
+          <div class="col-12 box-shadow">
+            <span class="maths-card-header">Jumble English EXAM</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 card-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th scope="col" class=""></th>
+                <th scope="col" class="header-labels">Reading Section</th>
+                <th scope="col" class="header-labels">Writting and Language Section</th>
+                <th scope="col" class="header-labels">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="">Duration (Minutes)</th>
+                <td class="row-label">65</td>
+                <td class="row-label">35</td>
+                <td class="row-label">100</td>
+              </tr>
+              <tr>
+                <th scope="row" class="">Multiple Choice</th>
+                <td class="row-label">52</td>
+                <td class="row-label">44</td>
+                <td class="row-label">96</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-12 form-group button-align">
+          <button class="btn btn-success" (click)="onClickGoToStartExam()">
+            Start Exam<i class="pi pi-arrow-circle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

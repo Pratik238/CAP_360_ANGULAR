@@ -1,0 +1,364 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              List of Tutors
+            </div>
+            <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="createTutor()">Add New Tutor</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <!-- <p-table  [value]="allTutors" [lazy]="true" (onLazyLoad)="loadTutorData($event)"
+              [autoLayout]="true" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"> -->
+              <p-table #datatable styleClass="p-datatable-striped" [value]="allTutors" [metaKeySelection]="true"
+                [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="multiple" [autoLayout]="true"
+                [responsive]="true" [scrollable]="true" [lazy]="false"
+                [globalFilterFields]="['UserId','FirstName','Centeradminname','FranchiseTitle','EmailId']">
+
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="datatable.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(allTutors)"
+                        class="export-button-align p-button-success" pTooltip="CSV" tooltipPosition="top"></button>
+                    </div>
+                    <label class="add-padding-right">
+                      <input type="radio" name="status" value="Active" (click)="loadTutorData($event,'Active')" checked
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>Active</label>
+                    <label class="">
+                      <input type="radio" name="statusc" value="InActive" (click)="loadTutorData($event,'InActive')"
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>In-Active</label>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Tutor ID
+                        <p-columnFilter type="text" field="UserId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Name
+                        <p-columnFilter type="text" field="FirstName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Email
+                        <p-columnFilter type="text" field="EmailId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Franchise
+                        <p-columnFilter type="text" field="FranchiseTitle" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Center Admin
+                        <p-columnFilter type="text" field="Centeradminname" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Status
+                        <!-- <p-columnFilter type="text" field="Centeradminname" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Actions
+                        <!-- <p-columnFilter type="text" field="Centeradminname" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <!-- <th scope="col">Tutor ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Franchise</th>
+                    <th scope="col">Center Admin</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.UserId }} </td>
+                    <td>{{ rowData?.FirstName }} </td>
+                    <td> {{ rowData?.EmailId }} </td>
+                    <td> {{ rowData?.FranchiseTitle }} </td>
+                    <td> {{ rowData?.Centeradminname }} </td>
+                    <td> {{ rowData?.IsActive ? 'Active' : 'In-Active' }} </td>
+                    <td style="position: sticky; width: 150px;">
+                      <button class="btn btn-sm btn-primary" pTooltip="View" tooltipPosition="top"
+                        (click)="viewTutor(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="top"
+                        class="p-button-success p-mr-2"
+                        style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                        (click)="editTutor(rowData)"></button>
+                      <button class="btn btn-sm btn-danger" pTooltip="Delete" tooltipPosition="top"
+                        (click)="removeTutor(rowData)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="5">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<ng-template #addNewTutorForm let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">{{isAddMode ? 'Add' : 'Edit'}} Tutor</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12 madatory-field-label">
+            * Marked Fields are Required</div>
+        </div>
+        <form [formGroup]="tutorForm">
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="FirstName">First Name <span class="required-label">*</span></label>
+              <input type="text" id="FirstName" formControlName="FirstName" class="form-control p-inputtext-lg"
+                placeholder="Enter First Name"
+                [ngClass]="{ 'is-invalid': tutorForm.get('FirstName').errors && (tutorForm.get('FirstName').touched || tutorForm.get('FirstName').dirty) }" />
+              <div
+                *ngIf="tutorForm.get('FirstName').errors && (tutorForm.get('FirstName').touched || tutorForm.get('FirstName').dirty)"
+                class="invalid-feedback">
+                <div *ngIf="tutorForm.get('FirstName').errors.required">First Name is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="LastName">Last Name <span class="required-label">*</span></label>
+              <input type="text" id="LastName" formControlName="LastName" class="form-control p-inputtext-lg"
+                placeholder="Enter Last Name"
+                [ngClass]="{ 'is-invalid': tutorForm.get('LastName').errors && (tutorForm.get('LastName').touched || tutorForm.get('LastName').dirty) }" />
+              <div
+                *ngIf="tutorForm.get('LastName').errors && (tutorForm.get('LastName').touched || tutorForm.get('LastName').dirty)"
+                class="invalid-feedback">
+                <div *ngIf="tutorForm.get('LastName').errors.required">Last Name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="EmailId">Email <span class="required-label">*</span> </label>
+              <input id="EmailId" name="EmailId" formControlName="EmailId" type="email" class="form-control"
+                placeholder="Enter Email"
+                [ngClass]="{'is-invalid': tutorForm.get('EmailId').errors && (tutorForm.get('EmailId').touched || tutorForm.get('EmailId').dirty)}">
+              <div
+                *ngIf="tutorForm.get('EmailId').errors && (tutorForm.get('EmailId').touched || tutorForm.get('EmailId').dirty)"
+                class="invalid-feedback">
+                <div *ngIf="tutorForm.get('EmailId').errors.required">Email Id is required</div>
+                <div *ngIf="tutorForm.get('EmailId').errors.email">Invalid email Id</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="PhoneNumber">Phone Number <span class="required-label">*</span> </label>
+              <input id="PhoneNumber" name="PhoneNumber" formControlName="PhoneNumber" type="number"
+                class="form-control" placeholder="Enter Phone Number"
+                [ngClass]="{'is-invalid': tutorForm.get('PhoneNumber').errors && (tutorForm.get('PhoneNumber').touched || tutorForm.get('PhoneNumber').dirty)}">
+              <div
+                *ngIf="tutorForm.get('PhoneNumber').errors && (tutorForm.get('PhoneNumber').touched || tutorForm.get('PhoneNumber').dirty)"
+                class="invalid-feedback">
+                <div *ngIf="tutorForm.get('PhoneNumber').errors.required">Phone number is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="Password">Password <span class="required-label">*</span> </label>
+              <input type="Password" formControlName="Password" placeholder="Enter Password" class="form-control"
+                [ngClass]="{ 'is-invalid': tutorForm.get('Password').errors && (tutorForm.get('Password').touched || tutorForm.get('Password').dirty)}" />
+              <div
+                *ngIf="tutorForm.get('Password').errors && (tutorForm.get('Password').touched || tutorForm.get('Password').dirty)"
+                class="invalid-feedback">
+                <div *ngIf="tutorForm.get('Password').errors.required">Password is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="isDislaySuperAdmin">
+            <div class="col-12 form-group">
+              <label for="CenteradminId">Center Admin<span class="required-label">*</span></label>
+              <select class="form-control" formControlName="CenteradminId">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let tutor of centerAdmin" [value]="tutor.UserId">{{tutor.FirstName}}</option>
+              </select>
+            </div>
+          </div>
+
+          <!--  <div class="row">
+          <div class="col-12 form-group">
+            <label for="UserType">User Type</label>
+            <select class="form-control" formControlName="UserType">
+                <option [value]="null">--Select--</option>
+              <option *ngFor="let userType of userTypes" [ngValue]="userType.userTypeId" >{{userType.userTypeValue}}</option>
+          </select> 
+          </div>
+        </div> -->
+          <div class="row" *ngIf="!isAddMode">
+            <div class="col-12 form-group">
+              <label for="IsActive">Status <span class="required-label">*</span></label>
+              <select class="form-control" formControlName="IsActive">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let status of statuses" [ngValue]="status.id">{{status.value}}</option>
+              </select>
+              <div *ngIf="tutorForm && tutorForm.get('IsActive').errors" class="invalid-feedback">
+                <div *ngIf="tutorForm.get('IsActive').errors.required">Status is required</div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormValid()"
+              (click)="saveTutor()">{{isAddMode ? 'Save' : 'Update'}}</button>
+            <button class="btn btn-danger" (click)="cancelTutor()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+<ng-template #displayTutor let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">User Details: {{tutorData?.id}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row form-group">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">First Name :</span><span class="value"> {{ tutorData?.FirstName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Last Name :</span><span class="value"> {{ tutorData?.LastName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Email :</span><span class="value"> {{ tutorData?.EmailId }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Phone :</span><span class="value"> {{ tutorData?.PhoneNumber }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Profile :</span><span class="value"> {{ 'Tutor' }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Status :</span><span class="value"> {{ tutorData?.IsActive ? 'Active' : 'In-Active'
+              }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created By :</span><span class="value"> {{ tutorData?.Createdby }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated By :</span><span class="value"> {{ tutorData?.Updatedby }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created Date :</span><span class="value"> {{ tutorData?.CreatedDate | date:'dd/MM/yyyy'
+              }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated Date :</span><span class="value"> {{ tutorData?.UpdatedDate | date:'dd/MM/yyyy'
+              }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelTutor()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12" style="font-size: 20px; text-align: center;">
+            Do you want to remove <strong> {{ tutorData?.FirstName }} </strong> tutor?
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary next-button" (click)="deleteTutor(tutorData)">Ok</button>
+          </div>
+          <div class="col-6" style="text-align: left;">
+            <button class="btn btn-danger cancel-button" (click)="cancelTutor()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->

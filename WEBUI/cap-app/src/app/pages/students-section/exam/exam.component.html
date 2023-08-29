@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div id="chartContainer" style="height: 370px; width: 100%; margin-left:auto;margin-right:auto;"></div>
+          <!-- Exm Result Table code starts here -->
+          <div class="table-container table-responsive" *ngIf="!isFromEnglishSubject">
+            <table class="table table-bordered test-details">
+              <thead>
+                   <tr>
+                     <th>&nbsp;</th>
+                     <th>No-Calculator Section</th>
+                     <th>Break</th>
+                     <th>Calculator Section</th>
+                     <th>Total</th>
+                   </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="clr-black">Duration (Minutes)</td>
+                  <td>25 Min</td>
+                  <td>10 Min</td>
+                  <td>55 Min</td>
+                  <td> {{ pieChartReport['HH:MM:SS'] }}(HH:MM:SS)</td>
+                </tr>
+                <tr>
+                  <td class="clr-black">Multiple Choice</td>
+                  <td> <span class="qcorrect" (click)="showNonMulCorrect()">{{pieChartReport.NoCalMulCorrect}} </span>-<span (click)="showNonMulWrong()" class="qwrong"> {{ pieChartReport.NoCalMulWrong }}</span> / <span class="qall">15</span></td>
+                  <td></td>
+                  <td>
+                    <span class="qcorrect" (click)="showCalMulCorrect()">{{pieChartReport.CalMulCorrect}}</span> -<span (click)="showCalMulWrong()" class="qwrong"> {{ pieChartReport.CalMulWrong }}</span> /<span class="qall">30</span></td>
+                  <td>
+                    <span class="qcorrect" (click)="showNonMulCorrect()">{{pieChartReport.CalMulCorrect + pieChartReport.NoCalMulCorrect}} </span>- <span class="qwrong"> {{ pieChartReport.CalMulWrong + pieChartReport.NoCalMulWrong }}</span> / <span class="qall"> 30</span></td>
+                </tr>
+                <tr>
+                  <td class="clr-black">Grid-in</td>
+                  <td> <span (click)="showNoCalgridCorrect()" class="qcorrect">{{pieChartReport.NoCalGridCorrect}}</span> - <span (click)="showNoCalgridWrong()" class="qwrong">{{ pieChartReport.NoCalGridWrong }}</span> / <span class="qall">5</span></td>
+                  <td></td>
+                  <td><span (click)="showCalGridCorrect()" class="qcorrect"> {{pieChartReport.CalGridCorrect}} </span>-<span (click)="showCalGridWrong()" class="qwrong"> {{ pieChartReport.CalGridWrong }}</span> /<span class="qall">8</span>  </td>
+                  <td><span class="qcorrect">{{ pieChartReport.NoCalGridCorrect + pieChartReport.CalGridCorrect}}</span> -<span class="qwrong"> {{ pieChartReport.NoCalGridWrong + pieChartReport.CalGridWrong }}</span> / <span class="qall">13</span> </td>
+                </tr>
+                <tr>
+                  <td class="clr-black">Total Questions</td>
+                  <td>
+                    <span class="qcorrect">{{ pieChartReport.NoCalMulCorrect + pieChartReport.NoCalGridCorrect }}</span> -<span class="qwrong"> {{ pieChartReport.NoCalMulWrong + pieChartReport.NoCalGridWrong }}</span> / <span class="qall">20</span>  </td>
+                  <td></td>
+                  <td>
+                    <span class="qcorrect">{{ pieChartReport.CalMulCorrect + pieChartReport.CalGridCorrect}} </span>-<span class="qwrong">  {{ pieChartReport.CalMulWrong + pieChartReport.CalGridWrong }}</span> / <span class="qall">38</span></td>
+                  <td>
+                    <span class="qcorrect">{{ pieChartReport.NoCalMulCorrect + pieChartReport.NoCalGridCorrect + pieChartReport.CalMulCorrect + pieChartReport.CalGridCorrect }} </span>-<span class="qwrong">  {{ pieChartReport.NoCalMulWrong + pieChartReport.NoCalGridWrong + pieChartReport.CalMulWrong + pieChartReport.CalGridWrong }}</span> / <span class="qall">58</span></td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="clr-black">Answered Questions</td>
+                  <td>
+                    <span class="qall" (click)="showAnsweredQuestions()"> {{ pieChartReport?.Noofanswered }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="clr-black">Unanswered Questions</td>
+                  <td>
+                    <span class="qall" (click)="showUnAnsweredQuestions()">{{ pieChartReport?.Noofunanswerd }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="clr-black">Skipped Questions</td>
+                  <td>
+                    <span class="qall" (click)="onSkippedQuestions()"> {{ pieChartReport?.Noofskipped }}</span>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                  <tr>
+                  <th colspan="5">Almost! Study a little more and take the test again !</th>
+                   </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- Exm Result Table code ends here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

@@ -1,0 +1,75 @@
+.mat-list-base .mat-list-item {
+  height: 35px !important;
+  font-size: 15px;
+  color: unset !important;
+}
+
+.mat-list-base .mat-list-item.active-list-item {
+  color: #ffffff !important;
+}
+
+.example-container {
+  height: -webkit-fill-available !important;
+  // border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+:host ::ng-deep .mat-drawer-inner-container {
+  height: unset !important;
+}
+
+.example-sidenav {
+  // user-select: none;
+  width: 170px;
+  visibility: visible !important;
+  transform: unset;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+}
+
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease;
+  transform: scaleY(0);
+  transform-origin: top;
+  // padding-left: 30px;
+}
+
+.submenu.expanded {
+  transform: scaleY(1);
+  background: #ecf0f1;
+  // transform: translateX(10px);
+}
+
+.parent-menu {
+  background: #ecf0f1;
+}
+
+.active-list-item {
+  background-color: #fa9046 !important;
+  .mat-list-base .mat-list-item {
+    color: #ffffff !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::ng-deep .mat-list-item .mat-list-item-content {
+  padding: 0 9px !important;
+}
+
+.example-sidenav-content {
+  transform: unset;
+}

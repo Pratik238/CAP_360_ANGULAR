@@ -1,0 +1,95 @@
+<!-- Choose topic code starts here -->
+<div class="row align-center" *ngIf="isShowData">
+  <div class="col-12 col-md-8 english-test-container">
+    <form [formGroup]="englishForm">
+      <div class="row">
+        <div class="col-12 madatory-field-label">
+          * Marked Fields are Required</div>
+      </div>
+      <div class="row">
+        <div class="col-12 form-group">
+          <label for="TopicId">Topic <span class="required-label">*</span></label>
+          <select class="form-control" formControlName="TopicId" (change)="onChangeTopic($event)">
+            <option [value]="null">--Select--</option>
+            <option *ngFor="let status of topics" [value]="status.TopicId">{{status.TopicName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 form-group">
+          <label for="SubTopicId">Sub Topic <span class="required-label">*</span></label>
+          <!-- <p-multiSelect [options]="subTopics" formControlName="SubTopicId" optionValue="SubTopicId" defaultLabel="Select" optionLabel="SubTopicName" display="chip" class="multiselect-custom"></p-multiSelect> -->
+          <select class="form-control" formControlName="SubTopicId">
+          <option [value]="null">--Select--</option>
+          <option *ngFor="let subTopic of subTopics" [value]="subTopic.SubTopicId">{{subTopic.SubTopicName}}</option>
+        </select>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12 btn-container">
+          <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormsValid()"
+          (click)="generateTest()">Generate Test</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Choose topic code ends here -->
+<p-toast></p-toast>
+
+<!-- Practice test details code starts here -->
+<div class="row" *ngIf="!isShowData">
+  <div class="col-12">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12">
+          <div class="col-12 box-shadow">
+            <span class="text-muted maths-card-header">Math Practice Test</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th scope="col" class="text-muted"></th>
+                <th scope="col" class="text-muted">Calculator Section</th>
+                <th scope="col" class="text-muted">No-Calculator Section</th>
+                <th scope="col" class="text-muted">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let time of testTime">
+                <th scope="row" class="text-muted"> {{ time?.ColumnName }} </th>
+                <td class="row-label"> {{ time['Calculator Section'] }} </td>
+                <td class="row-label"> {{ time['No-Calculator Section'] }} </td>
+                <td class="row-label"> {{ time['Calculator Section'] + time['No-Calculator Section'] }} </td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-muted">Total Questions</th>
+                <td class="row-label">38</td>
+                <td class="row-label">20</td>
+                <td class="row-label">58</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 form-group button-align">
+          <button class="btn btn-success" (click)="onClickGoToStartExam()">
+            Start Exam<i class="pi pi-arrow-circle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Practice test details code ends here -->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

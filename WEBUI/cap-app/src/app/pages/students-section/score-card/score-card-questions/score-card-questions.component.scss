@@ -1,0 +1,125 @@
+.report-issue-header {
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #e67e22;
+    font-weight: bold;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+  
+  .content-field {
+    margin-bottom: 5px;
+  
+    .content-label {
+      font-size: 16px;
+      font-weight: 400;
+      color: #e74c3c;
+    }
+  
+    .content-value {
+      font-size: 15px;
+      font-weight: normal;
+    }
+  }
+  
+  .next-button {
+    width: 150px;
+  }
+  
+  .cancel-button {
+    width: 150px;
+  }
+  
+  .gray-color {
+    background: #dfe6e9;
+  }
+  
+  .add-margin-bottom {
+    margin-bottom: 25px;
+  }
+  
+  .madatory-field-label {
+    font-size: 14px;
+    font-style: italic;
+    color: red;
+    margin-top: 1em;
+    margin-bottom: 15px;
+    padding-left: 25px;
+  }
+  
+  .required-label {
+    color: red;
+  }
+  
+  
+  :host::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    text-align: left;
+    padding: 0.5rem 0.57rem;
+    border: 1px solid #ffffff !important;
+    border-width: 1px 1px 1px 1px;
+    font-weight: 500;
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    background-color: #3c6382 !important;
+    color: #ffffff !important;
+    font-size: 14px;
+    letter-spacing: 0.25px;
+  }
+  
+  :host::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    text-align: left;
+    border: 1px solid #e9ecef;
+    border-width: 1px;
+    padding: 0.571rem 0.857rem;
+    background: #ffffff;
+    color: #000000;
+  }
+  
+  .selected-option .active {
+    color: #000000;
+    background-image: url('../../../../../assets/images/right-mark-icon.png');
+    background-repeat: no-repeat;
+    background-position-x: 10px;
+  }
+  
+  .selected-option {
+    color: #000000 !important;
+    margin-left: 15px;
+  
+    td {
+      padding: 0.5em 5em !important;
+    }
+  }
+  
+  .active {
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position-y: center;
+    background-image: url('../../../../../assets/images/right-mark-icon.png');
+  }
+  
+  .table-caption-container {
+    display: flex;
+    justify-content: flex-end;
+  
+    .add-padding-right {
+      padding-right: 15px;
+    }
+  
+    .checkmark {
+      padding-left: 5px;
+    }
+  
+    .homework-label {
+      font-weight: 400;
+    }
+  }
+  
+  .modal-header-title {
+    font-size: 18px;
+    color: #fff;
+    padding-top: 10px;
+  }
+  

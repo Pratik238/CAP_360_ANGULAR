@@ -1,0 +1,54 @@
+<div class="container" style="background: #ffffff">
+<p-toast></p-toast>
+  <div class="row">
+    <div class="col-12" *ngFor="let question of homeWork; let i = index;">
+      
+      <div class="row" *ngIf="page === i">
+        <!-- <div class="col-12 question-header">Home work</div> -->
+        <div class="col-12 question-header">Question {{ i+ 1 }} of {{ homeWork.length }}</div>
+      </div>
+
+      <div class="row" *ngIf="page === i">
+        <div class="col-6">
+          <app-mathjax [content]="question?.QuestionText" class="box"></app-mathjax>
+        </div>
+        <div class="col-6">
+          <div class="row option-header">
+            <div class="col-12 option-sub-header">
+              Select an Answer
+            </div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12 option-label" [class.active]="question.selectedOption == question?.Option1" (click)="selectCorrectAnswer(question?.Option1, question, i)">
+                  <app-mathjax [content]="question?.Option1" class="box"></app-mathjax>
+                </div>
+                <div class="col-12 option-label" [class.active]="question.selectedOption == question?.Option2" (click)="selectCorrectAnswer(question?.Option2, question, i)">
+                  <app-mathjax [content]="question?.Option2" class="box"></app-mathjax>
+                </div>
+                <div class="col-12 option-label" [class.active]="question.selectedOption == question?.Option3" (click)="selectCorrectAnswer(question?.Option3, question, i)">
+                  <app-mathjax [content]="question?.Option3" class="box"></app-mathjax>
+                </div>
+                <div class="col-12 option-label" [class.active]="question.selectedOption == question?.Option4" (click)="selectCorrectAnswer(question?.Option4, question, i)">
+                  <app-mathjax [content]="question?.Option4" class="box"></app-mathjax>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- prev and next buttons code starts here -->
+          <div class="col-6"></div>
+          <div class="col-6 buttons-align">
+            <button class="btn btn-success" (click)="prevQuestion(i)"><i class="fa fa-angle-left" aria-hidden="true"></i> Prev </button>
+            <button class="btn btn-success" (click)="nextQuestion(i)">{{ (i + 1) !== totalReocrds  ? 'Next' : 'Submit'}}<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+          </div>
+        <!--  prev and next buttons code ends here -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

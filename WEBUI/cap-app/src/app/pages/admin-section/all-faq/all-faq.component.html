@@ -1,0 +1,186 @@
+<div class="col-12">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4" style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Search FAQ :
+            </div>
+            <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="addNewSubTopic()">Add New FAQ</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <form  [formGroup]="searchForm">
+              <div class="row">
+                  <div class="col-4">
+                    <input type="text" 
+                    [(ngModel)]="this.question" 
+                    class="form-control model-search" 
+                    placeholder="question" 
+                    formControlName="questionId">
+                  </div>
+                    <div class="col-12 col-md-4">
+                      <input type="date" placeholder="Datepicker" formControlName="selectedDate" class="form-control">
+                    </div>
+                  <div class="col-4">
+                    <button class="btn btn-sm btn-warning" (click)="onSearchQuestions()">Search</button>
+                  </div>
+                </div>
+                </form>
+            </div>
+            <div class="col-12">
+              <table class="table table-bordered table-stripped" style="margin-top: 25px;">
+                <thead style="background-color: #3c6382; color: #ffffff;">
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let topic of allTopicsArray; let i = index;">
+                  <tr>
+                    <td> {{ i +1 }} </td>
+                    <td>{{ topic?.faqTitle }} </td>
+                    <td>
+                      <button class="btn-primary p-button-rounded p-button-primary p-mr-2"
+                        (click)="viewTopic(topic)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button 
+                      pButton pRipple icon="pi pi-pencil" class="p-button-success p-mr-2" style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                        (click)="editTopic(topic)"></button>
+                      <button class="btn-danger p-button-rounded p-button-danger"
+                        (click)="removeTopic(topic)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-12" *ngIf="allTopicsArray.length === 0" style="color: #000000;">No results...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #addNewSubTopicForm>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 report-issue-header">Add FAQ</div>
+      <div class="col-12">
+        <form [formGroup]="allFaqForm">
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="faqType">FAQ Type</label>
+            <select class="form-control" formControlName="faqType">
+              <option [ngValue]="null" disabled>--Select--</option>
+              <option *ngFor="let faq of faqTypes" [ngValue]="faq.value" >{{faq.value}}</option>
+          </select> 
+            <div *ngIf="submitted && allFaqForm.get('faqType').errors" class="invalid-feedback">
+              <div *ngIf="allFaqForm.get('faqType').errors.required">faq type is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="faqTitle">Title</label>
+            <input type="text" id="faqTitle" formControlName="faqTitle" class="form-control p-inputtext-lg"
+              placeholder="Enter Topic Name" [ngClass]="{ 'is-invalid': allFaqForm.get('faqTitle').errors && (allFaqForm.get('faqTitle').touched || allFaqForm.get('faqTitle').dirty) }" />
+            <div *ngIf="(allFaqForm.get('faqTitle').touched || allFaqForm.get('faqTitle').dirty) && allFaqForm.get('faqTitle').errors" class="invalid-feedback">
+              <div *ngIf="allFaqForm.get('faqTitle').errors.required">Title is required</div>
+            </div>
+          </div>
+        </div>
+       
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="faqDescription">Description</label>
+            <!-- <textarea class="form-control" cols="2" rows="5" formControlName="faqDescription" id="faqDescription"></textarea> -->
+            <p-editor formControlName="faqDescription" [style]="{'height':'320px'}"></p-editor>
+            <div *ngIf="submitted && allFaqForm.get('faqDescription').errors" class="invalid-feedback">
+              <div *ngIf="allFaqForm.get('faqDescription').errors.required">Description Name is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="isActive">Status</label>
+            <select class="form-control" formControlName="isActive">
+              <option *ngFor="let status of statuses" [ngValue]="status.value" >{{status.value}}</option>
+          </select> 
+            <div *ngIf="submitted && allFaqForm.get('isActive').errors" class="invalid-feedback">
+              <div *ngIf="allFaqForm.get('isActive').errors.required">Status is required</div>
+            </div>
+          </div>
+        </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" (click)="saveTopic()">Save</button>
+            <button class="btn btn-danger" (click)="cancelTopic()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayTopics>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 report-issue-header">FAQ Details</div>
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12">
+            <span class="label">FAQ Type :</span><span class="value"> {{ topic?.faqType }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">FAQ Title :</span><span class="value"> {{ topic?.faqTitle }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">FAQ Description :</span><span class="value"> {{ topic?.faqDescription }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelTopic()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+      <div class="row">
+        <div class="col-12" style="font-size: 20px; text-align: center;">
+          Do you want to remove {{ topic?.topicName }} FAQ?
+        </div>
+      </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+        <div class="col-6">
+          <button class="btn btn-primary next-button" (click)="deleteTopic(topic)">Ok</button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-danger cancel-button" (click)="cancelTopic()">Cancel</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->

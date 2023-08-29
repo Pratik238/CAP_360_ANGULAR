@@ -1,0 +1,138 @@
+<!-- new navbar code starts here -->
+<mat-sidenav-container class="example-container" autosize>
+  <mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true">
+    <mat-nav-list class="navbar-nav" (click)="mouseleave()">
+
+      <!-- Super Admin nav code starts here -->
+      <mat-list-item (click)="showSuperAdminSubMenu()" [ngClass]="{'parent-menu' : isShowSuperAdminSubMenu}"
+        class="parent" *ngIf="(user.Usertype === roles.SuperAdmin)">
+        <span class="full-width" *ngIf="isExpanded || isShowing">
+          <a routerLinkActive="active" class="active">Super Admin</a>
+        </span>
+        <mat-icon class="menu-button" [ngClass]="{'rotated' : isShowSuperAdminSubMenu}" *ngIf="isExpanded || isShowing">
+          expand_more</mat-icon>
+      </mat-list-item>
+      <div class="submenu" [ngClass]="{'expanded' : isShowSuperAdminSubMenu}" *ngIf="isShowSuperAdminSubMenu">
+        <a mat-list-item routerLink="/admin/super-admin/center-admin" routerLinkActive="active-list-item">Center Admin
+          Users</a>
+        <a mat-list-item routerLink="/admin/super-admin/franchise" routerLinkActive="active-list-item">Franchises</a>
+        <a mat-list-item routerLink="/admin/admins" routerLinkActive="active-list-item">Admin</a>
+        <!-- <a mat-list-item routerLink="/admin/super-admin/mail-settings" routerLinkActive="active-list-item">Mail Info</a> -->
+      </div>
+      <!-- Super Admin nav code ends here -->
+
+      <mat-list-item class="parent nav-item" role="listitem" routerLinkActive="active-list-item"
+        *ngIf="(user.Usertype === roles.SuperAdmin) ||( user.Usertype === roles.Admin)">
+        <a mat-list-item routerLink="/admin/subject">Subjects</a>
+      </mat-list-item>
+
+      <mat-list-item class="parent nav-item" role="listitem" routerLinkActive="active-list-item"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.Admin)">
+        <a mat-list-item routerLink="/admin/topics">Topics</a>
+      </mat-list-item>
+
+      <mat-list-item class="parent" routerLinkActive="active-list-item"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.Admin)">
+        <a mat-list-item routerLink="/admin/sub-topic">Sub Topics</a>
+      </mat-list-item>
+
+      <mat-list-item class="parent" routerLinkActive="active-list-item"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.Admin)">
+        <a mat-list-item routerLink="/admin/admin-home-work">Home Work</a>
+      </mat-list-item>
+
+      <mat-list-item class="parent" routerLinkActive="active-list-item"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.Admin)">
+        <a mat-list-item routerLink="/admin/report-categories">Report Categories</a>
+      </mat-list-item>
+
+      <mat-list-item class="parent" routerLinkActive="active-list-item"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.Admin)">
+        <a mat-list-item routerLink="/admin/all-questions">Math Questions</a>
+      </mat-list-item>
+
+      <mat-list-item class="parent" routerLinkActive="active-list-item"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.Admin)">
+        <a mat-list-item routerLink="/admin/english-questions">English Questions</a>
+      </mat-list-item>
+
+      <!-- Center Admin nav code starts here -->
+      <mat-list-item (click)="showCenterAdminSubMenu()" [ngClass]="{'parent-menu' : showSubSubMenu}" class="parent"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.CenterAdmin)">
+        <span class="full-width" *ngIf="isExpanded || isShowing">
+          <a routerLinkActive="active" class="active">Center Admin</a>
+        </span>
+        <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubSubMenu}" *ngIf="isExpanded || isShowing">
+          expand_more</mat-icon>
+      </mat-list-item>
+      <div class="submenu" [ngClass]="{'expanded' : showSubSubMenu}" *ngIf="showSubSubMenu">
+        <a mat-list-item routerLink="/admin/tutor" routerLinkActive="active-list-item">Tutor</a>
+        <a mat-list-item routerLink="/admin/users" routerLinkActive="active-list-item">Students</a>
+        <a mat-list-item routerLink="/admin/payment-discount" routerLinkActive="active-list-item">discount</a>
+
+        <a mat-list-item routerLink="/admin/batches" routerLinkActive="active-list-item">Batches</a>
+        <a mat-list-item routerLink="/admin/batch-assign" routerLinkActive="active-list-item">Batch Assign</a>
+      </div>
+      <!-- Center Admin nav code ends here -->
+
+      <!-- Tutor Login nav code starts here -->
+      <mat-list-item (click)="showSubMenu()" [ngClass]="{'parent-menu' : showSubmenu}" class="parent"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.Tutor) || (user.Usertype === roles.CenterAdmin)">
+        <span class="full-width" *ngIf="isExpanded || isShowing">
+          <a routerLinkActive="active" class="active">Tutor</a>
+        </span>
+        <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">
+          expand_more</mat-icon>
+      </mat-list-item>
+      <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="showSubmenu">
+        <a mat-list-item routerLink="/admin/tutor-online-class" routerLinkActive="active-list-item">Online Class</a>
+        <a mat-list-item routerLink="/admin/tutor-attendence" routerLinkActive="active-list-item">Attendence</a>
+        <a mat-list-item routerLink="/admin/homework-assign" routerLinkActive="active-list-item">Homework Assign</a>
+        <a mat-list-item routerLink="/admin/tutor-sat-assign" routerLinkActive="active-list-item">SAT Assign</a>
+        <a mat-list-item routerLink="/admin/class-videos" routerLinkActive="active-list-item">Videos</a>
+        <a mat-list-item routerLink="/admin/tutor-jumble-test" routerLinkActive="active-list-item">Jumble Test
+          Enable</a>
+      </div>
+
+      <!-- Reports nav code starts here -->
+      <mat-list-item (click)="showTutorReportsMenu()" [ngClass]="{'parent-menu' : isShowTutorReportsSubMenu}"
+        class="parent"
+        *ngIf="(user.Usertype === roles.SuperAdmin) || (user.Usertype === roles.Tutor) || (user.Usertype === roles.CenterAdmin)">
+        <span class="full-width" *ngIf="isExpanded || isShowing">
+          <a routerLinkActive="active" class="active">Reports</a>
+        </span>
+        <mat-icon class="menu-button" [ngClass]="{'rotated' : isShowTutorReportsSubMenu}"
+          *ngIf="isExpanded || isShowing">
+          expand_more</mat-icon>
+      </mat-list-item>
+      <div class="submenu" [ngClass]="{'expanded' : isShowTutorReportsSubMenu}" *ngIf="isShowTutorReportsSubMenu">
+        <a mat-list-item routerLink="/admin/attendance-reports" routerLinkActive="active-list-item">Attendance</a>
+        <a mat-list-item routerLink="/admin/tutor-exam" routerLinkActive="active-list-item">Math Practice Test</a>
+        <a mat-list-item routerLink="/admin/tutor-sat-report" routerLinkActive="active-list-item">Math SAT Exam</a>
+        <a mat-list-item routerLink="/admin/tutor-homework-report" routerLinkActive="active-list-item">Math Homework</a>
+        <a mat-list-item routerLink="/admin/tutor-english-test-report" routerLinkActive="active-list-item">English
+          Practice</a>
+        <a mat-list-item routerLink="/admin/tutor-english-sat-report" routerLinkActive="active-list-item">English SAT
+          Exam</a>
+        <a mat-list-item routerLink="/admin/tutor-english-homework-report" routerLinkActive="active-list-item">English
+          Homework</a>
+        <a mat-list-item routerLink="/admin/jumbletest-maths-report" routerLinkActive="active-list-item">Math Jumble
+          Test</a>
+        <a mat-list-item routerLink="/admin/jumbletest-english-report" routerLinkActive="active-list-item">English
+          Jumble Test</a>
+        <a mat-list-item routerLink="/admin/tutor-issue-report" routerLinkActive="active-list-item">Issues</a>
+        <a mat-list-item routerLink="/admin/contact" routerLinkActive="active-list-item">Contact</a>
+      </div>
+      <!-- Reports nav code ends here -->
+
+      <!-- Tutor Login nav code ends here -->
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <div class="example-sidenav-content">
+    <router-outlet></router-outlet>
+  </div>
+
+</mat-sidenav-container>
+
+<!-- new navbar code ends here-->

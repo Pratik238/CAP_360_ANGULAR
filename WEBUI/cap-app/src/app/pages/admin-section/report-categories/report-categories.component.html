@@ -1,0 +1,273 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Report Categories
+            </div>
+            <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="createHomeWork()">Add Category</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <!-- <p-table  [value]="allReportCategories" [lazy]="true" (onLazyLoad)="loadReportCategories($event)"
+              [autoLayout]="true" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"> -->
+              <p-table #datatable styleClass="p-datatable-striped" [value]="allReportCategories"
+                [metaKeySelection]="true" [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="multiple"
+                [autoLayout]="true" [responsive]="true" [scrollable]="true" [lazy]="false"
+                [globalFilterFields]="['DifficultyLevelId','DifficultyLevelName','SubjectName']">
+
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="datatable.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(csvData)"
+                        class="p-button-success export-button-align" pTooltip="CSV" tooltipPosition="top"></button>
+                    </div>
+                    <label class="add-padding-right">
+                      <input type="radio" name="status" value="Active" (click)="getLoadStatusRecords(true)" checked
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>Active</label>
+                    <label class="">
+                      <input type="radio" name="status" value="Inactive" (click)="getLoadStatusRecords(false)"
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>In-Active</label>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        ID
+                        <p-columnFilter type="text" field="DifficultyLevelId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Difficulty level
+                        <p-columnFilter type="text" field="DifficultyLevelName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Subject
+                        <p-columnFilter type="text" field="SubjectName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Status
+                        <!-- <p-columnFilter type="text" field="UserId" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Actions
+                        <!-- <p-columnFilter type="text" field="UserId" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <!-- <th scope="col">ID</th>
+                    <th scope="col">Difficulty level</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.DifficultyLevelId }} </td>
+                    <td>{{ rowData?.DifficultyLevelName }} </td>
+                    <td> {{ rowData?.SubjectName }} </td>
+                    <td> {{ rowData?.IsActive ? 'Active' : 'In-Active' }} </td>
+                    <td style="    position: sticky; width: 150px;">
+                      <button class="btn btn-sm btn-primary" pTooltip="View" tooltipPosition="top"
+                        (click)="viewTopic(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="top"
+                        class="p-button-success p-mr-2"
+                        style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                        (click)="editHomeWork(rowData)"></button>
+                      <!-- <button class="btn btn-sm btn-danger" pTooltip="Delete" tooltipPosition="top"
+                        (click)="removeHomework(rowData)"><i class="fa fa-times" aria-hidden="true"></i></button> -->
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="6">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<ng-template #addEditReportCategoriesFrom let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">{{ isAddMode ? 'Add' : 'Edit'}} Report Category</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="reportCategoriesFrom">
+          <div class="row">
+            <div class="col-12 madatory-field-label">
+              * Marked Fields are Required</div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="DifficultyLevelName">Difficulty Level Name<span class="required-label">*</span></label>
+              <input type="text" id="DifficultyLevelName" formControlName="DifficultyLevelName"
+                class="form-control p-inputtext-lg" placeholder="Enter Difficulty Name"
+                [ngClass]="{ 'is-invalid': reportCategoriesFrom.get('DifficultyLevelName').errors && (reportCategoriesFrom.get('DifficultyLevelName').touched || reportCategoriesFrom.get('DifficultyLevelName').dirty) }" />
+              <div
+                *ngIf="(reportCategoriesFrom.get('DifficultyLevelName').touched || reportCategoriesFrom.get('DifficultyLevelName').dirty) && reportCategoriesFrom.get('DifficultyLevelName').errors"
+                class="invalid-feedback">
+                <div *ngIf="reportCategoriesFrom.get('DifficultyLevelName').errors.required">Name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="SubjectId">Subject <span class="required-label">*</span></label>
+              <select class="form-control" formControlName="SubjectId">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let subject of subjects" [value]="subject.id">{{subject.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row" *ngIf="!isAddMode">
+            <div class="col-12 form-group">
+              <label for="IsActive">Status</label>
+              <select class="form-control" formControlName="IsActive">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let status of statuses" [value]="status.id">{{status.value}}</option>
+              </select>
+            </div>
+          </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormsValid()"
+              (click)="addReportCategory()">Save</button>
+            <button class="btn btn-danger" (click)="cancelHomework()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayReportCategoriesFrom let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Report Category Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Difficulty Level Name : </span><span class="value"> {{ topic?.DifficultyLevelName
+              }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Subject : </span><span class="value"> {{ topic?.SubjectName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Subject ID : </span><span class="value"> {{ topic?.SubjectId }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Status : </span><span class="value"> {{ topic?.IsActive ? 'Active' : 'In Active'
+              }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created By :</span><span class="value"> {{ topic?.Createdby }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated By :</span><span class="value"> {{ topic?.Updatedby }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created Date :</span><span class="value"> {{ topic?.CreatedDate | date:'dd/MM/yyyy'
+              }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated Date :</span><span class="value"> {{ topic?.UpdatedDate | date:'dd/MM/yyyy'
+              }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelHomework()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12" style="font-size: 20px; text-align: center;">
+            Do you want to remove {{ topic?.DifficultyLevelName }} Difficulty Level?
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary next-button" (click)="deleteHomework(topic)">Ok</button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-danger cancel-button" (click)="cancelHomework()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

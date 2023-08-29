@@ -1,0 +1,150 @@
+<!-- <router-outlet></router-outlet> -->
+<div class="row">
+  <div class="col-11 align-center card-top-margin">
+    <div class="row">
+      <div class="col-12 card" style="padding: 15px;">
+        <form [formGroup]="attendanceReportForm">
+          <div class="row">
+            <div class="col-4">
+              <select class="form-control" formControlName="BatchId">
+                <option [value]="null">Select Batch</option>
+                <option *ngFor="let batch of batches" [value]="batch.BatchId">{{batch.BatchName}}</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <p-calendar formControlName="FromDate" placeholder="Choose date"></p-calendar>
+            </div>
+            <div class="col-3">
+              <p-calendar formControlName="ToDate" placeholder="Choose date"></p-calendar>
+            </div>
+            <div class="col-2">
+              <button class="btn btn-primary" [disabled]="!isFormValid()"
+                (click)="getAttendanceReport()">Submit</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="row">
+          <div class="col-12">
+            <p-table #datatable styleClass="p-datatable-striped" [value]="attendanceReport" [metaKeySelection]="true"
+              [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="multiple" [autoLayout]="true"
+              [responsive]="true" [scrollable]="true" [lazy]="false"
+              [globalFilterFields]="['BatchName','StudentName','SubTopicName','AttendanceState','TutorName','AttendanceDate','CreatedDate','FranchiseTitle','Createdby']">
+
+              <!-- <p-table #exportAttendanceReport [value]="attendanceReport" [lazy]="true" (onLazyLoad)="loadSubjects($event)"
+                      [paginator]="true" [rows]="10" [totalRecords]="totalRecords"> -->
+              <ng-template pTemplate="caption">
+                <div class="col-12 table-caption-container">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="datatable.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" [disabled]="!isEnableExportCSVBtn"
+                        (click)="downloadFile(attendanceReport)" class="export-button-align p-button-success"
+                        pTooltip="CSV" tooltipPosition="bottom"></button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Batch Id
+                      <p-columnFilter type="text" field="BatchName" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Student Name
+                      <p-columnFilter type="text" field="StudentName" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      SubTopic Name
+                      <p-columnFilter type="text" field="SubTopicName" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Attendance State
+                      <p-columnFilter type="text" field="AttendanceState" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Tutor Name
+                      <p-columnFilter type="text" field="TutorName" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Attendance Date
+                      <p-columnFilter type="date" field="AttendanceDate" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Created Date
+                      <p-columnFilter type="date" field="CreatedDate" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Franchise
+                      <p-columnFilter type="text" field="FranchiseTitle" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Created By
+                      <p-columnFilter type="text" field="Createdby" display="menu"></p-columnFilter>
+                    </div>
+                  </th>
+                  <!-- <th scope="col">Batch Id</th>
+                  <th scope="col">Student Name</th>
+                  <th scope="col">SubTopic Name</th>
+                  <th scope="col">Attendance State</th>
+                  <th scope="col">Attendance Date</th>
+                  <th scope="col">Tutor Name</th>
+                  <th scope="col">Created Date</th>
+                  <th scope="col">Franchise</th>
+                  <th scope="col">Created By</th> -->
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                  <td>{{ rowData?.BatchName }} </td>
+                  <td>{{ rowData?.StudentName }} </td>
+                  <td>{{ rowData?.SubTopicName }} </td>
+                  <td>{{ rowData?.AttendanceState }} </td>
+                  <td>{{ rowData?.TutorName }} </td>
+                  <td>{{ rowData?.AttendanceDate | date:'dd/MM/yyyy' }} </td>
+                  <td>{{ rowData?.CreatedDate | date:'dd/MM/yyyy' }} </td>
+                  <td>{{ rowData?.FranchiseTitle }} </td>
+                  <td>{{ rowData?.Createdby }} </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="4">No Records.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

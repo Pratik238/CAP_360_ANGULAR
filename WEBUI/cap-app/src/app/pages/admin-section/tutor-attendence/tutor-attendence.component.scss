@@ -1,0 +1,104 @@
+.report-issue-btn-container {
+    margin-bottom: 15px;
+}
+
+
+.report-issue-header {
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #e67e22;
+    font-weight: bold;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e74c3c;
+}
+
+.value {
+    font-size: 19px;
+    font-weight: normal;
+}
+
+
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #636e72;
+}
+
+.next-button {
+    width: 150px;
+}
+
+.cancel-button {
+    width: 150px;
+}
+
+.students-container {
+    border: 1px solid #95a5a6;
+    padding: 15px;
+    max-height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 15px;
+}
+
+.studetns-label {
+    height: 35px;
+    font-size: 16px;
+}
+
+.attendance-border-container {
+    border: 1px solid #95a5a6;
+    border-top: none !important;
+}
+
+.align-content {
+    display: flex;
+    align-items: center;
+    border: 1px solid #95a5a6;
+    border-top: none !important;
+}
+
+.remove-border-right {
+    border-right: none;
+}
+
+.individual-contenet {
+    border: 1px solid #95a5a6;
+    border-left: none;
+    height: 50px;
+    align-items: center;
+    display: flex;
+}
+
+.seperate-contenet {
+    border: 1px solid #95a5a6;
+    height: 50px;
+    align-items: center;
+    display: flex;
+}
+
+// .card .table td, .card .table th {
+//     padding: 5px !important;
+//     text-align: center !important;
+// }
+
+:host::ng-deep .card .pi-chevron-down:before {
+    content: none !important;
+}
+
+:host::ng-deep .card .p-dropdown {
+    border: none !important;
+}
+
+.required-label {
+    color: red;
+  }
+  

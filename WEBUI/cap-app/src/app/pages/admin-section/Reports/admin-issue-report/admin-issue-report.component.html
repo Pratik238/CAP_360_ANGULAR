@@ -1,0 +1,338 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Search Issues :
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <!-- <p-table  [value]="allIssueReports" [lazy]="true" (onLazyLoad)="loadIssueReports($event)"
+              [autoLayout]="true" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"> -->
+              <p-table #datatable styleClass="p-datatable-striped" [value]="allIssueReports" [metaKeySelection]="true"
+                [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="multiple" [autoLayout]="true"
+                [responsive]="true" [scrollable]="true" [lazy]="false"
+                [globalFilterFields]="['UserId','Issueid','QuestionId','ExamId','Description','Comments','CreatedDate','FranchiseTitle']">
+
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="datatable.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(allIssueReports)"
+                      class="export-csv" pTooltip="CSV" tooltipPosition="top"></button>
+                    <label class="add-padding-right">
+                      <input type="radio" name="status" value="Active" (click)="getLoadStatusRecords(true)" checked
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>Issue Pending</label>
+                    <label class="">
+                      <input type="radio" name="status" value="Inactive" (click)="getLoadStatusRecords(false)"
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>Issue Resolved</label>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        ID
+                        <p-columnFilter type="text" field="Issueid" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Student
+                        <p-columnFilter type="text" field="UserId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Question Id
+                        <p-columnFilter type="text" field="QuestionId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Exam ID
+                        <p-columnFilter type="text" field="ExamId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Description
+                        <p-columnFilter type="text" field="Description" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Comments
+                        <p-columnFilter type="text" field="Comments" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Submited On
+                        <p-columnFilter type="date" field="CreatedDate" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Franchise
+                        <p-columnFilter type="text" field="FranchiseTitle" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Status
+                        <!-- <p-columnFilter type="text" field="FirstName" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Actions
+                        <!-- <p-columnFilter type="text" field="FirstName" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <!-- <th scope="col" style="width: 10px;">ID</th>
+                    <th scope="col" style="width: 10px;">Student</th>
+                    <th scope="col" style="width: 10px;">Question Id</th>
+                    <th scope="col" style="width: 10px;">Exam ID</th>
+                    <th scope="col" style="width: 10px;">Description</th>
+                    <th scope="col" style="width: 10px;">Comments</th>
+                    <th scope="col" style="width: 10px;">Submited On</th>
+                    <th scope="col" style="width: 10px;">Franchise</th>
+                    <th scope="col" style="width: 10px;">Status</th>
+                    <th scope="col" style="width: 10px;">Actions</th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.Issueid }} </td>
+                    <td>{{ rowData?.UserId }} </td>
+                    <td> {{ rowData?.QuestionId }} </td>
+                    <td> {{ rowData?.ExamId }} </td>
+                    <td> {{ rowData?.Description }} </td>
+                    <td> {{ rowData?.Comments ? rowData?.Comments : '--' }} </td>
+                    <td> {{ rowData?.CreatedDate | date:'dd/MM/yyyy' }} </td>
+                    <td> {{ rowData?.FranchiseTitle }} </td>
+                    <td> {{ rowData?.IsActive ? 'Active' : 'In-Active' }} </td>
+                    <td style="    position: sticky; width: 150px;">
+                      <button class="btn btn-sm btn-primary" (click)="viewIssueReport(rowData)"><i class="fa fa-eye"
+                          aria-hidden="true"></i></button>
+                      <button class="btn btn-sm btn-danger" *ngIf="rowData?.IsActive" pTooltip="Issue Reolve"
+                        tooltipPosition="top" (click)="removeIssueReport(rowData)"><i class="fa fa-ban"
+                          aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="8">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<ng-template #displayIssueReports let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Issue Id : {{selectedIssueReport?.Issueid }} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+        </div>
+        <div class="row content-field">
+          <div class="col-2">
+            <span class="content-label">Exam Id :</span><span class="content-value"> {{
+              selectedIssueReport?.ExamId}}</span>
+          </div>
+          <div class="col-2">
+            <span class="content-label">Question Id :</span><span class="content-value"> {{
+              selectedIssueReport?.QuestionId}}</span>
+          </div>
+          <div class="col-2">
+            <span class="content-label">User Id :</span><span class="content-value"> {{
+              selectedIssueReport?.UserId}}</span>
+          </div>
+          <div class="col-2">
+            <span class="content-label">User Name :</span><span class="content-value"> {{
+              selectedIssueReport?.UserName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Issue Reported Date :</span><span class="content-value"> {{
+              selectedIssueReport?.CreatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+        <div class="row content-field">
+          <div class="col-6">
+            <span class="content-label">Issue Status :</span><span class="content-value"> {{
+              selectedIssueReport?.IsActive ? 'Active' : 'In-Active'}}</span>
+          </div>
+        </div>
+        <hr>
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Subject Name :</span><span class="content-value"> {{
+              selectedIssueReport?.SubjectName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Topic :</span><span class="content-value"> {{
+              selectedIssueReport?.TopicName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Sub Topic :</span><span class="content-value"> {{
+              selectedIssueReport?.SubTopicName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Can Use Calculator :</span><span class="content-value"> {{
+              selectedIssueReport?.CalculatorName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Multiple Choice :</span><span class="content-value"> {{
+              selectedIssueReport?.GridName }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Grid In :</span><span class="content-value"> {{ selectedIssueReport?.GridName
+              }}</span>
+          </div>
+        </div>
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">Question :</span>
+          </div>
+        </div>
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">
+              <app-mathjax [content]="selectedIssueReport?.QuestionText"></app-mathjax>
+            </span>
+          </div>
+          <div class="col-12 selected-option">
+            <table class="table table-striped">
+              <td [class.active]="selectedIssueReport.Answer === '1'">
+                <app-mathjax [content]="selectedIssueReport?.Option1"></app-mathjax>
+              </td>
+            </table>
+          </div>
+          <div class="col-12 selected-option">
+            <table class="table table-striped">
+              <td [class.active]="selectedIssueReport.Answer === '2'">
+                <app-mathjax [content]="selectedIssueReport?.Option2"></app-mathjax>
+              </td>
+            </table>
+          </div>
+          <div class="col-12 selected-option">
+            <table class="table table-striped">
+              <td [class.active]="selectedIssueReport.Answer === '3'">
+                <app-mathjax [content]="selectedIssueReport?.Option3"></app-mathjax>
+              </td>
+            </table>
+          </div>
+          <div class="col-12 selected-option">
+            <table class="table table-striped">
+              <td [class.active]="selectedIssueReport.Answer === '4'">
+                <app-mathjax [content]="selectedIssueReport?.Option4"></app-mathjax>
+              </td>
+            </table>
+          </div>
+        </div>
+
+        <div class="row content-field question-explanation">
+          <div class="col-12">
+            <span class="content-label"
+              style="color:#000000 !important; font-size: 15px;font-weight: 600; letter-spacing: 1.2px;">Rationale
+              :</span>
+          </div>
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">
+              <app-mathjax [content]="selectedIssueReport?.Explanation"></app-mathjax>
+            </span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Difficulty Level :</span><span class="content-value"> {{
+              selectedIssueReport?.DifficultyLevelName }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Created At :</span><span class="content-value"> {{
+              selectedIssueReport?.QuestionCreateddate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Updated At :</span><span class="content-value"> {{
+              selectedIssueReport?.QuestionUpdateddate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Question Created By :</span><span class="content-value"> {{
+              selectedIssueReport?.QuestionCreatedby }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Updated By :</span><span class="content-value"> {{
+              selectedIssueReport?.QuestionUpdatedby }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Status :</span><span class="content-value"> {{
+              selectedIssueReport?.Questionstatus ? ' Active' : 'In-Active' }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 report-issue-header">Resolve Issue</div>
+      <div class="col-12 add-padding-bottom">
+        <form [formGroup]="reportQuestionForm">
+          <div class="col-12 form-group">
+            <label for="Description" class="description-label">Comments</label>
+            <textarea type="text" id="Description" formControlName="Comments" rows="5" class="md-textarea form-control"
+              mdbInput></textarea>
+          </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-warning" style="margin-right: 10px;color:#ffffff;font-weight: 400;"
+              (click)="cancelReportQuestionDiaouge()">Cancel</button>
+            <button class="btn btn-success" style="font-weight: 400;" [disabled]="!reportFormValid()"
+              (click)="reportIssue()">Resolve Issue</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

@@ -1,0 +1,255 @@
+<div class="col-12">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4" style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Authors :
+            </div>
+            <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="addNewSubTopic()">Add New Author</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered table-stripped" style="margin-top: 25px;">
+                <thead style="background-color: #3c6382; color: #ffffff;">
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let topic of allTopicsArray; let i = index;">
+                  <tr>
+                    <td> {{ i +1 }} </td>
+                    <td> {{ topic?.authorName }} </td>
+                    <td> {{ topic?.url }} </td>
+                    <td>
+                      <button class="btn btn-sm btn-primary"
+                        (click)="viewTopic(topic)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button class="btn btn-sm btn-success"
+                        (click)="editTopic(topic)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                      <button class="btn btn-sm btn-danger"
+                        (click)="removeTopic(topic)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-12" *ngIf="allTopicsArray.length === 0" style="color: #000000;">No results...</div>
+            <div class="col-12" *ngIf="allTopicsArray.length > 0">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" aria-label="Previous">
+                      <i class="fa fa-angle-left"></i>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <li class="page-item" *ngFor="let data of allTopicsArray; let i = index;"><a class="page-link">{{ i + 1 }}</a></li>
+                  <li class="page-item">
+                    <a class="page-link" aria-label="Next">
+                      <i class="fa fa-angle-right"></i>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #addNewAdminForm>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 report-issue-header">Add Author</div>
+      <div class="col-12">
+        <form [formGroup]="adminForm">
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="authorName">Name</label>
+            <input type="text" id="authorName" formControlName="authorName" class="form-control p-inputtext-lg"
+              placeholder="Enter Author Name" [ngClass]="{ 'is-invalid': adminForm.get('authorName').errors && (adminForm.get('authorName').touched || adminForm.get('authorName').dirty) }" />
+            <div *ngIf="(adminForm.get('authorName').touched || adminForm.get('authorName').dirty) && adminForm.get('authorName').errors" class="invalid-feedback">
+              <div *ngIf="adminForm.get('authorName').errors.required">Please provide author name</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="url">URL</label>
+            <input type="text" id="url" formControlName="url" class="form-control p-inputtext-lg"
+              placeholder="Enter Url" [ngClass]="{ 'is-invalid': adminForm.get('url').errors && (adminForm.get('url').touched || adminForm.get('url').dirty) }" />
+            <div *ngIf="adminForm.get('url').errors && (adminForm.get('url').touched || adminForm.get('url').dirty)" class="invalid-feedback">
+              <div *ngIf="adminForm.get('url').errors.required">First Name is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="imageurl">Image URL</label>
+            <input type="text" id="imageurl" formControlName="imageurl" class="form-control p-inputtext-lg"
+              placeholder="Enter Image Url" [ngClass]="{ 'is-invalid': adminForm.get('url').errors && (adminForm.get('url').touched || adminForm.get('imageurl').dirty) }" />
+            <div *ngIf="adminForm.get('imageurl').errors && (adminForm.get('imageurl').touched || adminForm.get('imageurl').dirty)" class="invalid-feedback">
+              <div *ngIf="adminForm.get('imageurl').errors.required">First Name is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="aboutAuthor">About Author</label>
+            <textarea formControlName="aboutAuthor" placeholder="Enter about author" rows="5" class="form-control"
+            [ngClass]="{ 'is-invalid': adminForm.get('aboutAuthor').errors && (adminForm.get('aboutAuthor').touched || adminForm.get('aboutAuthor').dirty) }">
+          </textarea> 
+          <div *ngIf="adminForm.get('aboutAuthor').errors && (adminForm.get('aboutAuthor').touched || adminForm.get('aboutAuthor').dirty)" class="invalid-feedback">
+            <div *ngIf="adminForm.get('aboutAuthor').errors.required">First Name is required</div>
+          </div>
+        </div>
+      </div>
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="facebookId">Facebook</label>
+            <input type="text" id="facebookId" formControlName="facebookId" class="form-control p-inputtext-lg"
+              placeholder="Enter Facebook" [ngClass]="{ 'is-invalid': adminForm.get('facebookId').errors && (adminForm.get('facebookId').touched || adminForm.get('facebookId').dirty) }" />
+            <div *ngIf="adminForm.get('facebookId').errors && (adminForm.get('facebookId').touched || adminForm.get('facebookId').dirty)" class="invalid-feedback">
+              <div *ngIf="adminForm.get('facebookId').errors.required">Facebook is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="twitterId">Twitter</label>
+            <input type="text" id="twitterId" formControlName="twitterId" class="form-control p-inputtext-lg"
+              placeholder="Enter Twitter" [ngClass]="{ 'is-invalid': adminForm.get('twitterId').errors && (adminForm.get('twitterId').touched || adminForm.get('twitterId').dirty) }" />
+            <div *ngIf="adminForm.get('twitterId').errors && (adminForm.get('twitterId').touched || adminForm.get('twitterId').dirty)" class="invalid-feedback">
+              <div *ngIf="adminForm.get('twitterId').errors.required">Facebook is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="linkedinId">Linkedin</label>
+            <input type="text" id="linkedinId" formControlName="linkedinId" class="form-control p-inputtext-lg"
+              placeholder="Enter Linkedin" [ngClass]="{ 'is-invalid': adminForm.get('linkedinId').errors && (adminForm.get('linkedinId').touched || adminForm.get('linkedinId').dirty) }" />
+            <div *ngIf="adminForm.get('linkedinId').errors && (adminForm.get('linkedinId').touched || adminForm.get('linkedinId').dirty)" class="invalid-feedback">
+              <div *ngIf="adminForm.get('linkedinId').errors.required">Linkedin is required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="isActive">Status</label>
+            <select class="form-control" formControlName="isActive">
+              <option *ngFor="let status of statuses" [ngValue]="status.value" >{{status.value}}</option>
+          </select> 
+            <div *ngIf="adminForm && adminForm.get('isActive').errors" class="invalid-feedback">
+              <div *ngIf="adminForm.get('isActive').errors.required">Status is required</div>
+            </div>
+          </div>
+        </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormsValid()" (click)="saveTopic()">Save</button>
+            <button class="btn btn-danger" (click)="cancelTopic()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayTopics>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 report-issue-header">Admin Details: {{user?.id}}</div>
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12">
+            <span class="label">Author Name :</span><span class="value"> {{ user?.authorName }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">Author URL :</span><span class="value"> {{ user?.url }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">Author Image :</span><span class="value"> {{ user?.imageurl }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">Facebook link :</span><span class="value"> {{ user?.facebookId }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">Twitter link :</span><span class="value"> {{ user?.twitterId }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">Linkedin link : </span><span class="value"> {{ user?.linkedinId }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">Status :</span><span class="value"> {{ user?.isActive }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="label">About Author :</span><span class="value"> {{ user?.aboutAuthor }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelTopic()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+      <div class="row">
+        <div class="col-12" style="font-size: 20px; text-align: center;">
+          Do you want to remove {{ user?.topicName }} admin?
+        </div>
+      </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+        <div class="col-6">
+          <button class="btn btn-primary next-button" (click)="deleteTopic(user)">Ok</button>
+        </div>
+        <div class="col-6" style="text-align: left;">
+          <button class="btn btn-danger cancel-button" (click)="cancelTopic()">Cancel</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->

@@ -1,0 +1,39 @@
+.align-center {
+    display: flex;
+    justify-content: center;
+}
+
+.madatory-field-label {
+    font-size: 14px;
+    font-style: italic;
+    color: red;
+    margin-top: 1em;
+    margin-bottom: 15px;
+    padding-left: 25px;
+}
+
+.required-label {
+    color: red;
+}
+
+.english-test-container {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+// multi select css code starts here
+:host ::ng-deep .p-multiselect {
+    width: calc(100% + 0px);
+}
+
+.start-test-btn-container {
+    display: flex;
+    justify-content: flex-end;
+
+    .start-test-btn-label {
+        margin-right: 10px;
+        color: #ffffff;
+        font-weight: 500;
+    }
+}

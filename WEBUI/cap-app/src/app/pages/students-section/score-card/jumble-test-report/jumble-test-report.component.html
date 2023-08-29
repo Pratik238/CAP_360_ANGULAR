@@ -1,0 +1,205 @@
+<!-- <router-outlet></router-outlet> -->
+<div class="row">
+  <div class="col-10 offset-md-1">
+    <div class="row">
+      <div class="col-12 box-shadow">
+        <span class="score-card-header">Jumble Test Score Card</span>
+      </div>
+    </div>
+
+    <!-- Form to select subject based on need to display score card data code starts here -->
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="indvidualReportForm">
+          <div class="row">
+              <div class="col-4 form-group">
+                <select class="form-control" formControlName="SubjectId" required (change)="onChangeSubject($event)">
+                    <option [value]="null">Select Subject</option>
+                    <option *ngFor="let subject of subjects" [value]="subject.id" >{{subject.name}}</option>
+                </select> 
+              </div>
+              <div class="col-4 form-group">
+                <select class="form-control" formControlName="ExamId" required >
+                  <option [value]="null">Select Exam Id</option>
+                  <option *ngFor="let examId of examIds" [value]="examId.ExamId" >{{examId.ExamId}}</option>
+              </select> 
+              </div>
+            <div class="col-2">
+              <button class="btn btn-primary" (click)="onSearchData()" [disabled]="!isFormValid()">Submit</button>
+              <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(scoreCardBasicInfo)" class="export-csv"  pTooltip="CSV" tooltipPosition="top"></button>
+            </div>
+        </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Maths SAT test score card code starts here -->
+    <div class="row form-group" *ngIf="isDisplayMathsReport">
+      <div class="col-12">
+        <div class="table-container table-responsive scorecard-scroll">
+          <table class="student-score-card table table-bordered">
+            <thead>
+                <tr class="persist-header">
+                <th class="total-score"><span pTooltip="Exam ID" tooltipPosition="top">Exam ID</span></th>
+                <th class="total-score"><span pTooltip="Sat Score" tooltipPosition="top">Sat Score</span></th>
+                <th class="total-score"><span pTooltip="No Of Answered" tooltipPosition="top">No Of Answered</span></th>
+                <th class="total-score"><span pTooltip="Non-Calc. MC Score" tooltipPosition="top">Non-Calc. MC Score</span></th>
+                <th class="total-score"><span pTooltip="Non-Calc. Grid In Score" tooltipPosition="top">Non-Calc. Gridin Score</span></th>
+                <th class="total-score"><span pTooltip="Calc. Multiple Choice Score" tooltipPosition="top">Calc. MC Score</span></th>
+                <th class="total-score"><span pTooltip="Calc. Grid In Score" tooltipPosition="top">Calc. Gridin Score</span></th>
+                <th class="total-score"><span pTooltip="Total Time Taken" tooltipPosition="top">Time Taken</span></th>
+                <th class="th-width" *ngFor="let subTopic of subTopicsData" [ngClass]="subTopic?.IsTopic ? 'topic-bg' : ''"> <span [pTooltip]="subTopic?.Name" tooltipPosition="top" > {{ subTopic?.Name }}</span></th>     
+              </tr>
+            </thead>
+            <tbody *ngFor="let info of scoreCardBasicInfo; let i = index;">
+              <tr class="test-details">
+                <td class="total-score"> <div> {{ info?.ExamId }} </div>
+                 <div class="level1-btn" *ngIf="currentIndex !== info?.ExamId" (click)="expandScoreDetails(info,i)">Details <i class="fa fa-plus"></i></div> 
+                 <div *ngIf="currentIndex === info?.ExamId" class="level1-btn" (click)="collapseScoreDetails(info,i)">Details <i class="fa fa-minus"></i></div> 
+                </td>
+                <td class="total-score"> {{ info?.Score }} </td>
+                <td class="total-score"> {{ info?.Noofanswered }} </td>
+                <td class="total-score"> <span class="qcorrect" pTooltip="Non-Calc. Multiple Choice Correct" tooltipPosition="top" (click)="noCalMulCorrect(info)"> {{ info?.NoCalMulCorrect }} </span>- <span class="qwrong" pTooltip="Non-Calc. Multiple Choice Wrong" tooltipPosition="top" (click)="noCalMulWrong(info)">{{ info?.NoCalMulWrong }}</span> /<span class="qall" pTooltip="Non-Calc. Multiple Total Qs." tooltipPosition="top" (click)="noCalTotalMul(info)"> {{ info?.NoCalMulCorrect + info?.NoCalMulWrong  }}</span> </td>
+                <td class="total-score">  <span class="qcorrect" pTooltip="Non-Calc. Grid-in Correct" tooltipPosition="top" (click)="noCalGridCorrect(info)"> {{ info?.NoCalGridCorrect }}</span> - <span class="qwrong" pTooltip="Non-Calc. Multiple Choice Wrong" tooltipPosition="top" (click)="noCalGridWrong(info)">{{ info?.NoCalGridWrong }}</span> / <span class="qall" pTooltip="Non-Calc. Grid-In Total Qs." tooltipPosition="top" (click)="noCalGridTotal(info)"> {{ info?.NoCalGridCorrect + info?.NoCalGridWrong }}</span> </td>
+                <td class="total-score"> <span class="qcorrect" pTooltip="Calc. Multiple Choice Correct" tooltipPosition="top" (click)="calMulCorrect(info)"> {{ info?.CalMulCorrect }}</span> - <span class="qwrong" pTooltip="Non-Calc. Multiple Choice Wrong" tooltipPosition="top" (click)="calMulWrong(info)">{{ info?.CalMulWrong }}</span> / <span  (click)="calMulTotal(info)">30</span></td>
+                <td class="total-score"> <span class="qcorrect" pTooltip="Calc. Grid-In Correct" tooltipPosition="top" (click)="calGridCorrect(info)"> {{ info?.CalGridCorrect }}</span> - <span class="qwrong" pTooltip="Non-Calc. Multiple Choice Wrong" tooltipPosition="top" (click)="calMulWrong(info)">{{ info?.CalGridWrong }}</span> / <span (click)="calGridTotal(info)">8</span> </td>
+                <td class="total-score"> {{ info?.CompletionTime ? info?.CompletionTime : info?.TimeTaken}} </td>
+                <td class="sub-level-container" *ngFor="let subTopic of subTopicsData" [hidden]="subTopicsData.length === 0">
+                  <span *ngIf="currentIndex === info?.ExamId" > 
+                    <div class="row">
+                      <div class="col-12">
+                        <span class="qcorrect" pTooltip="View Correct Answered Questions" tooltipPosition="top" (click)="totalCorrectAnswers(subTopic)"> {{ subTopic?.TotalCorrect }} </span> - <span class="qwrong" pTooltip="View Incorrect Answered Questions" tooltipPosition="top" (click)="totalIncorrectAnswers(subTopic)"> {{ subTopic?.TotalIncorrect }} </span> / <span class="qall" pTooltip="View All Questions" tooltipPosition="top" (click)="totalQuestionAnswers(subTopic)"> {{ subTopic?.TotalCorrect +  subTopic?.TotalIncorrect }} </span>
+                      </div>
+                      <div class="col-12">
+                        <span class="qall" pTooltip="Total Non Calc Questions" tooltipPosition="top" (click)="totalNonCalculateMulQs(subTopic)">NCalQs- {{ subTopic?.NoCalTotal }} </span>
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">NCal-MC - </span><span class="qcorrect" pTooltip="View Non Calc MC Correct Answered Questions" tooltipPosition="top" (click)="NonCalcMulCorrectQs(subTopic)"> {{ subTopic?.NoCalMulCorrect }} </span>- <span class="qwrong" pTooltip="View Non Calc MC Incorrect Answered Questions" tooltipPosition="top" (click)="NonCalcMulWrongQs(subTopic)">{{ subTopic?.NoCalMulWrong }}</span> / <span class="qall" pTooltip="View Non Calc MC All Questions" tooltipPosition="top" (click)="totalNonCalculateMulQs(subTopic)">{{ subTopic?.NoCalMulTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">NCal-G - </span><span class="qcorrect" pTooltip="View Non Calc Grid-in Correct Answered Questions" tooltipPosition="top" (click)="NonCalcGridCorrectQs(subTopic)"> {{ subTopic?.NoCalGridCorrect }}</span> - <span class="qwrong" pTooltip="View Non Calc Grid-in Incorrect Answered Questions" tooltipPosition="top" (click)="NonCalcGridWrongQs(subTopic)">{{ subTopic?.NoCalGridWrong }}</span> / <span class="qall" pTooltip="View Non Calc Grid-in Questions" tooltipPosition="top" (click)="totalNonCalcGridInQs(subTopic)">{{ subTopic?.NoCalGridTotal }}</span>
+                      </div>
+                      <div class="col-12">
+                        <span class="qall" pTooltip="Total Calc Questions" tooltipPosition="top" (click)="totalCalcMulQs(subTopic)">CalQs -  {{ subTopic?.CalTotal }}</span>
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Cal-MC - </span> <span class="qcorrect" pTooltip="View Calc MC Correct Answered Questions" tooltipPosition="top" (click)="calcMulCorrectQs(subTopic)"> {{ subTopic?.CalMulCorrect }}</span> - <span class="qwrong" pTooltip="View Calc MC Incorrect Answered Questions" tooltipPosition="top" (click)="calcMulWrongQs(subTopic)">{{ subTopic?.CalMulWrong }}</span> /  <span class="qall" pTooltip="View Calc Total MC Questions" tooltipPosition="top" (click)="totalCalcMulQs(subTopic)">{{ subTopic?.CalMulTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                       <span class="qall">Cal-G - </span> <span class="qcorrect" pTooltip="View Calc Grid-in Correct Answered Questions" tooltipPosition="top" (click)="calcGridCorrectQs(subTopic)"> {{ subTopic?.CalGridCorrect }}</span> - <span class="qwrong" pTooltip="View Calc Grid-in Incorrect Answered Questions" tooltipPosition="top" (click)="calcGridWrongQs(subTopic)">{{ subTopic?.CalGridWrong }}</span> /  <span class="qall" pTooltip="View Calc Total Grid-In Questions" tooltipPosition="top" (click)="totalCalcGridInQs(subTopic)">{{ subTopic?.CalGridTotal }}</span> 
+                      </div>
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                
+              </tr>
+            </tbody>
+            <tr *ngIf="scoreCardBasicInfo.length === 0"><td colspan="7">No Records To Dispaly</td></tr>
+          </table>
+          </div>
+      </div>
+    </div>
+    <!-- Maths SAT test score card code ends here -->
+
+    <!-- English Practice Test report code starts here -->
+    <div class="row form-group" *ngIf="!isDisplayMathsReport">
+      <div class="col-12">
+        <div class="table-container scorecard-scroll">
+          <table class="student-score-card table table-bordered">
+            <thead>
+                <tr class="persist-header">
+                <th class="total-score"><span pTooltip="Exam ID" tooltipPosition="top">Exam ID</span></th>
+                <th class="total-score"><span pTooltip="Sat Score" tooltipPosition="top">Sat Score</span></th>
+                <th class="total-score"><span pTooltip="No of Answered" tooltipPosition="top">No Of Answered</span></th>
+                <th class="total-score"><span pTooltip="Reading Multiple Choice" tooltipPosition="top">Reading Multiple Choice</span></th>
+                <th class="total-score"><span pTooltip="Writting and Language Multiple Choice" tooltipPosition="top">Writting and Language MC Score</span></th>
+                <th class="total-score"><span pTooltip="Total Time Taken" tooltipPosition="top">Time Taken</span></th>
+                <th class="th-width" *ngFor="let subTopic of subTopicsData" [ngClass]="subTopic?.IsTopic ? 'topic-bg' : ''"><span [pTooltip]="subTopic?.Name" tooltipPosition="top" > {{ subTopic?.Name }}</span> </th>     
+              </tr>
+            </thead>
+            <tbody *ngFor="let info of scoreCardBasicInfo; let i = index;">
+              <tr class="test-details">
+                <td class="total-score"> <div> {{ info?.ExamId }} </div>
+                 <div class="level1-btn" *ngIf="currentIndex !== info?.ExamId" (click)="expandEnglishScoreCardDetails(info)">Details <i class="fa fa-plus"></i></div> 
+                 <div *ngIf="currentIndex === info?.ExamId" class="level1-btn" (click)="collapseScoreDetails(info,i)">Details <i class="fa fa-minus"></i></div> 
+                </td>
+                <td class="total-score"> {{ info?.Score }} </td>
+                <td class="total-score"> {{ info?.Noofanswered }} </td>
+                <td class="total-score"> <span class="qcorrect" pTooltip="Reading Multiple Choice Correct" tooltipPosition="top" (click)="totalReadingCorrectQs(info)"> {{ info?.TotalReadCorrect }} </span>- <span class="qwrong" pTooltip="Reading Multiple Choice Wrong" tooltipPosition="top" (click)="totalReadWrongSecQs(info)">{{ info?.TotalReadWrong }}</span> /<span class="qall" pTooltip="Reading Multiple Choice Total Qs." tooltipPosition="top" (click)="totalReadingSecQs(info)"> {{ info?.NoofReadQuestions }}</span> </td>
+                <td class="total-score"> <span class="qcorrect" pTooltip="Writting and Language. Multiple Choice Correct" tooltipPosition="top" (click)="totalWrittingCorrectQs(info)"> {{ info?.TotalWriteCorrect }}</span> - <span class="qwrong" pTooltip="Writting and Language Multiple Choice Wrong" tooltipPosition="top" (click)="totalWrittingSecWrongQs(info)">{{ info?.TotalWriteWrong }}</span> / <span class="qall" pTooltip="Writting and Language MC Total Qs." tooltipPosition="top" (click)="totalWrittingSecQs(info)"> {{ info?.NoofWriteQuestions }}</span></td>
+                <td class="total-score"> {{ info?.CompletionTime ? info?.CompletionTime : info?.TimeTaken}} </td>
+                <td class="sub-level-container" *ngFor="let subTopic of subTopicsData" [hidden]="subTopicsData.length === 0">
+                  <span *ngIf="currentIndex === info?.ExamId" > 
+                    <div class="row">
+                      <div class="col-12">
+                        <span class="qcorrect" pTooltip="View Correct Answered Questions" tooltipPosition="top" (click)="totalCorrectAnswers(subTopic)"> {{ subTopic?.TotalCorrect }} </span> - <span class="qwrong" pTooltip="View Incorrect Answered Questions" tooltipPosition="top" (click)="totalIncorrectAnswers(subTopic)"> {{ subTopic?.TotalIncorrect }} </span> / <span class="qall" pTooltip="View All Questions" tooltipPosition="top" (click)="totalQuestionAnswers(subTopic)"> {{ subTopic?.TotalCorrect +  subTopic?.TotalIncorrect }} </span>
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Reading G. - </span><span class="qcorrect" pTooltip="View Reading Grammer MC Correct Answered Questions" tooltipPosition="top" (click)="readingGrammarCorrectQs(subTopic)"> {{ subTopic?.ReadGrammarCorrect }} </span>- <span class="qwrong" pTooltip="View Reading Grammer MC Incorrect Answered Questions" tooltipPosition="top" (click)="readingGrammarSecWrongQs(subTopic)">{{ subTopic?.ReadGrammarwrong }}</span> / <span class="qall" pTooltip="View Reading Grammer MC All Questions" tooltipPosition="top" (click)="totalReadingGrammarQs(subTopic)">{{ subTopic?.ReadGrammarTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Reading I. - </span><span class="qcorrect" pTooltip="View Reading Inferencing MC Correct Answered Questions" tooltipPosition="top" (click)="readingInferencingCorrectQs(subTopic)"> {{ subTopic?.ReadInferencingCorrect }} </span>- <span class="qwrong" pTooltip="View Reading Inferencing MC Incorrect Answered Questions" tooltipPosition="top" (click)="readingInferencingWrongQs(subTopic)">{{ subTopic?.ReadInferencingwrong }}</span> / <span class="qall" pTooltip="View Reading Inferencing MC All Questions" tooltipPosition="top" (click)="totalReadingInferencingQs(subTopic)">{{ subTopic?.ReadInferencingTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Reading P. - </span><span class="qcorrect" pTooltip="View Reading Paraphrasing and Proofing MC Correct Answered Questions" tooltipPosition="top" (click)="readingParaphrasingCorrectQs(subTopic)"> {{ subTopic?.ReadParaphrasingCorrect }} </span>- <span class="qwrong" pTooltip="View Reading Paraphrasing and Proofing MC Incorrect Answered Questions" tooltipPosition="top" (click)="readingParaphrasingWrongQs(subTopic)">{{ subTopic?.ReadParaphrasingwrong }}</span> / <span class="qall" pTooltip="View Reading Paraphrasing and Proofing MC All Questions" tooltipPosition="top" (click)="totalReadingParaphrasingQs(subTopic)">{{ subTopic?.ReadParaphrasingTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Reading M.I. - </span><span class="qcorrect" pTooltip="View Reading Main Idea MC Correct Answered Questions" tooltipPosition="top" (click)="readingMainIdeaCorrectQs(subTopic)"> {{ subTopic?.ReadmainideaCorrect }} </span>- <span class="qwrong" pTooltip="View Reading Main Idea MC Incorrect Answered Questions" tooltipPosition="top" (click)="readingMainIdeaWrongQs(subTopic)">{{ subTopic?.Readmainideawrong }}</span> / <span class="qall" pTooltip="View Reading Main Idea MC All Questions" tooltipPosition="top" (click)="totalReadingMainIdeaQs(subTopic)">{{ subTopic?.ReadmainideaTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Reading V.  - </span><span class="qcorrect" pTooltip="View Reading Vocabulary MC Correct Answered Questions" tooltipPosition="top" (click)="readingVocabularyCorrectQs(subTopic)"> {{ subTopic?.ReadVocaabularyCorrect }} </span>- <span class="qwrong" pTooltip="View Reading Vocabulary MC Incorrect Answered Questions" tooltipPosition="top" (click)="readingVocabularyWrongQs(subTopic)">{{ subTopic?.ReadVocaabularywrong }}</span> / <span class="qall" pTooltip="View Reading Vocabulary MC All Questions" tooltipPosition="top" (click)="totalReadingVocabularyQs(subTopic)">{{ subTopic?.ReadVocaabularyTotal }}</span> 
+                      </div>
+
+                    <div class="col-12">
+                        <span class="qall">Writting G. - </span><span class="qcorrect" pTooltip="View Writting Grammer MC Correct Answered Questions" tooltipPosition="top" (click)="writingGrammarCorrectQs(subTopic)"> {{ subTopic?.WriteGrammarCorrect }} </span>- <span class="qwrong" pTooltip="View Writting Grammer MC Incorrect Answered Questions" tooltipPosition="top" (click)="writtingGrammarSecWrongQs(subTopic)">{{ subTopic?.WriteGrammarwrong }}</span> / <span class="qall" pTooltip="View Writting Grammer MC All Questions" tooltipPosition="top" (click)="writtingReadingGrammarQs(subTopic)">{{ subTopic?.WriteGrammarTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Writting I. - </span><span class="qcorrect" pTooltip="View Writting Inferencing MC Correct Answered Questions" tooltipPosition="top" (click)="writtingInferencingCorrectQs(subTopic)"> {{ subTopic?.WriteInferencingCorrect }} </span>- <span class="qwrong" pTooltip="View Writting Inferencing MC Incorrect Answered Questions" tooltipPosition="top" (click)="writtingInferencingWrongQs(subTopic)">{{ subTopic?.WriteInferencingwrong }}</span> / <span class="qall" pTooltip="View Writting Inferencing MC All Questions" tooltipPosition="top" (click)="writtingReadingInferencingQs(subTopic)">{{ subTopic?.WriteInferencingTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Writting P. - </span><span class="qcorrect" pTooltip="View Writting Paraphrasing and Proofing MC Correct Answered Questions" tooltipPosition="top" (click)="writtingParaphrasingCorrectQs(subTopic)"> {{ subTopic?.WriteParaphrasingCorrect }} </span>- <span class="qwrong" pTooltip="View Writting Paraphrasing and Proofing MC Incorrect Answered Questions" tooltipPosition="top" (click)="writtingParaphrasingWrongQs(subTopic)">{{ subTopic?.WriteParaphrasingwrong }}</span> / <span class="qall" pTooltip="View Writting Paraphrasing and Proofing MC All Questions" tooltipPosition="top" (click)="totalwrittingParaphrasingQs(subTopic)">{{ subTopic?.WriteParaphrasingTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Writting MI - </span><span class="qcorrect" pTooltip="View Writting Main Idea MC Correct Answered Questions" tooltipPosition="top" (click)="writtingMainIdeaCorrectQs(subTopic)"> {{ subTopic?.WritemainideaCorrect }} </span>- <span class="qwrong" pTooltip="View Writting Main Idea MC Incorrect Answered Questions" tooltipPosition="top" (click)="writtingMainIdeaWrongQs(subTopic)">{{ subTopic?.Writemainideawrong }}</span> / <span class="qall" pTooltip="View Writting Main Idea MC All Questions" tooltipPosition="top" (click)="totalwrittingMainIdeaQs(subTopic)">{{ subTopic?.WritemainideaTotal }}</span> 
+                      </div>
+                      <div class="col-12">
+                        <span class="qall">Writting V.  - </span><span class="qcorrect" pTooltip="View Writting Vocabulary MC Correct Answered Questions" tooltipPosition="top" (click)="writtingVocabularyCorrectQs(subTopic)"> {{ subTopic?.WriteVocaabularyCorrect }} </span>- <span class="qwrong" pTooltip="View Writting Vocabulary MC Incorrect Answered Questions" tooltipPosition="top" (click)="writtingVocabularyWrongQs(subTopic)">{{ subTopic?.WriteVocaabularywrong }}</span> / <span class="qall" pTooltip="View Writting Vocabulary MC All Questions" tooltipPosition="top" (click)="totalwrittingVocabularyQs(subTopic)">{{ subTopic?.WriteVocaabularyTotal }}</span> 
+                      </div>
+                    </div>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                
+              </tr>
+            </tbody>
+            <tr *ngIf="scoreCardBasicInfo.length === 0"><td colspan="7">No Records To Dispaly</td></tr>
+          </table>
+          </div>
+      </div>
+    </div>
+    <!-- English Practice Test report code ends here -->
+    <div class="row form-group">
+      <div class="col-12">
+        <h4 class="additional-info-labels">Score Card Instructions:</h4>
+      </div>
+      <div class="col-12">
+        <ul>
+          <li class="additional-info-labels">By clicking on <strong>Green</strong> colored number you can view No. correct answered question (s) in particular Exam.</li>
+          <li class="additional-info-labels">By clicking on <strong>Red</strong> colored number you can view No. In-correct answered Question (s) in particular Exam.</li>
+          <li class="additional-info-labels">By clicking on <strong>Blue</strong> colored number you can view Total No. Questions in particular Exam.</li>
+          <li class="additional-info-labels">Topics are shown in color <span style="color: #f1c40f; font-weight: 500;">Yellow</span></li>
+          <li class="additional-info-labels">Sub Topics are shown in color <span style="color: #2ecc71; font-weight: 500;">Light Green</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner> 

@@ -1,0 +1,29 @@
+.cap-logo {
+  width: 100%;
+  height: 52px;
+  background-image: url('../../../../assets/images/cap-logo.png');
+  background-repeat: no-repeat;
+  cursor: pointer;
+  background-size: 12%;
+}
+
+.user-navbar {
+ // position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  z-index: 1;
+  // background-image: linear-gradient(to left, #ff9f43, #f9b361, #f4c581, #f1d5a3, #f0e4c7);
+  background: #fa9046;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ffffff, #fa9046);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ffffff, #fa9046); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+}
+
+:host ::ng-deep .dropdown-menu .dropdown-item {
+  cursor: pointer;
+}
+
+.navbar {
+  padding: 5px;
+  z-index: 5 !important;
+}

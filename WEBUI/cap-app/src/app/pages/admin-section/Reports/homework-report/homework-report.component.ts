@@ -1,0 +1,152 @@
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { LazyLoadEvent } from 'primeng/api';
+import { AdminCommonEndpointsService } from 'src/app/services/admin-common-endpoints.service';
+import { User } from 'src/app/models/interfaces';
+import { studentTestEnum } from 'src/app/models/Enum/student-test';
+
+@Component({
+  selector: 'app-homework-report',
+  templateUrl: './homework-report.component.html',
+  styleUrls: ['./homework-report.component.scss']
+})
+export class HomeworkReportComponent implements OnInit {
+
+  @ViewChild('displayHomeworkreports') displayHomeworkreports: ElementRef;
+  @ViewChild('displayWarningMessage') displayWarningMessage: ElementRef;
+  @ViewChild('displayExamInfo') displayExamInfo: ElementRef;
+
+
+  homeworkData: any[] = [];
+  selectedHomeworkRecord: any;
+  dataSource: any[] = [];
+  totalRecords: number = 0;
+  user: User;
+  selectedExamInfo: any[] = [];
+  totalExamResultRecords: number = 0;
+  page = 0;
+  lazyLoadEvent: any;
+  homeworkColumns;
+
+  constructor(private adminCommonEndpointsService: AdminCommonEndpointsService,
+    private modalService: NgbModal,
+    private authenticationService: AuthenticationService,
+    private spinnerService: NgxSpinnerService) { }
+
+  ngOnInit() {
+    this.user = this.authenticationService.userValue;
+    this.loadHomeworkData(this.lazyLoadEvent);
+    this.homeworkColumns = [
+      { field: "ExamId", header: "Exam Id" },
+      { field: "StudentId", header: "Student Id" },
+      { field: "Name", header: "Name" },
+      { field: "CorrectAnswers", header: "Correct Answers" },
+
+    ];
+  }
+
+
+
+  loadHomeworkData(event: LazyLoadEvent) {
+    this.spinnerService.show();
+    this.lazyLoadEvent = event;
+    this.adminCommonEndpointsService.getHomeworkReport(this.user.UserId, this.user.Usertype).subscribe(result => {
+      this.dataSource = result;
+      // if (event && event.first && event.rows) {
+      //   this.homeworkData = this.dataSource.slice(event.first, (event.first + event.rows));
+      // } else {
+      //   this.homeworkData = this.dataSource.slice(0, 10);
+      // }
+
+      this.homeworkData = this.dataSource;
+      // this.homeworkData = this.dataSource.slice(event.first, (event.first + event.rows));
+      this.totalRecords = this.dataSource.length;
+      this.spinnerService.hide();
+    }, error => {
+      this.spinnerService.hide();
+    });
+  }
+
+
+  // exportPdf() {
+  //   import("jspdf").then(jsPDF => {
+  //     import("jspdf-autotable").then(x => {
+  //       const doc = new jsPDF.default(0, 0);
+  //       doc.autoTable(this.homeworkColumns, this.homeworkData);
+  //       doc.save('homeworkData.pdf');
+  //     })
+  //   })
+  // }
+
+
+  deleteReocrd(topic) {
+    const index = this.homeworkData.findIndex(x => x._id === topic._id);
+    if (index > -1) {
+      this.homeworkData.splice(index, 1);
+      this.modalService.dismissAll();
+    }
+  }
+
+  viewSatReport(homeworkData) {
+    this.selectedHomeworkRecord = homeworkData;
+    this.modalService.open(this.displayHomeworkreports, {
+      size: 'lg', windowClass: 'confirm-dialog-window',
+      centered: true, backdrop: 'static', keyboard: false
+    });
+  }
+
+  cancelModal() {
+    this.modalService.dismissAll();
+  }
+
+  viewQuestionsByExamId(examId) {
+    this.adminCommonEndpointsService.getAllQuestionByExamId(examId.ExamId, studentTestEnum.HomeworkTest).toPromise().then(result => {
+      this.totalExamResultRecords = result.length;
+      this.selectedExamInfo = result;
+      this.modalService.open(this.displayExamInfo, {
+        size: 'lg', windowClass: 'confirm-dialog-window',
+        centered: true, backdrop: 'static', keyboard: false
+      });
+    });
+  }
+
+  currentIndex(index) {
+    this.page = index;
+  }
+
+  removeHomework(homeworkData) {
+    this.selectedHomeworkRecord = homeworkData;
+    this.modalService.open(this.displayWarningMessage, {
+      size: 'md', windowClass: 'confirm-dialog-window',
+      centered: true, backdrop: 'static', keyboard: false
+    });
+  }
+
+  // Export csv code starts here
+  downloadFile(data: any) {
+    if (data !== null && data !== undefined) {
+      const replacer = (key, value) => (value === null ? '' : value); // specify how you want to handle null values here
+      const header = Object.keys(data[0]);
+      const csv = data.map((row) =>
+        header
+          .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+          .join(',')
+      );
+      csv.unshift(header.join(','));
+      const csvArray = csv.join('\r\n');
+
+      const a = document.createElement('a');
+      const blob = new Blob([csvArray], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+
+      a.href = url;
+      a.download = 'HomeworkReport.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    }
+  }
+
+}

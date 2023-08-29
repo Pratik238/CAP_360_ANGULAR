@@ -1,0 +1,127 @@
+    <div>
+      <!-- Page Header-->
+      <header class="section page-header page-header-1 context-dark">
+        <div class="page-header-1-figure m-parallax">
+          <div class="page-header-1-image m-parallax-image" style="background-image: url(../../../../assets/home/images/bg-image-10.jpg);"></div>
+        </div>
+        <!--<a href="index.html" id="hometab" class="fa fa-home"></a>-->
+        <section class="breadcrumbs-custom">
+          <div class="breadcrumbs-custom-inner">
+            <div class="container">
+              <div class="breadcrumbs-custom-main m-parallax-content">
+                <svg class="breadcrumbs-custom-line" width="70" height="8" viewBox="0 0 70 8" fill="none">
+                  <path d="M0 1C5 1 5 7 9.92 7C14.84 7 14.92 1 19.85 1C24.78 1 24.85 7 29.77 7C34.69 7 34.77 1 39.71 1C44.65 1 44.71 7 49.63 7C54.55 7 54.63 1 59.57 1C64.51 1 64.57 7 69.5 7" stroke-width="1.98" stroke-miterlimit="10"></path>
+                </svg>
+                <h2 class="breadcrumbs-custom-title text-uppercase">Contact Us</h2>
+              </div>
+            </div>
+          </div>
+        </section>
+      </header>
+      <!-- Addresses-->
+      <section class="section section-md bg-gray-100"> 
+        <div class="container">
+          <div class="row row-30">
+            <div class="col-sm-6 col-lg-4">
+              <!-- Box 1-->
+              <address class="box-1">
+                <p class="heading-4 box-1-title">CORPORATE OFFICE</p>
+                <p class="box-1-address heading-5">135 E. Algonquin Road, Arlington Heights, IL 60005</p>
+               
+                
+              </address>
+            </div>
+            
+            <div class="col-sm-6 col-lg-4">
+              <!-- Box 1-->
+              <address class="box-1">
+                <p class="heading-4 box-1-title">PHONE</p>
+                 <p class="box-1-address heading-5"><a href="tel:571-279-0000">571-279-0000</a></p>
+              </address>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+              <!-- Box 1-->
+              <address class="box-1">
+                <p class="heading-4 box-1-title">EMAIL</p>
+                <p class="box-1-address heading-5"><a href="mailto:contact@cap.center">contact@cap.center</a></p>
+              </address>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+              <!-- Box 1-->
+              <address class="box-1">
+                <p class="heading-4 box-1-title">FRANCHISE ENQUIRIES</p>
+                <p class="box-1-address heading-5"><a href="mailto:enquiries@cap.center">enquiries@cap.center</a></p>
+              </address>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+              <!-- Box 1-->
+              <address class="box-1">
+                <p class="heading-4 box-1-title">TECHNICAL SUPPORT</p>
+                <p class="box-1-address heading-5"><a href="mailto:technicalsupport@cap.center">technicalsupport@cap.center</a></p>
+              </address>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+              <!-- Box 1-->
+              <address class="box-1">
+                <p class="heading-4 box-1-title">COURSE WORK SUPPORT</p>
+                <p class="box-1-address heading-5"><a href="mailto:support@cap.center">support@cap.center</a></p>
+              </address>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+              <!-- Box 1-->
+              <address class="box-1">
+                <p class="heading-4 box-1-title">PRACTICE SUPPORT</p>
+                <p class="box-1-address heading-5"><a href="mailto:practice@cap.center">practice@cap.center</a></p>
+              </address>
+            </div>
+          </div>
+        </div>
+        <div class="container location-center">
+          <a class="button button-lg button-primary mt-20" href="javascrip:void(0);">For More Locations</a>
+        </div>
+      </section>
+      <!-- Get in Touch-->
+      <section class="section section-lg bg-default">
+        <div class="container">
+          <h3>Get in Touch</h3>
+          <!-- RD Mailform-->
+          <form class="rd-form rd-mailform form-lg" [formGroup]="contactUsForm" data-form-output="form-output-global" data-form-type="contact" method="post" action="#">
+            <div class="row row-30">
+              <div class="col-lg-4">
+                <div class="form-wrap form-wrap-icon">
+                  <input class="form-input" id="contact-name" type="text"  formControlName="name" data-constraints="@Required">
+                  <label class="form-label" for="contact-name">Name</label>
+                  <div class="icon form-icon mdi mdi-account-outline text-primary"><span class="required-f">*</span></div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-wrap form-wrap-icon">
+                  <input class="form-input" id="contact-phone" type="text" formControlName="phone">
+                  <label class="form-label" for="contact-phone">Phone</label>
+                  <div class="icon form-icon mdi mdi-phone text-primary"></div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-wrap form-wrap-icon">
+                  <input class="form-input" id="contact-email" type="email" formControlName="email" data-constraints="@Required">
+                  <label class="form-label" for="contact-email">E-mail</label>
+                  <div class="icon form-icon mdi mdi-email-outline text-primary"><span class="required-fem">*</span></div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-wrap form-wrap-icon">
+                  <label class="form-label" for="contact-message">Message</label>
+                  <textarea class="form-input" id="contact-message" formControlName="message" data-constraints="@Required"></textarea>
+                  <div class="icon form-icon mdi mdi-message-outline text-primary"><span class="required-fem">*</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-wrap form-wrap-button">
+              <button class="button button-lg button-primary" type="button"  [disabled]="!allFormsValid()" (click)="onSubmitContactUs()">Send</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+    <div class="snackbars" id="form-output-global"></div>
+ 

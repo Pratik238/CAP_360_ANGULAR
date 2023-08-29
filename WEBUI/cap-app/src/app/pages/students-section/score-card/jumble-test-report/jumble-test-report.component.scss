@@ -1,0 +1,164 @@
+.box-shadow {
+    border-radius: 4px;
+    border: solid 0.5px #e0dee9;
+    background-color: #ffffff;
+    margin-bottom: 15px;
+    padding: 15px;
+  }
+  
+  .align-center {
+    text-align: center;
+  }
+  
+  .score-card-header {
+    font-size: 15px;
+    font-weight: 600;
+    color: #33485c !important;
+    letter-spacing: .75px;
+  }
+  
+  .score-card-container {
+    background: #ffeaa7;
+  }
+  
+  .common-card-css {
+    border: 1px solid #000;
+    padding: 10px;
+  }
+  
+  // existing cap portal css
+  td.total-score .reset-link {
+    color: #a50c1e !important;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .scorecard-scroll .total-score {
+    background: #fce9b8 !important;
+    text-align: center;
+  }
+  
+  .scorecard-scroll th {
+    background: #cae4a9;
+    color: #33485c !important;
+    /* text-align: center; */
+    font-size: 14px;
+  }
+  
+  .scorecard-scroll th a {
+    color: #33485c;
+  }
+  
+  .scorecard-scroll .table>thead:first-child>tr:first-child>th {
+    border: 1px solid #79905d;
+  }
+  
+  .test-details .total-score {
+    border: 1px solid #79905d !important;
+  }
+  
+  .scorecard-scroll table {
+    table-layout: fixed;
+  }
+  
+  .scorecard-scroll th {
+    overflow: hidden;
+    width: 130px;
+    text-overflow: ellipsis;
+    font-weight: normal;
+  }
+  
+  .scorecard-scroll th.total-score {
+    width: 90px;
+  }
+  
+  .clr-green {
+    color: #019d41;
+  }
+  
+  .student-score-card .qcorrect {
+    color: #019d41 !important;
+    font-weight: bold;
+  }
+  
+  .student-score-card .qwrong {
+    color: #e74c3c !important;
+    font-weight: bold;
+  }
+  
+  .student-score-card .qall {
+    color: #0c7cf5 !important;
+    font-weight: bold;
+  }
+  
+  .student-score-card td {
+    font-size: 16px !important;
+  }
+  
+  .student-score-card th,
+  td {
+    line-height: 28px !important;
+  }
+  
+  
+  .test-details td {
+    // color: #555 !important;
+    font-size: 14px !important;
+    color: #238795;
+    font-weight: bold;
+    padding: 9px;
+  }
+  
+  .test-details .qcorrect {
+    color: #019d41 !important;
+    font-weight: bold;
+  }
+  
+  .test-details .qwrong {
+    color: #e74c3c !important;
+    font-weight: bold;
+  }
+  
+  .test-details .qall {
+    color: #0c7cf5 !important;
+    font-weight: bold;
+  }
+  
+  .test-details td:first-child,
+  .dashboard .test-details th {
+    font-size: 15px !important;
+    font-weight: 500;
+  }
+  
+  .additional-info-labels {
+    color: #33485c !important;
+  }
+  
+  .level1-btn {
+    color: #ffffff;
+    background-color: #5cb85c;
+    border-color: #55b555;
+    padding: 3px 11px;
+    cursor: pointer;
+    min-width: 75px;
+  }
+  
+  .sub-level-container {
+    border: 1px solid #79905d !important;
+    background-color: #ffffff !important;
+    text-align: left;
+  }
+
+  .topic-bg {
+      background-color: #fae077 !important;
+  }
+
+  .th-width {
+    width: 150px !important;
+  }
+
+  .export-csv {
+    font-size: 15px;
+    height: 10px;
+    top: -10px;
+  }

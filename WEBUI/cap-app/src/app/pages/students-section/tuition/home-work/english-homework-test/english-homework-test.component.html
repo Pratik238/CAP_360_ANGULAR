@@ -1,0 +1,82 @@
+<div class="container">
+  <p-toast></p-toast>
+    <div class="row">
+      <div class="col-12" *ngFor="let question of homeWork; let i = index;">
+        
+        <div class="row" *ngIf="page === i">
+          <div class="col-12 box-container">
+            <div class="row">
+              <div class="col-12 seperator-line">
+                <div class="row">
+                  <div class="col-6 question-label">
+                    <span>Question: {{ i+ 1 }} of {{ homeWork.length }} </span>
+                  </div>
+                  <div class="col-6 question-label">English Homework</div>
+                </div>
+              </div>
+              </div>
+          </div>
+        </div>
+  
+        <div class="row english-questions-container" *ngIf="page === i">
+          <div class="col-6 paragraph-container">
+            <span [innerHTML]="question?.Paragraph" class="box"></span>
+          </div>
+          <div class="col-6">
+            <div class="row option-header">
+              <div class="col-12 option-sub-header">
+                Select an Answer
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                  <span [innerHTML]="question?.QuestionText" class="box"></span>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                      <div class="col-12 option-label" (click)="selectCorrectAnswer(question?.Option1, question, i)">
+                        <div class="row">
+                          <div class="col-1 opt-label" [class.active]="question.selectedOption == question?.Option1">A</div>
+                          <div class="col-11 opt-value" [innerHTML]="question?.Option1"></div>
+                        </div>
+                      </div>
+                      <div class="col-12 option-label" (click)="selectCorrectAnswer(question?.Option2, question, i)">
+                        <div class="row">
+                          <div class="col-1 opt-label" [class.active]="question.selectedOption == question?.Option2">B</div>
+                          <div class="col-11 opt-value" [innerHTML]="question?.Option2"></div>
+                        </div>
+                      </div>
+                      <div class="col-12 option-label" (click)="selectCorrectAnswer(question?.Option3, question, i)">
+                        <div class="row">
+                          <div class="col-1 opt-label" [class.active]="question.selectedOption == question?.Option3">C</div>
+                          <div class="col-11 opt-value" [innerHTML]="question?.Option3"></div>
+                        </div>
+                      </div>
+                      <div class="col-12 option-label" (click)="selectCorrectAnswer(question?.Option4, question, i)">
+                        <div class="row">
+                          <div class="col-1 opt-label" [class.active]="question.selectedOption == question?.Option4">D</div>
+                          <div class="col-11 opt-value" [innerHTML]="question?.Option4"></div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- prev and next buttons code starts here -->
+            <div class="col-6"></div>
+            <div class="col-6 buttons-align">
+              <button class="btn btn-success btn-label" [disabled]=" i === 0" (click)="prevQuestion(i)"> Prev </button>
+              <button class="btn btn-success btn-label" (click)="nextQuestion(i)">{{ (i + 1) !== totalReocrds  ? 'Next' : 'Submit'}}</button>
+            </div>
+          <!--  prev and next buttons code ends here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

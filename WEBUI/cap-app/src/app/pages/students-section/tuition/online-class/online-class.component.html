@@ -1,0 +1,32 @@
+<div class="zoom-background">
+  <div class="row">
+    <div class="col-12 align-container">
+      <div class="row">
+        <div class="col-12 zoom-header">
+        </div>
+        <div class="col-12 video-label">
+          Video Conferencing
+        </div>
+        <ng-container *ngIf="display">
+          <div class="col-12 video-label"> <span class="zoom-link-label">Class Name: </span> <span class="zoom-link-value">{{ zoomLink?.SubTopicName }}</span> </div>
+          <div class="col-12 video-label"> <span class="zoom-link-label">Start Time: </span> <span class="zoom-link-value">{{ zoomLink?.StartDtTime | date: 'medium' }}</span> </div>
+          <div class="col-12">
+            <div class="btn join-button" (click)="openSite()">Join</div> <span class="meeting-label">Connect to a meeting in progress</span>
+          </div>
+        </ng-container>
+        <div  *ngIf="!display" class="col-12 no-meeting-label">There is no scheduled online class</div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- <p-dialog header="Zoom" [(visible)]="display" [style]="{width: '50vw'}">
+  <div class="col-12 link-expire-label">
+    Zoom Link expired...
+  </div>
+</p-dialog> -->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

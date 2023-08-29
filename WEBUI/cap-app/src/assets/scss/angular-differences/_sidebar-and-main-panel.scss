@@ -1,0 +1,33 @@
+@media screen and (min-width: 768px) {
+  html:not(.auth-layout) .main-content {
+      // margin-left: $navbar-vertical-width;
+      top: 6em;
+  }
+
+  .navbar-vertical.navbar-expand-md .navbar-nav .nav-link {
+    padding: 5px !important;
+  }
+
+  .navbar-vertical .navbar-collapse:before {
+    margin: 0px !important;
+  }
+
+  .navbar-vertical.navbar-expand-md {
+    max-width: 200px !important;
+  }
+}
+
+.fixed-right{
+  .navbar-vertical.navbar-expand-md{
+    right: 0;
+    border-width: 0 0 0 1px;
+    overflow-x: hidden;
+    max-width: 200px !important;
+    padding-left: 0rem !important;
+    padding-right: 0rem !important;
+  }
+   .main-content {
+    margin-right: $navbar-vertical-width;
+    margin-left: 0;
+  }
+}

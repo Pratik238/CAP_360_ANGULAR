@@ -1,0 +1,145 @@
+<!--  -->
+<div class="col-12">
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12 question-label">
+        <app-mathjax [content]="allQestions?.QuestionText"></app-mathjax>  
+        </div>
+        </div>
+      </div>
+      <div class="col-12 selected-option" *ngIf="allQestions?.GridId === 2">
+        <table class="table table-bordered table-hover">
+          <tbody>
+            <tr>
+              <td [class.active]="allQestions.SelectedAnswer == 1" (click)="selectCorrectAnswer(1)">
+                <app-mathjax [content]="allQestions?.Option1"></app-mathjax>   
+              </td>
+            </tr>
+            <tr>
+              <td [class.active]="allQestions.SelectedAnswer == 2" (click)="selectCorrectAnswer(2)">
+                <app-mathjax [content]="allQestions?.Option2"></app-mathjax>   
+              </td>
+            </tr>
+            <tr>
+              <td [class.active]="allQestions.SelectedAnswer == 3" (click)="selectCorrectAnswer(3)">
+                <app-mathjax [content]="allQestions?.Option3"></app-mathjax>   
+              </td>
+            </tr>
+            <tr>
+              <td [class.active]="allQestions.SelectedAnswer == 4" (click)="selectCorrectAnswer(4)">
+                <app-mathjax [content]="allQestions?.Option4"></app-mathjax>     
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Grdi-in code starts here -->
+      <div class="col-12" *ngIf="allQestions?.GridId === 1">
+        <div class="row">
+          <div class="col-12 add-margin-bottom">
+            <div class="col-6">
+              <div class="table-container1 record_table gridin-option">
+                <table class="table-bordered">
+                  <thead>
+                    <tr>
+                      <th id='selection1-val'>&nbsp;{{ selectedAns1 }} </th>
+                      <th id='selection1-val'>&nbsp;{{selectedAns2 }} </th>
+                      <th id='selection1-val'>&nbsp;{{ selectedAns3 }} </th>
+                      <th id='selection1-val'>&nbsp;{{ selectedAns4 }} </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td><label [ngClass] = "selectedAns2 == '/' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="/" (click)="gridInAnswerTwo('/');"><b>&#47;</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '/' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="/" (click)="gridInAnswerThree('/');"><b>&#47;</b></label></td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '.' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="." (click)="gridInAnswerOne('.');"><b>&#8226;</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '.' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="." (click)="gridInAnswerTwo('.');"><b>&#8226;</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '.' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="." (click)="gridInAnswerThree('.');"><b>&#8226;</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '.' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="." (click)="gridInAnswerFour('.');"><b>&#8226;</b></label></td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td><label [ngClass] = "selectedAns2 == '0' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="0" (click)="gridInAnswerTwo('0');"><b>0</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '0' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="0" (click)="gridInAnswerThree('0');"><b>0</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '0' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="0" (click)="gridInAnswerFour('0');"><b>0</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '1' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="1" (click)="gridInAnswerOne('1');"><b>1</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '1' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="1" (click)="gridInAnswerTwo('1');"><b>1</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '1' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="1" (click)="gridInAnswerThree('1');"><b>1</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '1' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="1" (click)="gridInAnswerFour('1');"><b>1</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '2' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="2" (click)="gridInAnswerOne('2');"><b>2</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '2' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="2" (click)="gridInAnswerTwo('2');"><b>2</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '2' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="2" (click)="gridInAnswerThree('2');"><b>2</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '2' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="2" (click)="gridInAnswerFour('2');"><b>2</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '3' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="3" (click)="gridInAnswerOne('3');"><b>3</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '3' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="3" (click)="gridInAnswerTwo('3');"><b>3</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '3' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="3" (click)="gridInAnswerThree('3');"><b>3</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '3' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="3" (click)="gridInAnswerFour('3');"><b>3</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '4' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="4" (click)="gridInAnswerOne('4');"><b>4</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '4' ? 'highlight_row' : ''"><input type="radio"  name="selection2" value="4" (click)="gridInAnswerTwo('4');"><b>4</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '4' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="4" (click)="gridInAnswerThree('4');"><b>4</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '4' ? 'highlight_row' : ''"><input type="radio"  name="selection4" value="4" (click)="gridInAnswerFour('4');"><b>4</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '5' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="5" (click)="gridInAnswerOne('5');"><b>5</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '5' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="5" (click)="gridInAnswerTwo('5');"><b>5</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '5' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="5" (click)="gridInAnswerThree('5');"><b>5</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '5' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="5" (click)="gridInAnswerFour('5');"><b>5</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '6' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="6" (click)="gridInAnswerOne('6');"><b>6</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '6' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="6" (click)="gridInAnswerTwo('6');"><b>6</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '6' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="6" (click)="gridInAnswerThree('6');"><b>6</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '6' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="6" (click)="gridInAnswerFour('6');"><b>6</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '7' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="7" (click)="gridInAnswerOne('7');"><b>7</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '7' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="7" (click)="gridInAnswerTwo('7');"><b>7</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '7' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="7" (click)="gridInAnswerThree('7');"><b>7</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '7' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="7" (click)="gridInAnswerFour('7');"><b>7</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '8' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="8" (click)="gridInAnswerOne('8');"><b>8</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '8' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="8" (click)="gridInAnswerTwo('8');"><b>8</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '8' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="8" (click)="gridInAnswerThree('8');"><b>8</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '8' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="8" (click)="gridInAnswerFour('8');"><b>8</b></label></td>
+                    </tr>
+                    <tr>
+                      <td><label [ngClass] = "selectedAns1 == '9' ? 'highlight_row' : ''"><input type="radio" name="selection1" value="9" (click)="gridInAnswerOne('9');"><b>9</b></label></td>
+                      <td><label [ngClass] = "selectedAns2 == '9' ? 'highlight_row' : ''"><input type="radio" name="selection2" value="9" (click)="gridInAnswerTwo('9');"><b>9</b></label></td>
+                      <td><label [ngClass] = "selectedAns3 == '9' ? 'highlight_row' : ''"><input type="radio" name="selection3" value="9" (click)="gridInAnswerThree('9');"><b>9</b></label></td>
+                      <td><label [ngClass] = "selectedAns4 == '9' ? 'highlight_row' : ''"><input type="radio" name="selection4" value="9" (click)="gridInAnswerFour('9');"><b>9</b></label></td>
+                    </tr>
+                </tbody>
+                </table>
+                </div>
+                <input type="hidden" name="gridInAns" [value]="enteredGridval" #gridInAns>
+            </div>
+          </div>
+        </div>
+        <!-- Grdi-in code ends here -->
+
+      </div>
+    </div>
+</div>
+<!--  -->
+
+<!-- Spinner code starts here 
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+Spinner code ends here -->

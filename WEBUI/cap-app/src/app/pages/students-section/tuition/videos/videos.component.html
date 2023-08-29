@@ -1,0 +1,30 @@
+<div class="row box-shadow">
+  <div class="col-12">
+    <h3>Tutorials</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="col-12 tutorials-box-shadow">
+        <div class="row" *ngIf="videos.length > 0">
+          <div class="col-6" *ngFor="let tutorial of videos;let i = index;">
+              <div id="visor-video">
+                <iframe width="500" height="500"
+                [src]='tutorial.displayVideoUrl' frameborder="0" allowfullscreen>
+                </iframe>        
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12" *ngIf="isDisplayWarningMessage">
+              No Tutorials...
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

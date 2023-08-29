@@ -1,0 +1,203 @@
+<!-- <div class="row">
+    <div class="col-md-12 menu-container">
+        <p-menubar [model]="megaMenuItems" (click)="activeMenu($event)"></p-menubar>
+    </div>
+</div> -->
+
+<div class="page">
+    <!-- Page Header-->
+    <header class="section page-header page-header-2 section-custom-1-ally">
+        <div class="preloader">
+            <div class="preloader-inner">
+                <div class="preloader-top">
+                    <div class="preloader-top-sun">
+                        <div class="preloader-top-sun-bg"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-0"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-45"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-90"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-135"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-180"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-225"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-270"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-315"></div>
+                    </div>
+                </div>
+                <div class="preloader-bottom">
+                    <div class="preloader-bottom-line preloader-bottom-line-lg"></div>
+                    <div class="preloader-bottom-line preloader-bottom-line-md"></div>
+                    <div class="preloader-bottom-line preloader-bottom-line-sm"></div>
+                    <div class="preloader-bottom-line preloader-bottom-line-xs"></div>
+                </div>
+            </div>
+        </div>
+        <!-- RD Navbar-->
+        <div class="rd-navbar-wrap">
+            <nav class="rd-navbar rd-navbar-creative" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed"
+                data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed"
+                data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-fixed"
+                data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static"
+                data-lg-stick-up-offset="95px" data-xl-stick-up-offset="95px" data-xxl-stick-up-offset="95px"
+                data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+                <div class="rd-navbar-main-outer">
+                    <div class="rd-navbar-main">
+                        <!-- RD Navbar Panel-->
+                        <div class="rd-navbar-panel">
+
+                            <!-- RD Navbar Toggle-->
+                            <button class="rd-navbar-toggle"
+                                data-rd-navbar-toggle=".rd-navbar-nav-wrap, .rd-navbar-toggle-element">
+                                <span class="rd-navbar-toggle-inner"><span
+                                        class="rd-navbar-toggle-element"><span></span></span><span
+                                        class="rd-navbar-toggle-text on">Menu</span><span
+                                        class="rd-navbar-toggle-text off">Close</span></span></button>
+                            <!-- RD Navbar Brand-->
+                        </div>
+                    </div>
+                    <div class="rd-navbar-nav-wrap">
+                        <!-- RD Navbar Nav-->
+                        <ul class="rd-navbar-nav">
+                            <li class="rd-nav-item"><a class="rd-nav-link">Overview</a>
+                                <!-- RD Navbar Dropdown-->
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/overview/cap-basic-info']">What is CAP, Why CAP</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/overview/about-cap']">More About CAP</a></li>
+                                </ul>
+                            </li>
+                            <li class="rd-nav-item"><a class="rd-nav-link">Program</a>
+                                <!-- RD Navbar Dropdown-->
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tutoring/test-prep/ap']">AP</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tutoring/test-prep/sat']">SMART SAT</a></li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tutoring/test-prep/act']">ACT</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tutoring/test-prep/bootcamp']">BOOT CAMPS</a></li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tutoring/test-prep/act']">ADMISSION CONSULTING</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tutoring/test-prep/act']">CLUBS</a></li>
+                                </ul>
+                            </li>
+                            <li class="rd-nav-item"><a class="rd-nav-link">Tuition</a>
+                                <!-- RD Navbar Dropdown-->
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tuition/online-class']">Online Class</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tuition/home-work']">Home Work</a></li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/tuition/videos']">Videos</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="rd-nav-item"><a class="rd-nav-link">Test</a>
+                                <!-- RD Navbar Dropdown-->
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link">Practice</a>
+                                        <ul class="rd-menu rd-navbar-dropdown">
+                                            <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                                    [routerLink]="['/user/test/practice/maths']">Maths</a></li>
+                                            <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                                    [routerLink]="['/user/test/practice/english']">English</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link">SAT Test</a>
+                                        <ul class="rd-menu rd-navbar-dropdown">
+                                            <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                                    [routerLink]="['/user/test/sat-test/maths-sat']">Maths</a></li>
+                                            <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                                    [routerLink]="['/user/test/sat-test/english-sat']">English</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link">Jumble Test</a>
+                                        <ul class="rd-menu rd-navbar-dropdown">
+                                            <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                                    [routerLink]="['/user/test/Jumble-test/maths-test']">Maths</a></li>
+                                            <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                                    [routerLink]="['/user/test/Jumble-test/english-test']">English</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="rd-nav-item"><a class="rd-nav-link">Score Card</a>
+                                <!-- RD Navbar Dropdown-->
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/score-card/practice-test']">Practice Test</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/score-card/sat-report']">SAT</a></li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/score-card/jumble-test-report']">Jumble Test</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="rd-nav-item"><a class="rd-nav-link" [routerLink]="['/user/faq']">FAQ</a>
+                            </li>
+                            <li class="rd-nav-item"><a class="rd-nav-link"
+                                    [routerLink]="['/user/contactus']">ContactUs</a>
+                            </li>
+                            <li class="rd-nav-item">
+                                <a class="rd-nav-link">
+                                    <div class="media align-items-center">
+                                        <span class="avatar avatar-sm rounded-circle">
+                                            <i class="fa fa-user-circle" aria-hidden="true" style="font-size: 2em;"></i>
+                                        </span>
+                                        <div class="media-body ml-2 d-none d-lg-block" [hidden]="!isLoading">
+                                            <span class="mb-0 text-sm"
+                                                style="color: #000;font-size: 18px !important;font-weight: 500 !important;">
+                                                {{ user?.Name }} </span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="rd-menu rd-navbar-dropdown">
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/update-profile']"><i class="pi pi-user"
+                                                style="margin-right: 14px"></i>Update
+                                            Profile</a>
+                                    </li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link"
+                                            [routerLink]="['/user/update-password']"><i class="pi pi-key"
+                                                style="margin-right: 14px"></i>Change
+                                            Password</a></li>
+                                    <li class="rd-dropdown-item"><a class="rd-dropdown-link" style="cursor: pointer;" (click)="logout()"><i
+                                                class="fa fa-sign-out" aria-hidden="true"
+                                                style="margin-right: 14px"></i>Logout</a>
+                                    </li>
+                                </ul>
+                                <!-- <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
+                                    <a routerLinkActive="active" [routerLink]="['/user/update-profile']"
+                                        class="dropdown-item">
+                                        <i class="pi pi-user"></i>
+                                        <span>Update Profile</span>
+                                    </a>
+                                    <a routerLinkActive="active" [routerLink]="['/user/update-password']"
+                                        class="dropdown-item">
+                                        <i class="pi pi-key"></i>
+                                        <span>Change Password</span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" (click)="logout()">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </div> -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+</div>
+<div class="snackbars" id="form-output-global"></div>

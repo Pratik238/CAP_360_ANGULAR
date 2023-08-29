@@ -1,0 +1,38 @@
+<nav class="navbar navbar-top fixed-top navbar-expand-md navbar-dark" style="background: linear-gradient(87deg, #FEFEDF 0, #fa9046 100%) !important;" id="navbar-main">
+  <div class="container-fluid header-gradient-danger">
+    <!-- Brand -->
+    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
+      <img src="../../../assets/img/brand/cap-logo.png" class="navbar-brand-img" alt="..." style="width:150px; height:35px;">
+    </a>
+    <!-- User -->
+    <ul class="navbar-nav align-items-center d-none d-md-flex">
+      <li class="nav-item" ngbDropdown placement="bottom-right">
+        <a class="nav-link pr-0" role="button" ngbDropdownToggle>
+          <div class="media align-items-center">
+            <span class="avatar avatar-sm rounded-circle">
+              <i class="fa fa-user-circle" aria-hidden="true" style="font-size: 2em;"></i>
+            </span>
+            <div class="media-body ml-2 d-none d-lg-block" [hidden]="!isLoading">
+              <span class="mb-0 text-sm profile-label"> {{ userFromApi?.Name }} </span>
+            </div>
+          </div>
+        </a>
+        <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
+          <a routerLinkActive="active" [routerLink]="['/admin/update-profile']" class="dropdown-item">
+            <i class="pi pi-user"></i>
+            <span>Update Profile</span>
+          </a>
+          <a routerLinkActive="active" [routerLink]="['/admin/update-password']" class="dropdown-item">
+            <i class="pi pi-key"></i>
+            <span>Change Password</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="logout()">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+            <span>Logout</span>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

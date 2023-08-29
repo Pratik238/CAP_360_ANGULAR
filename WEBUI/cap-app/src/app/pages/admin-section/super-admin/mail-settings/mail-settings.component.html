@@ -1,0 +1,233 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4" style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Mail Settings:
+            </div>
+            <!-- <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="addNewSubject()">Add New Subject</button>
+            </div> -->
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <p-table  [value]="allTopicsArray" [lazy]="true" (onLazyLoad)="loadSubjects($event)"
+              [autoLayout]="true" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords">
+               <ng-template pTemplate="header" let-columns>
+                 <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Subject</th>
+                  <th scope="col">Mail Id</th>
+                  <th scope="col">Dear</th>
+                  <th scope="col">Body</th>
+                  <th scope="col">Regards</th>
+                  <th scope="col">Regards Name</th>
+                  <th scope="col">Actions</th>
+                 </tr>
+               </ng-template>
+               <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                  <td> {{ rowData?.Id }} </td>
+                  <td>{{ rowData?.Subject }} </td>
+                  <td>{{ rowData?.MailId }} </td>
+                  <td>{{ rowData?.Dear }} </td>
+                  <td>{{ rowData?.Body }} </td>
+                  <td>{{ rowData?.Regards }} </td>
+                  <td>{{ rowData?.RegardsName }} </td>
+                  <td style="position: sticky; width: 150px;">
+                    <button class="btn btn-sm btn-primary"
+                      (click)="viewMailSetting(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button pButton pRipple icon="pi pi-pencil" class="p-button-success p-mr-2" style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                      (click)="editMailSetting(rowData)"></button>
+                    <button class="btn btn-sm btn-danger"
+                      (click)="removeMailSetting(rowData)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="4">No Records.</td>
+                </tr>
+              </ng-template>
+             </p-table>
+            </div>
+            <div class="col-12" *ngIf="allTopicsArray.length === 0" style="color: #000000;">No results...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<ng-template #addEditmailConfigurationForm let-modal>
+  <div class="modal-header report-issue-header form-group">
+    <h4 class="modal-title modal-header-title">{{isAddMode ? 'Add' : 'Edit'}} Subject</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="mailConfigurationForm">
+        <div class="row">
+          <div class="col-12">
+            <label for="Subject">Subject</label>
+            <input type="text" id="Subject" formControlName="Subject" class="form-control p-inputtext-lg"
+              placeholder="Enter Subject" [ngClass]="{ 'is-invalid': mailConfigurationForm.get('Subject').errors && (mailConfigurationForm.get('Subject').touched || mailConfigurationForm.get('Subject').dirty) }" />
+            <div *ngIf="mailConfigurationForm.get('Subject').errors && (mailConfigurationForm.get('Subject').touched || mailConfigurationForm.get('Subject').dirty)" class="invalid-feedback">
+              <div *ngIf="mailConfigurationForm.get('Subject').errors.required">Subject Name is required</div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-12">
+            <label for="Password">Password</label>
+            <input type="password" id="Subject" formControlName="Password" class="form-control p-inputtext-lg"
+              placeholder="Enter Password" [ngClass]="{ 'is-invalid': mailConfigurationForm.get('Password').errors && (mailConfigurationForm.get('Password').touched || mailConfigurationForm.get('Password').dirty) }" />
+            <div *ngIf="mailConfigurationForm.get('Password').errors && (mailConfigurationForm.get('Password').touched || mailConfigurationForm.get('Password').dirty)" class="invalid-feedback">
+              <div *ngIf="mailConfigurationForm.get('Password').errors.required">Password is required</div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-12">
+            <label for="Dear">Dear</label>
+            <input type="text" id="Subject" formControlName="Dear" class="form-control p-inputtext-lg"
+              placeholder="Enter Dear" [ngClass]="{ 'is-invalid': mailConfigurationForm.get('Dear').errors && (mailConfigurationForm.get('Dear').touched || mailConfigurationForm.get('Dear').dirty) }" />
+            <div *ngIf="mailConfigurationForm.get('Dear').errors && (mailConfigurationForm.get('Dear').touched || mailConfigurationForm.get('Dear').dirty)" class="invalid-feedback">
+              <div *ngIf="mailConfigurationForm.get('Dear').errors.required">Dear is required</div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-12">
+            <label for="Body">Body</label>
+            <input type="text" id="Subject" formControlName="Body" class="form-control p-inputtext-lg"
+              placeholder="Enter Dear" [ngClass]="{ 'is-invalid': mailConfigurationForm.get('Body').errors && (mailConfigurationForm.get('Body').touched || mailConfigurationForm.get('Body').dirty) }" />
+            <div *ngIf="mailConfigurationForm.get('Body').errors && (mailConfigurationForm.get('Body').touched || mailConfigurationForm.get('Body').dirty)" class="invalid-feedback">
+              <div *ngIf="mailConfigurationForm.get('Body').errors.required">Dear is required</div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-12">
+            <label for="Regards">Regards</label>
+            <input type="text" id="Regards" formControlName="Regards" class="form-control p-inputtext-lg"
+              placeholder="Enter Regards" [ngClass]="{ 'is-invalid': mailConfigurationForm.get('Regards').errors && (mailConfigurationForm.get('Regards').touched || mailConfigurationForm.get('Regards').dirty) }" />
+            <div *ngIf="mailConfigurationForm.get('Regards').errors && (mailConfigurationForm.get('Regards').touched || mailConfigurationForm.get('Regards').dirty)" class="invalid-feedback">
+              <div *ngIf="mailConfigurationForm.get('Regards').errors.required">Regards is required</div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-12">
+            <label for="RegardsName">Regards Name</label>
+            <input type="text" id="RegardsName" formControlName="RegardsName" class="form-control p-inputtext-lg"
+              placeholder="Enter Regards Name" [ngClass]="{ 'is-invalid': mailConfigurationForm.get('RegardsName').errors && (mailConfigurationForm.get('RegardsName').touched || mailConfigurationForm.get('RegardsName').dirty) }" />
+            <div *ngIf="mailConfigurationForm.get('RegardsName').errors && (mailConfigurationForm.get('RegardsName').touched || mailConfigurationForm.get('RegardsName').dirty)" class="invalid-feedback">
+              <div *ngIf="mailConfigurationForm.get('RegardsName').errors.required">Regards Name is required</div>
+            </div>
+          </div>
+        </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormsValid()" (click)="saveTopic()">{{isAddMode ? 'Save' : 'Update'}}</button>
+            <button class="btn btn-danger" (click)="cancelSubjects()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayTopics let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Subject Details: {{subject?.id}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Subject :</span><span class="value"> {{ mailConfiguration?.Subject }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Status :</span><span class="value"> {{ mailConfiguration?.IsActive ? 'Active' : 'In Active' }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created By :</span><span class="value"> {{ mailConfiguration?.Createdby }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated By :</span><span class="value"> {{ mailConfiguration?.Updatedby }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created Date :</span><span class="value"> {{ mailConfiguration?.CreatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated Date :</span><span class="value"> {{ mailConfiguration?.UpdatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelSubjects()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+      <div class="row">
+        <div class="col-12" style="font-size: 20px; text-align: center;">
+          Do you want to remove {{ mailConfiguration?.Subject }} subject?
+        </div>
+      </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+        <div class="col-6">
+          <button class="btn btn-primary next-button" (click)="deleteMailSetting(subject)">Ok</button>
+        </div>
+        <div class="col-6" style="text-align: left;">
+          <button class="btn btn-danger cancel-button" (click)="cancelSubjects()">Cancel</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+             [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

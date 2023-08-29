@@ -1,0 +1,40 @@
+.language-menu {
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+  }
+  
+  .violate-banner {
+    background-color: #49336B;
+    height: 45px;
+  
+  }
+  
+  .banner-padding {
+    padding-top: 10px;
+  }
+  
+  .banner-label {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 15px;
+    cursor: pointer;
+  }
+  
+  .cap-logo {
+    width: 100%;
+    height: 100px;
+    background-image: url('../../assets/images/cap-logo.png');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 185px) calc(100% - 15px);
+    cursor: pointer;
+  }
+  
+  .center-align {
+    text-align: center;
+  }
+  
+  .add-margin-left {
+    margin-left: 6em;
+  }

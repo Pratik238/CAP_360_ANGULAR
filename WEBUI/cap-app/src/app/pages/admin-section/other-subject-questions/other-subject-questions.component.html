@@ -1,0 +1,473 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <p-toast></p-toast>
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              English Questions
+            </div>
+            <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="addQuestion()">Add Question</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <p-table #dt [rows]="10" [columns]="cols" [value]="allQuestionData" [lazy]="true"
+                (onLazyLoad)="loadOtherSubjects($event)" [autoLayout]="true" [responsive]="true" [paginator]="true"
+                [globalFilterFields]="['QuestionId','TopicName','SubTopicName']" [totalRecords]="totalRecords"
+                [reorderableColumns]="true">
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(allQuestionData)"
+                        class="export-button-align p-button-success" pTooltip="CSV" tooltipPosition="top"></button>
+                    </div>
+                    <label class="add-padding-right">
+                      <input type="radio" name="status" value="Active" (click)="getLoadStatusRecords(true)" checked
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>Active</label>
+                    <label class="add-padding-right">
+                      <input type="radio" name="status" value="Inactive" (click)="getLoadStatusRecords(false)"
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>In-Active</label>
+                    <label class="homework-label">
+                      <mat-checkbox (change)="onDisplayHomeworkData($event)">Show Homework</mat-checkbox>
+                    </label>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th>ID</th>
+                    <th>Topic</th>
+                    <th>Sub Topic</th>
+                    <th *ngIf="isShowHomeworkTab">Homewrok Name</th>
+                    <th>Difficulty</th>
+                    <th>Paragraph</th>
+                    <th>Question</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, QuestionId, 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'TopicName', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'SubTopicName', 'contains')">
+                    </th>
+                    <th *ngIf="isShowHomeworkTab">
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'Homeworkname', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'DifficultyLevelName', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'Paragraph', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'QuestionText', 'contains')">
+                    </th>
+                    <!-- <th></th> -->
+                    <!-- <th></th> -->
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.QuestionId }} </td>
+                    <td> {{ rowData?.TopicName }} </td>
+                    <td> {{ rowData?.SubTopicName }} </td>
+                    <td *ngIf="isShowHomeworkTab"> {{ rowData?.Homeworkname }} </td>
+                    <td> {{ rowData?.DifficultyLevelName }} </td>
+                    <td>
+                      <div class="column-header" [innerHTML]="rowData?.Paragraph"></div>
+                    </td>
+                    <td>
+                      <app-mathjax [content]='rowData?.QuestionText' class="box"></app-mathjax>
+                    </td>
+                    <td> {{ rowData?.IsActive ? 'Active' : 'In-Active' }} </td>
+                    <td style="display: block; width: 150px;">
+                      <button class="btn btn-sm btn-primary" pTooltip="View" tooltipPosition="top"
+                        (click)="viewQuestion(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="top"
+                        class="p-button-success p-mr-2"
+                        style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                        (click)="editQuestion(rowData)"></button>
+                      <button class="btn btn-sm btn-danger" pTooltip="Delete" tooltipPosition="top"
+                        (click)="removeQuestion(rowData)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="10">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<ng-template #addEngQuestion let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">{{ isAddMode ? 'Add' : 'Edit'}} Question</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row" style="padding-bottom: 15px">
+      <div class="col-12">
+        <form [formGroup]="questionForm">
+          <div class="row">
+            <div class="row">
+              <div class="col-12 madatory-field-label">
+                * Marked Fields are Required</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 form-group">
+              <label for="SubjectId">Subject <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="SubjectId" required disabled>
+                <!-- <option [value]="null" disabled="true">Select</option> -->
+                <option *ngFor="let subject of subjects" [value]="subject.id">{{subject.name}}</option>
+              </select>
+            </div>
+
+            <div class="col-3 form-group">
+              <label for="TopicId">Topic <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="TopicId" (change)="onChangeTopic($event)">
+                <option [value]="null"> -- Select --</option>
+                <option *ngFor="let topic of topics" [value]="topic.TopicId">{{topic.TopicName}}</option>
+              </select>
+              <div *ngIf="questionForm.get('TopicId').errors" class="invalid-feedback">
+                <div *ngIf="questionForm.get('TopicId').errors.required">Topic is required</div>
+              </div>
+            </div>
+            <div class="col-3 form-group">
+              <label for="SubTopicId">Sub Topic <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="SubTopicId" (change)="onChangeSubTopic($event)">
+                <option [value]="null"> -- Select --</option>
+                <option *ngFor="let topic of subTopics" [value]="topic.SubTopicId">{{topic.SubTopicName}}</option>
+              </select>
+              <div *ngIf="questionForm.get('SubTopicId').errors" class="invalid-feedback">
+                <div *ngIf="questionForm.get('SubTopicId').errors.required">Sub Topic is required</div>
+              </div>
+            </div>
+
+            <!-- Homework code starts here -->
+            <div class="col-3 form-group" style="display: flex; align-items: center;">
+              <mat-checkbox (change)="onCheckboxChange($event)" [checked]="isSHowFormChekbox"
+                formControlName="IsHomework">Is Homework</mat-checkbox>
+            </div>
+
+            <div class="col-3 form-group">
+              <label for="EnglishSectionId">Section <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="EnglishSectionId">
+                <option [value]="null"> -- Select --</option>
+                <option *ngFor="let section of englishSections" [value]="section.Id">{{section.Name}}</option>
+              </select>
+            </div>
+
+            <div class="col-3 form-group" *ngIf="isShowHomeworkSection">
+              <label for="HomeWorkId">Homework <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="HomeWorkId">
+                <option [value]="0"> -- Select --</option>
+                <option *ngFor="let home of homeWork" [value]="home.HomeWorkId">{{home.HomeWorkName}}</option>
+              </select>
+            </div>
+            <!-- Homework code ends here -->
+          </div>
+
+          <!-- code starts here -->
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="Paragraph">Paragraph <span class="required-label">*</span> </label>
+              <p-editor formControlName="Paragraph" [placeholder]="'Paragraph'" [style]="{'height':'150px'}">
+              </p-editor>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group add-question-label" (click)="adNewQuestion()">
+              <i class="pi pi-plus-circle"></i>Add New Question
+            </div>
+          </div>
+          <div class="row form-group" formArrayName="questions">
+            <div class="col-12" *ngFor="let qstn of questionsFormArray.controls; let i=index">
+              <p-accordion>
+                <p-accordionTab>
+                  <ng-template pTemplate="header">
+                    <div class="col-11">Question {{ i+ 1 }}</div>
+                    <div class="col-1 align-minus-icon" (click)="remove(i)" pTooltip="remove question"
+                      tooltipPosition="top" tooltipZIndex="999999"><i class="pi pi-minus-circle"
+                        style="font-size: 15px"></i></div>
+                  </ng-template>
+                  <ng-template pTemplate="content">
+                    <div class="row" [formGroupName]="i">
+                      <div class="col-12 form-group">
+                        <p-editor formControlName="QuestionText" [placeholder]="'Question'"
+                          [style]="{'height':'150px'}">
+                        </p-editor>
+                      </div>
+
+                      <div class="col-12 form-group">
+                        <label for="firstOption">Option 1 <span class="required-label">*</span> </label>
+                        <p-editor formControlName="Option1" [placeholder]="'Option 1'" [style]="{'height':'150px'}">
+                        </p-editor>
+                      </div>
+
+                      <div class="col-12 form-group">
+                        <label for="Option2">Option 2 <span class="required-label">*</span> </label>
+                        <p-editor formControlName="Option2" [placeholder]="'Option 2'" [style]="{'height':'150px'}">
+                        </p-editor>
+                      </div>
+
+                      <div class="col-12 form-group">
+                        <label for="Option3">Option 3 <span class="required-label">*</span> </label>
+                        <p-editor formControlName="Option3" [placeholder]="'Option 3'" [style]="{'height':'150px'}">
+                        </p-editor>
+                      </div>
+
+                      <div class="col-12 form-group">
+                        <label for="Option4">Option 4 <span class="required-label">*</span> </label>
+                        <p-editor formControlName="Option4" [placeholder]="'Option 4'" [style]="{'height':'150px'}">
+                        </p-editor>
+                      </div>
+
+                      <div class="col-12 form-group">
+                        <label for="Answer">Correct Option <span class="required-label">*</span> </label>
+                        <select class="form-control" formControlName="Answer">
+                          <option [value]="null">--Select--</option>
+                          <option *ngFor="let status of Answers" [value]="status.id">{{status.value}}</option>
+                        </select>
+                      </div>
+
+                      <div class="col-12 form-group">
+                        <label for="Explanation">Explanation <span class="required-label">*</span> </label>
+                        <p-editor formControlName="Explanation" [placeholder]="'Explanation'"
+                          [style]="{'height':'250px'}">
+                        </p-editor>
+                      </div>
+                      <div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </div>
+          <!-- code ends here -->
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="IsActive">Status</label>
+              <select class="form-control" formControlName="IsActive">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let status of statuses" [value]="status.id">{{status.value}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="DifficultyLevelId">Difficulty Level</label>
+              <select class="form-control" formControlName="DifficultyLevelId">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let difficulty of difficultyLevel" [value]="difficulty.DifficultyLevelId">
+                  {{difficulty.DifficultyLevelName}}</option>
+              </select>
+            </div>
+          </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!formValid()"
+              (click)="saveEngQuestion()">{{ isAddMode ? 'Save' : 'Update'}}</button>
+            <button class="btn btn-danger" (click)="cancelQuestion()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayQuestions let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Question Details : {{selectedExamInfo?._id }} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Subject :</span><span class="content-value"> {{
+              selectedExamInfo?.SubjectName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Topic :</span><span class="content-value"> {{
+              selectedExamInfo?.TopicName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Sub Topic :</span><span class="content-value"> {{
+              selectedExamInfo?.SubTopicName}}</span>
+          </div>
+
+          <div class="col-4">
+            <span class="content-label">Is Homework :</span><span class="content-value"> {{
+              selectedExamInfo['IsHomework'] ? "Yes" : "No"}}</span>
+          </div>
+
+          <div class="col-4" *ngIf="selectedExamInfo['IsHomework']">
+            <span class="content-label">Homework Name:</span><span class="content-value"> {{
+              selectedExamInfo['Homeworkname']}}</span>
+          </div>
+        </div>
+        <div class="row add-margin-bottom"></div>
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Paragraph :</span>
+          </div>
+          <div class="col-12 form-group">
+            <span class="content-label" style="color:#000000 !important" [innerHTML]="selectedExamInfo?.Paragraph">
+            </span>
+          </div>
+        </div>
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Question :</span>
+          </div>
+          <div class="col-12 form-group">
+            <span class="content-label" style="color:#000000 !important" [innerHTML]="selectedExamInfo?.QuestionText">
+            </span>
+          </div>
+        </div>
+        <div class="row content-field">
+          <div class="col-12 selected-option">
+            <table class="row table table-striped">
+              <div class="col-12 add-padding-left" [class.active]="selectedExamInfo.Answer.toString() === '1'">
+                <span [innerHTML]="selectedExamInfo?.Option1" class="box"></span>
+              </div>
+              <div class="col-12 add-padding-left" [class.active]="selectedExamInfo.Answer.toString() === '2'">
+                <span [innerHTML]="selectedExamInfo?.Option2" class="box"></span>
+              </div>
+              <div class="col-12 add-padding-left" [class.active]="selectedExamInfo.Answer.toString() === '3'">
+                <span [innerHTML]="selectedExamInfo?.Option3" class="box"></span>
+              </div>
+              <div class="col-12 add-padding-left" [class.active]="selectedExamInfo.Answer.toString() === '4'">
+                <span [innerHTML]="selectedExamInfo?.Option4" class="box"></span>
+              </div>
+            </table>
+          </div>
+        </div>
+
+        <div class="row content-field question-explanation">
+          <div class="col-12">
+            <span class="content-label"
+              style="color:#000000 !important; font-size: 15px;font-weight: 600; letter-spacing: 1.2px;">Rationale
+              :</span>
+          </div>
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">
+              <app-mathjax [content]="selectedExamInfo?.Explanation"></app-mathjax>
+            </span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-4"
+            *ngIf="selectedExamInfo !== undefined && selectedExamInfo?.DifficultyLevelName !== undefined">
+            <span class="content-label">Difficulty Level :</span><span class="content-value"> {{
+              selectedExamInfo?.DifficultyLevelName }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Created At :</span><span class="content-value"> {{
+              selectedExamInfo?.CreatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Updated At :</span><span class="content-value"> {{
+              selectedExamInfo?.UpdatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Question Created By :</span><span class="content-value"> {{
+              selectedExamInfo?.Createdby }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Updated By :</span><span class="content-value"> {{
+              selectedExamInfo?.Updatedby }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Status :</span><span class="content-value"> {{
+              selectedExamInfo?.IsActive ? 'Active' : 'In-Active' }}</span>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelQuestion()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12" style="font-size: 20px; text-align: center;">
+            Do you want to remove Question Id {{ selectedExamInfo?.QuestionId }} ?
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary next-button" (click)="deleteQuestion(selectedExamInfo)">Ok</button>
+          </div>
+          <div class="col-6" style="text-align: left;">
+            <button class="btn btn-danger cancel-button" (click)="cancelQuestion()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner>

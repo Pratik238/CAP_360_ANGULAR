@@ -1,0 +1,660 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Franchises
+            </div>
+            <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="createFranchise()">Create Franchise</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <!-- <p-table [value]="allFranchiseData" [lazy]="true" (onLazyLoad)="loadFranchiseData($event)"
+                [autoLayout]="true" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"> -->
+
+              <p-table #datatable styleClass="p-datatable-striped" [value]="allFranchiseData" [metaKeySelection]="true"
+                [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="multiple" [autoLayout]="true"
+                [responsive]="true" [scrollable]="true" [lazy]="false" [totalRecords]="totalRecords"
+                [globalFilterFields]="['FranchiseId','FranchiseTitle','CityName','CountryName','CenteradminName','Zipcode']">
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="datatable.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(csvData)"
+                        class="export-button-align p-button-success" pTooltip="CSV" tooltipPosition="top"></button>
+                    </div>
+                    <!-- <label class="add-padding-right">
+                      <input type="radio" name="status" value="true" (click)="loadFranchiseData($event)" checked
+                        [(ngModel)]="currentSelectedStatus" />
+                      <span class="checkmark"></span>Active</label>
+                    <label class="">
+                      <input type="radio" name="statusc" value="false" (click)="loadFranchiseData($event)"
+                        [(ngModel)]="currentSelectedStatus" />
+                      <span class="checkmark"></span>In-Active</label> -->
+
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        ID
+                        <p-columnFilter type="text" field="FranchiseId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Franchise Title
+                        <p-columnFilter type="text" field="FranchiseTitle" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        City
+                        <p-columnFilter type="text" field="CityName" display="menu" readonly></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        County
+                        <p-columnFilter type="text" field="CountryName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Center Admin
+                        <p-columnFilter type="text" field="CenteradminName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Zipcode
+                        <p-columnFilter type="text" field="Zipcode" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Actions
+                      </div>
+                    </th>
+
+                    <!-- <th scope="col">ID</th>
+                    <th scope="col">Franchise Title</th>
+                    <th scope="col">City</th>
+                    <th scope="col">County</th>
+                    <th scope="col">Center Admin</th>
+                    <th scope="col">Zipcode</th>
+                    <th scope="col">Actions</th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.FranchiseId }} </td>
+                    <td>{{ rowData?.FranchiseTitle }} </td>
+                    <td> {{ rowData?.CityName }} </td>
+                    <td> {{ rowData?.CountryName }} </td>
+                    <td> {{ rowData?.CenteradminName }} </td>
+                    <td> {{ rowData?.Zipcode }} </td>
+                    <td style="position: sticky; width: 150px;">
+                      <button class="btn btn-sm btn-primary" pTooltip="View" tooltipPosition="top"
+                        (click)="viewFranchise(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="top"
+                        class="p-button-success p-mr-2"
+                        style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                        (click)="editFranchise(rowData)"></button>
+                      <button class="btn btn-sm btn-danger" pTooltip="Delete" tooltipPosition="top"
+                        (click)="removeFranchise(rowData)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="5">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #editSubscribeForm let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">{{ isAddMode ? 'Add New' : 'Edit'}} Location</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="createFranchiseForm">
+          <div class="row">
+            <div class="col-12 madatory-field-label">
+              * Marked Fields are Required</div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="Zipcode">ZIP Code <span class="required-label">*</span> </label>
+              <input type="number" id="Zipcode" formControlName="Zipcode" class="form-control p-inputtext-lg"
+                (change)="filterZipCode($event)" placeholder="ZIP Code"
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('Zipcode').errors && (createFranchiseForm.get('Zipcode').touched || createFranchiseForm.get('Zipcode').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('Zipcode').touched || createFranchiseForm.get('Zipcode').dirty) && createFranchiseForm.get('Zipcode').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('Zipcode').errors.required">ZIP Code is required</div>
+              </div>
+              <span class="invalid-feedback"
+                *ngIf="createFranchiseForm.get('Zipcode').touched && createFranchiseForm.get('Zipcode').errors?.invalidZipcode">
+                Invalid US Zipcode
+              </span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="FranchiseTitle">Franchise Title<span class="required-label">*</span> </label>
+              <input type="text" id="FranchiseTitle" formControlName="FranchiseTitle"
+                class="form-control p-inputtext-lg" placeholder="Franchise Title"
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('FranchiseTitle').errors && (createFranchiseForm.get('FranchiseTitle').touched || createFranchiseForm.get('FranchiseTitle').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('FranchiseTitle').touched || createFranchiseForm.get('FranchiseTitle').dirty) && createFranchiseForm.get('FranchiseTitle').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('FranchiseTitle').errors.required">Franchise Title is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="CityName">City Name<span class="required-label">*</span> </label>
+              <input type="text" id="CityName" formControlName="CityName" class="form-control p-inputtext-lg"
+                placeholder="City Name" readonly
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('CityName').errors && (createFranchiseForm.get('CityName').touched || createFranchiseForm.get('CityName').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('CityName').touched || createFranchiseForm.get('CityName').dirty) && createFranchiseForm.get('CityName').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('CityName').errors.required">City Name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="StateName">State Name<span class="required-label">*</span> </label>
+              <input type="text" id="StateName" formControlName="StateName" class="form-control p-inputtext-lg"
+                placeholder="State Name" readonly
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('StateName').errors && (createFranchiseForm.get('StateName').touched || createFranchiseForm.get('StateName').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('StateName').touched || createFranchiseForm.get('StateName').dirty) && createFranchiseForm.get('StateName').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('StateName').errors.required">State Name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="CountryName">County Name <span class="required-label">*</span> </label>
+              <input type="text" id="CountryName" formControlName="CountryName" class="form-control p-inputtext-lg"
+                placeholder="Country Name" readonly
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('CountryName').errors && (createFranchiseForm.get('CountryName').touched || createFranchiseForm.get('CountryName').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('CountryName').touched || createFranchiseForm.get('CountryName').dirty) && createFranchiseForm.get('CountryName').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('CountryName').errors.required">Country Name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="latitude">Latitude <span class="required-label">*</span> </label>
+              <input type="text" id="latitude" formControlName="latitude" class="form-control p-inputtext-lg"
+                placeholder="Latitude" readonly
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('latitude').errors && (createFranchiseForm.get('latitude').touched || createFranchiseForm.get('latitude').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('latitude').touched || createFranchiseForm.get('latitude').dirty) && createFranchiseForm.get('latitude').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('latitude').errors.required">latitude is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="longitude">Longitude <span class="required-label">*</span> </label>
+              <input type="text" id="longitude" formControlName="longitude" class="form-control p-inputtext-lg"
+                placeholder="Longitude" readonly
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('longitude').errors && (createFranchiseForm.get('longitude').touched || createFranchiseForm.get('longitude').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('longitude').touched || createFranchiseForm.get('longitude').dirty) && createFranchiseForm.get('longitude').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('longitude').errors.required">longitude is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="AddressLine">Address Line <span class="required-label">*</span> </label>
+              <input type="text" id="AddressLine" formControlName="AddressLine" class="form-control p-inputtext-lg"
+                placeholder="Address Line"
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('AddressLine').errors && (createFranchiseForm.get('AddressLine').touched || createFranchiseForm.get('AddressLine').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('AddressLine').touched || createFranchiseForm.get('AddressLine').dirty) && createFranchiseForm.get('AddressLine').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('AddressLine').errors.required">Address Line Id is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="LocationName">Location Name </label>
+              <input type="text" id="LocationName" class="form-control p-inputtext-lg" placeholder="Location Name" />
+              <!-- <div
+                *ngIf="(createFranchiseForm.get('LocationName').touched || createFranchiseForm.get('LocationName').dirty) && createFranchiseForm.get('LocationName').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('LocationName').errors.required">Location Name is required</div>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="LocationDisplayName">Location Display Name <span class="required-label">*</span> </label>
+              <input type="text" id="LocationDisplayName" formControlName="LocationDisplayName"
+                class="form-control p-inputtext-lg" placeholder="Location Display Name"
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('LocationDisplayName').errors && (createFranchiseForm.get('LocationDisplayName').touched || createFranchiseForm.get('LocationDisplayName').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('LocationDisplayName').touched || createFranchiseForm.get('LocationDisplayName').dirty) && createFranchiseForm.get('LocationDisplayName').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('LocationDisplayName').errors.required">Location Display Name is
+                  required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="LocationURL">Location URL <span class="required-label">*</span> </label>
+              <input type="text" id="LocationURL" formControlName="LocationURL" class="form-control p-inputtext-lg"
+                placeholder="Location URL"
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('LocationURL').errors && (createFranchiseForm.get('LocationURL').touched || createFranchiseForm.get('LocationURL').dirty) }" />
+              <div
+                *ngIf="(createFranchiseForm.get('LocationURL').touched || createFranchiseForm.get('LocationURL').dirty) && createFranchiseForm.get('LocationURL').errors"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('LocationURL').errors.required">Location URL is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="PhoneNumber">Phone Number <span class="required-label">*</span> </label>
+              <input id="PhoneNumber" name="PhoneNumber" formControlName="PhoneNumber" type="number"
+                class="form-control" placeholder="Phone Number"
+                [ngClass]="{'is-invalid': createFranchiseForm.get('PhoneNumber').errors && (createFranchiseForm.get('PhoneNumber').touched || createFranchiseForm.get('PhoneNumber').dirty)}">
+              <div
+                *ngIf="createFranchiseForm.get('PhoneNumber').errors && (createFranchiseForm.get('PhoneNumber').touched || createFranchiseForm.get('PhoneNumber').dirty)"
+                class="invalid-feedback">
+                <div *ngIf="createFranchiseForm.get('PhoneNumber').errors.required">Phone number is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Center Admin <span class="required-label">*</span> </label>
+                <select class="form-control" formControlName="Centeradminid">
+                  <option value="null">--Select--</option>
+                  <option *ngFor="let admin of allCenterAdmins" [value]="admin.UserId">{{admin.FirstName}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="FacebookId">Facebook Link</label>
+              <input type="text" id="FacebookId" formControlName="FacebookId" class="form-control p-inputtext-lg"
+                placeholder="Enter Facebook" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="TwitterId">Twitter Link</label>
+              <input type="text" id="TwitterId" formControlName="TwitterId" class="form-control p-inputtext-lg"
+                placeholder="Enter Twitter"
+                [ngClass]="{ 'is-invalid': createFranchiseForm.get('TwitterId').errors && (createFranchiseForm.get('TwitterId').touched || createFranchiseForm.get('TwitterId').dirty) }" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="DomainId">Domain</label>
+              <input type="text" id="DomainId" formControlName="DomainId" class="form-control p-inputtext-lg"
+                placeholder="Domain" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="Email">Email </label>
+              <input id="Email" name="Email" formControlName="Email" type="email" class="form-control"
+                placeholder="Enter Email">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="Password">Password </label>
+              <input type="Password" formControlName="Password" placeholder="Password" class="form-control" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6 form-group">
+              <mat-slide-toggle formControlName="isEarlyDropOff" [(ngModel)]="isChecked">Early Dropoff
+              </mat-slide-toggle>
+            </div>
+            <div class="col-6 form-group">
+              <mat-slide-toggle formControlName="isLatePickUp">Late PickUP</mat-slide-toggle>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group"> <strong> Extra Functionality</strong></div>
+
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="summerCamp">Summer Camp</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="openHouse">Open House</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="registration">Registration</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="enrichment">Enrichment</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="debitAuthorization">Debit Authorization</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="teacherEvolution">Teacher Evaluation</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="reportCard">Report Card</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="studentEvaluation">Student Evaluation</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="afterSchool">After School</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="contactUs">Contact US</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="getInTouch">Get In Touch</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="subscribe">Subscribe</mat-slide-toggle>
+            </div>
+            <div class="col-3 form-group">
+              <mat-slide-toggle formControlName="careers">Careers</mat-slide-toggle>
+            </div>
+          </div>
+
+          <hr>
+          <div class="co-12 report-issue-btn-container" style="margin-bottom: 15px;">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!franchiseFormvalid()"
+              (click)="saveFranchise()">{{ isAddMode ? 'Add New' : 'Update'}} Franchise or Location</button>
+            <button class="btn btn-danger" (click)="cancelFranchise()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<p-toast></p-toast>
+
+<ng-template #displayFranchise let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Center Location Details: {{ collectedFranchiseInfo?.FranchiseTitle }}
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Address Line :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.AddressLine}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">City :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.CityName}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">State :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.StateName}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Country :</span><span class="content-value">
+              {{ 'USA'}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">ZIP Code :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.Zipcode}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Longitude :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.Longitude}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Lattitude :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.Lattitude}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Location Name :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.LocationName}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Center Admin :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.CenteradminName}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Location Display Name :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.LocationDisplayName}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Location URL :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.LocationURL}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Phone Number :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.PhoneNumber}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Facebook Link :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.FacebookId}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Twitter Link :</span><span class="content-value">
+              {{ collectedFranchiseInfo?.TwitterId}}</span>
+
+            <div class="row content-field">
+              <div class="col-12">
+                <span class="content-label">Domain :</span><span class="content-value">
+                  {{ collectedFranchiseInfo?.DomainId}}</span>
+              </div>
+            </div>
+
+            <div class="row content-field">
+              <div class="col-12">
+                <span class="content-label">To Email :</span><span class="content-value">
+                  {{ collectedFranchiseInfo?.Email}}</span>
+              </div>
+            </div>
+
+            <form [formGroup]="createFranchiseForm">
+              <div class="row">
+                <div class="col-6 form-group">
+                  <mat-slide-toggle formControlName="isEarlyDropOff" [(ngModel)]="isChecked">Early Dropoff
+                  </mat-slide-toggle>
+                </div>
+                <div class="col-6 form-group">
+                  <mat-slide-toggle formControlName="isLatePickUp">Late PickUP</mat-slide-toggle>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 form-group"> <strong> Extra Functionality</strong></div>
+
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Summer Camp</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Open House</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Registration</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Enrichment</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Debit Authorization</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Teacher Evaluation</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Report Card</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Student Evaluation</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>After School</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Contact US</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Get In Touch</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Subscribe</mat-slide-toggle>
+                </div>
+                <div class="col-3 form-group">
+                  <mat-slide-toggle>Careers</mat-slide-toggle>
+                </div>
+              </div>
+            </form>
+          </div>
+          <hr>
+          <div class="col-12" style="text-align: right; margin-bottom:15px;">
+            <button class="btn btn-primary" (click)="close()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12" style="font-size: 20px; text-align: center;">
+            Do you want to remove {{ user['AddressLine'] }} franchise?
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary next-button" (click)="deleteFranchise(user)">Ok</button>
+          </div>
+          <div class="col-6" style="text-align: left;">
+            <button class="btn btn-danger cancel-button" (click)="cancelFranchise()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

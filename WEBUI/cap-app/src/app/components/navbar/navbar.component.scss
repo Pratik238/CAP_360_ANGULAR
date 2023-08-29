@@ -1,0 +1,15 @@
+:host ::ng-deep .dropdown-menu .dropdown-item {
+    cursor: pointer;
+}
+
+.profile-label {
+    font-weight: 500;
+}
+
+nav {
+    padding: 5px;
+}
+
+.header-gradient-danger {
+    background: linear-gradient(87deg, #FEFEDF 0, #fa9046 100%) !important;
+}

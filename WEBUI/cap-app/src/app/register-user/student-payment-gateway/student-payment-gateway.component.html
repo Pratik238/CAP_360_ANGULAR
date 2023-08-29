@@ -1,0 +1,165 @@
+
+<div class="container" *ngIf="isVisiblePaymentIfDone">
+  <div class="row">
+     <div class="col-md-6 mx-auto mt-5">
+        <div class="payment">
+           <div class="payment_header">
+              <div class="check"><i class="fa fa-check" aria-hidden="true"></i></div>
+           </div>
+           <div class="content">
+              <h1>Payment is alredy done. !</h1>
+              <a href="#">Go to Home</a>
+           </div>
+           
+        </div>
+     </div>
+  </div>
+</div>
+
+
+<div *ngIf="IsvisibleSMARTSAT">
+<section>
+  <div class="container margin-nav">
+    <h2 class="text-uppercase font-weight-bold post-info-title">SMARTSAT</h2>
+  </div>
+</section>
+<section class="section">
+  <!-- Bootstrap tabs-->
+  <div class="tabs-custom tabs-complex" id="tabs-1" style="background: none;">
+    <button class="tabs-complex-nav-toggle" data-multitoggle="#tabs-complex-nav" data-isolate="#tabs-complex-nav"><span>Navigation</span><span class="icon mdi mdi-chevron-down"></span></button>
+    <!-- Nav tabs-->
+    <ul class="nav nav-tabs" id="tabs-complex-nav">
+      <li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-1-1" data-toggle="tab"><span class="fa fa-hashtag"></span><span class="font-weight-medium">Program</span></a></li>
+      <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-toggle="tab"><span class="icon mdi mdi-map"></span><span class="font-weight-medium">Highlights</span></a></li>
+      
+    </ul>
+    <!-- Tab panes-->
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tabs-1-1">
+        <div class="container">
+          <div class="tab-space row row-50">
+            <div class="col-lg-9">
+              <article class="inset-1">
+                <div class="post-info-details">
+                  <p class="post-info-price">$99</p>
+                </div>
+                <div class="post-info-meta">
+                  <ul class="post-info-meta-list">
+                    <li><span class="icon mdi mdi-clock"></span><span>Duration: </span></li>
+                    <li><span class="icon mdi mdi-star-outline"></span><span>40 Weeks</span></li>
+                  </ul>
+                </div>
+                <p class="p-text-align">Students learn at their own speed and capacity. Every individual has their own strengths and areas of improvement. Even sometimes tutors find it challenging to bring everyone on to the same page and address every query within the given time. Because students grasp a few concepts really quick while needing extra support with little extra time to learn and excel in others. </p>
+                <p class="p-text-align">The CAP team makes sure every student learns each concept thoroughly benefiting from our latest AI-based learning methodology. Our testing system is so robust and intelligent that it helps a student to focus on the areas one needs to improve and excel.</p>
+                <p class="p-text-align">At CAP each second counts, not only subject and concepts are taught but also tips, tricks, and time management is emphasized for the overall development of a student. Join the program “SMARTSAT”, an intelligent, robust learning method. We challenge you to “Test our Tests” and "Benefit from the Best".</p>
+                <a (click)="checkout()" class="button button-lg button-primary mt-lg-40 knowmore-padding margin-top feedback">PAY</a>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-pane fade" id="tabs-1-2">
+        <div class="container">
+          <div class="tab-space row row-50">
+            <div class="col-lg-9">
+              <div class="inset-1">
+                <h2 class="text-uppercase font-weight-bold">HIGHLIGHTS</h2>
+                <div class="hand-table">
+                  <p class="number-list">SMARTSAT is one of the most intensive and detailed curricula purely based on SAT Content.</p>
+                  <p class="number-list">A SAT format exam soon after the topic is completed to make the students understand their exact strengths and weakness.</p>
+                  <p class="number-list">Auto revision of topics is done as the tests are based on the present topic covered as well as the previous topic in ehich the student made mistakes.</p>
+                  <p class="number-list">One-One support with 24/7 assistance after the classes.</p>
+                  <p class="number-list">Unlimited access to PREP Tests.</p>
+                
+                <a class="button button-lg button-primary mt-20" (click)="checkout()">PAY</a>
+                
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div *ngIf="IsvisibleCAP360">
+  <section>
+    <div class="container margin-nav">
+      <h2 class="text-uppercase font-weight-bold post-info-title">CAP360</h2>
+    </div>
+  </section>
+  <section class="section">
+    <!-- Bootstrap tabs-->
+    <div class="tabs-custom tabs-complex" id="tabs-1">
+      <button class="tabs-complex-nav-toggle" data-multitoggle="#tabs-complex-nav" data-isolate="#tabs-complex-nav"><span>Navigation</span><span class="icon mdi mdi-chevron-down"></span></button>
+      <!-- Nav tabs-->
+      <ul class="nav nav-tabs" id="tabs-complex-nav">
+        <li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-1-1" data-toggle="tab"><span class="fa fa-hashtag"></span><span class="font-weight-medium">Program</span></a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-toggle="tab"><span class="icon mdi mdi-map"></span><span class="font-weight-medium">Highlights</span></a></li>
+        
+      </ul>
+      <!-- Tab panes-->
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="tabs-1-1">
+          <div class="container">
+            <div class="tab-space row row-50">
+              <div class="col-lg-9">
+                <article class="inset-1">
+                  <!-- <h2 class="text-uppercase font-weight-bold post-info-title">Cap360</h2> -->
+                  <div class="post-info-details">
+                    <p class="post-info-price">$249</p>
+                  </div>
+                  <div class="post-info-meta">
+                    <ul class="post-info-meta-list">
+                      <li><span class="icon mdi mdi-clock"></span><span>Duration: </span></li>
+                      <li><span class="icon mdi mdi-star-outline"></span><span>52 Weeks</span></li>
+                    </ul>
+                  </div>
+                  <p class="p-text-align">CAP360 is the program that transforms the kid into an entrepreneur, visionary and a future leader. The curriculum of CAP360 is derived from research and proven modules in different areas. CAP360 takes into consideration all aspects of engagements and in the process will be targeting future college admissions in a competitive way with a more focused and goal-oriented approach. </p>
+                  <button (click)="checkout()" class="button button-lg button-primary mt-lg-40 knowmore-padding margin-top feedback">Pay</button>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-pane fade" id="tabs-1-2">
+          <div class="container">
+            <div class="tab-space row row-50">
+              <div class="col-lg-9">
+                <div class="inset-1">
+                  <h2 class="text-uppercase font-weight-bold">HIGHLIGHTS</h2>
+                  <div class="hand-table">
+                    <p>CAP360 consists of modules as below running into various weeks empowering students at different grades. </p>
+                    <p class="number-list">Entrepreneurship</p>
+                    <p class="number-list">Innovation</p>
+                    <p class="number-list">Training and competitions in:</p>
+                      <p class="number-list-sub">Spell Champ</p>
+                      <p class="number-list-sub">Math Champ</p>
+                      <p class="number-list-sub">Crossword Puzzlers</p>
+                    <p class="number-list">Social Service and Leadership activities</p>
+                      <p class="number-list-sub">Newspaper</p>
+                      <p class="number-list-sub">Local Government</p>
+                      <p class="number-list-sub">M.U.N</p>
+                      <p class="number-list-sub">Local Radio</p>
+                      <p class="number-list-sub">Idea Tank</p>
+                      <p class="number-list-sub">Community Services</p>
+                    
+                    <p class="number-list">Field Trips</p>
+                    <p>The entrepreneurship program is derived from the Government of Israel’s pioneering initiative call – EFK, which is being regarded as one of the best programs in Entrepreneurship for kids.  </p>
+                    <p>In short, entrepreneurship combines teaching theoretical knowledge, having practical experience in developing projects, supporting and building self-esteem among students, and enjoying the process.</p>
+                    <button (click)="checkout()"class="button button-lg button-primary mt-20" >Pay</button>
+                 
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

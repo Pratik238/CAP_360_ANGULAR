@@ -1,0 +1,90 @@
+<div>
+  <header class="section page-header page-header-1 context-dark">
+    <div class="page-header-1-figure m-parallax">
+      <div class="page-header-1-image m-parallax-image"
+        style="background-image: url(../../../../assets/home/images/bg-image-4.jpg);"></div>
+    </div>
+    <section class="breadcrumbs-custom">
+      <div class="breadcrumbs-custom-inner">
+        <div class="container">
+          <div class="breadcrumbs-custom-main m-parallax-content">
+            <svg class="breadcrumbs-custom-line" width="70" height="8" viewBox="0 0 70 8" fill="none">
+              <path
+                d="M0 1C5 1 5 7 9.92 7C14.84 7 14.92 1 19.85 1C24.78 1 24.85 7 29.77 7C34.69 7 34.77 1 39.71 1C44.65 1 44.71 7 49.63 7C54.55 7 54.63 1 59.57 1C64.51 1 64.57 7 69.5 7"
+                stroke-width="1.98" stroke-miterlimit="10"></path>
+            </svg>
+            <h2 class="breadcrumbs-custom-title text-uppercase">Sign In</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+  </header>
+  <section class="section section-lg bg-default">
+    <div class="container">
+      <div class="row row-50 align-items-forms">
+        <div class="col-lg-6 col-xl-6">
+          <!-- RD Mailform-->
+          <!-- <form class="rd-form rd-mailform">
+            <div class="form-wrap form-wrap-icon">
+              <input class="form-input" id="login-name" type="text" name="name" data-constraints="@Required">
+              <label class="form-label" for="login-name">Name</label>
+              <div class="icon form-icon mdi mdi-account-outline"></div>
+            </div>
+            <div class="form-wrap form-wrap-icon">
+              <input class="form-input" id="login-password" type="password" name="password" data-constraints="@Required">
+              <label class="form-label" for="login-password">Password</label>
+              <div class="icon form-icon mdi mdi-key"></div>
+            </div>
+            <div class="form-wrap form-wrap-checkbox">
+              <label class="checkbox-inline checkbox-modern">
+                <input name="checkbox-1" value="checkbox-1" type="checkbox">Remember me
+              </label>
+                <a class="forgot-password" href="#">Forgot Password</a>
+            </div>
+            <div class="form-wrap form-wrap-group group-1">
+              <button class="btn-width button button-lg button-primary" type="submit">Log In</button>
+              
+            </div>
+          </form> -->
+          <p-toast></p-toast>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="rd-form rd-mailform">
+            <div class="form-wrap form-wrap-icon">
+              <input class="form-input" formControlName="username" placeholder="Enter email" type="text" name="name"
+                data-constraints="@Required">
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">Email is required</div>
+              </div>
+              <div class="icon form-icon mdi mdi-account-outline"></div>
+            </div>
+            <div class="form-wrap form-wrap-icon">
+              <input class="form-input" formControlName="password" placeholder="Password" id="login-password"
+                type="password" name="password" data-constraints="@Required">
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+              </div>
+              <div class="icon form-icon mdi mdi-key"></div>
+            </div>
+            <div class="form-wrap form-wrap-checkbox">
+              <label class="checkbox-inline checkbox-modern">
+                <input name="checkbox-1" formControlName="rememberMe" value="checkbox-1" type="checkbox">Remember me
+              </label>
+              <a class="forgot-password" routerLink="/forgot-password">Forgot Password</a>
+            </div>
+            <div class="form-wrap form-wrap-group group-1">
+              <button [disabled]="!allFormsValid()" class="btn-width button button-lg button-primary" type="submit">Log
+                In</button>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+<div class="snackbars" id="form-output-global"></div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

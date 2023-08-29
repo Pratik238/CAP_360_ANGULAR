@@ -1,0 +1,520 @@
+<div class="col-12 card-top-margin">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              All Questions
+            </div>
+            <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="addQuestion()">Add Question</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <p-table #dt [rows]="pagesize" [columns]="cols" [value]="allQuestionData" [lazy]="true"
+                (onLazyLoad)="loadAllQuestions($event)" [autoLayout]="true" [responsive]="true" [paginator]="true"
+                [totalRecords]="totalRecords" [reorderableColumns]="true"
+                [globalFilterFields]="['QuestionId','TopicName','SubTopicName']">
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(csvData)"
+                        class="export-button-align p-button-success" pTooltip="CSV" tooltipPosition="top"></button>
+                    </div>
+                    <label class="add-padding-right">
+                      <input type="radio" name="status" value="Active" (change)="getLoadStatusRecords(true)" checked
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>Active</label>
+                    <label class="add-padding-right">
+                      <input type="radio" name="status" value="Inactive" (change)="getLoadStatusRecords(false)"
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>In-Active</label>
+                    <label class="homework-label">
+                      <mat-checkbox (change)="onDisplayHomeworkData($event)">Show Homework</mat-checkbox>
+                    </label>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th>ID</th>
+                    <th>Topic</th>
+                    <th>Sub Topic</th>
+                    <th>Calc</th>
+                    <th>Non Calc</th>
+                    <th>Grid In</th>
+                    <th *ngIf="isShowHomeworkTab">Homewrok Name</th>
+                    <th>Difficulty</th>
+                    <th>Question</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'QuestionId', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'TopicName', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'SubTopicName', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'CalculatorId', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'CalculatorId', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'GridId', 'contains')">
+                    </th>
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'DifficultyLevelName', 'contains')">
+                    </th>
+                    <th *ngIf="isShowHomeworkTab">
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'Homeworkname', 'contains')">
+                    </th>
+
+                    <th>
+                      <input style="width:100%;" pInputText type="text"
+                        (input)="dt.filter($event.target.value, 'QuestionText', 'contains')">
+                    </th>
+                    <!-- <th></th> -->
+                    <!-- <th></th> -->
+                    <th></th>
+                    <th></th>
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.QuestionId }} </td>
+                    <td> {{ rowData?.TopicName }} </td>
+                    <td> {{ rowData?.SubTopicName }} </td>
+                    <td>{{ rowData?.CalculatorId ? 'Yes' : 'No' }} </td>
+                    <td> {{ rowData?.CalculatorId ? 'No' : 'Yes' }} </td>
+                    <td> {{ rowData?.GridId ? 'Yes' : 'No' }} </td>
+                    <td *ngIf="isShowHomeworkTab"> {{ rowData?.Homeworkname }} </td>
+                    <td> {{ rowData?.DifficultyLevelName }} </td>
+                    <td>
+                      <app-mathjax [content]='rowData?.QuestionText' class="box"></app-mathjax>
+                    </td>
+                    <td> {{ rowData?.IsActive ? 'Active' : 'In-Active' }} </td>
+                    <td style="display: block; width: 200px;">
+                      <button class="btn btn-sm btn-primary" pTooltip="View" tooltipPosition="top"
+                        (click)="viewQuestion(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button pButton pRipple icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="top"
+                        class="p-button-success p-mr-2"
+                        style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                        (click)="editQuestion(rowData)"></button>
+                      <button class="btn btn-sm btn-danger" pTooltip="Delete" tooltipPosition="top"
+                        (click)="removeQuestion(rowData)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="10">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<ng-template #reportInvalidQuestion let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Add Question</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row" style="padding-bottom: 15px">
+      <div class="col-12">
+        <form [formGroup]="questionForm">
+          <div class="row">
+            <div class="row">
+              <div class="col-12 madatory-field-label">
+                * Marked Fields are Required</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 form-group">
+              <label for="SubjectId">Subject <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="SubjectId" required (change)="onChangeSubject($event)"
+                disabled>
+                <!-- <option [value]="null" disabled="true">Select</option> -->
+                <option *ngFor="let subject of subjects; let itemIndex = index" [value]="subject.id">{{subject.name}}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-3 form-group">
+              <label for="TopicId">Topic <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="TopicId" (change)="onChangeTopic($event)">
+                <option [value]="null"> -- Select --</option>
+                <option *ngFor="let topic of topics" [value]="topic.TopicId">{{topic.TopicName}}</option>
+              </select>
+              <div *ngIf="questionForm.get('TopicId').errors" class="invalid-feedback">
+                <div *ngIf="questionForm.get('TopicId').errors.required">Topic is required</div>
+              </div>
+            </div>
+            <div class="col-3 form-group">
+              <label for="SubTopicId">Sub Topic <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="SubTopicId" (change)="onChangeSubTopic($event)">
+                <option [value]="null"> -- Select --</option>
+                <option *ngFor="let topic of subTopics" [value]="topic.SubTopicId">{{topic.SubTopicName}}</option>
+              </select>
+              <div *ngIf="questionForm.get('SubTopicId').errors" class="invalid-feedback">
+                <div *ngIf="questionForm.get('SubTopicId').errors.required">Sub Topic is required</div>
+              </div>
+            </div>
+
+            <!-- Homework code starts here -->
+            <div class="col-3 form-group" style="display: flex; align-items: center;">
+              <mat-checkbox (change)="onCheckboxChange($event.checked)" [checked]="isSHowFormChekbox"
+                formControlName="IsHomework">Is Homework</mat-checkbox>
+            </div>
+
+            <div class="col-3 form-group" *ngIf="isShowHomeworkSection">
+              <label for="HomeWorkId">Homework <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="HomeWorkId">
+                <option [value]="0"> -- Select --</option>
+                <option *ngFor="let home of homeWork" [value]="home.HomeWorkId">{{home.HomeWorkName}}</option>
+              </select>
+            </div>
+            <!-- Homework code ends here -->
+
+            <div class="col-3 form-group" *ngIf="isDisplayMathControls">
+              <label for="CalculatorId">Can Use Calculator <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="CalculatorId">
+                <option [value]="null"> -- Select --</option>
+                <option *ngFor="let topic of yesOrNoArray" [value]="topic.id">{{topic.value}}</option>
+              </select>
+              <div *ngIf="questionForm.get('CalculatorId').errors" class="invalid-feedback">
+                <div *ngIf="questionForm.get('CalculatorId').errors.required">Can Use Calculator is required</div>
+              </div>
+            </div>
+            <div class="col-3 form-group" *ngIf="isDisplayMathControls">
+              <label for="GridId">Grid In <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="GridId" (change)="onChangeGridInValues($event)">
+                <option [value]="null"> -- Select --</option>
+                <option *ngFor="let topic of yesOrNoArray" [value]="topic.id">{{topic.value}}</option>
+              </select>
+              <div *ngIf="questionForm.get('GridId').errors" class="invalid-feedback">
+                <div *ngIf="questionForm.get('GridId').errors.required">Grid In is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="QuestionText">Question <span class="required-label">*</span> </label>
+              <p-editor formControlName="QuestionText" [placeholder]="'Question'" [style]="{'height':'320px'}">
+              </p-editor>
+              <div
+                *ngIf="(questionForm.get('QuestionText').touched || questionForm.get('QuestionText').dirty) && questionForm.get('QuestionText').errors"
+                class="invalid-feedback">
+                <div *ngIf="questionForm.get('QuestionText').errors.required">Question is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!isShowGridInSection">
+            <div class="col-12 form-group">
+              <label for="firstOption">Option 1 <span class="required-label">*</span> </label>
+              <p-editor formControlName="Option1" [placeholder]="'Option 1'" [style]="{'height':'250px'}"></p-editor>
+              <div
+                *ngIf="(questionForm.get('Option1').touched || questionForm.get('Option1').dirty) && questionForm.get('Option1').errors"
+                class="invalid-feedback">
+                <div *ngIf="questionForm.get('Option1').errors.required">Question is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!isShowGridInSection">
+            <div class="col-12 form-group">
+              <label for="Option2">Option 2 <span class="required-label">*</span> </label>
+              <p-editor formControlName="Option2" [placeholder]="'Option 2'" [style]="{'height':'320px'}"></p-editor>
+              <div
+                *ngIf="(questionForm.get('Option2').touched || questionForm.get('Option2').dirty) && questionForm.get('Option2').errors"
+                class="invalid-feedback">
+                <div *ngIf="questionForm.get('Option2').errors.required">Question is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!isShowGridInSection">
+            <div class="col-12 form-group">
+              <label for="Option3">Option 3 <span class="required-label">*</span> </label>
+              <p-editor formControlName="Option3" [placeholder]="'Option 3'" [style]="{'height':'250px'}"></p-editor>
+              <div
+                *ngIf="(questionForm.get('Option3').touched || questionForm.get('Option3').dirty) && questionForm.get('Option3').errors"
+                class="invalid-feedback">
+                <div *ngIf="questionForm.get('Option3').errors.required">Option is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!isShowGridInSection">
+            <div class="col-12 form-group">
+              <label for="Option4">Option 4 <span class="required-label">*</span> </label>
+              <p-editor formControlName="Option4" [placeholder]="'Option 4'" [style]="{'height':'320px'}"></p-editor>
+              <div
+                *ngIf="(questionForm.get('Option4').touched || questionForm.get('Option4').dirty) && questionForm.get('Option4').errors"
+                class="invalid-feedback">
+                <div *ngIf="questionForm.get('Option4').errors.required">Question is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="isShowGridInSection">
+            <div class="col-12 form-group">
+              <label for="Option4">Option <span class="required-label">*</span> </label>
+              <p-editor formControlName="Option4" [placeholder]="'Option'" [style]="{'height':'320px'}"></p-editor>
+              <div
+                *ngIf="(questionForm.get('Option4').touched || questionForm.get('Option4').dirty) && questionForm.get('Option4').errors"
+                class="invalid-feedback">
+                <div *ngIf="questionForm.get('Option4').errors.required">Question is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!isShowGridInSection">
+            <div class="col-12 form-group">
+              <label for="Answer">Correct Option <span class="required-label">*</span> </label>
+              <select class="form-control" formControlName="Answer">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let status of Answers" [value]="status.id">{{status.value}}</option>
+              </select>
+              <div *ngIf="questionForm.get('IsActive').errors" class="invalid-feedback">
+                <div *ngIf="questionForm.get('IsActive').errors.required">Option is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="isShowGridInSection">
+            <div class="col-12 form-group">
+              <label for="Answer">Correct Answer <span class="required-label">*</span> </label>
+              <input type="text" id="SubjectName" formControlName="Answer" class="form-control p-inputtext-lg"
+                placeholder="Enter Correct Answer">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="Explanation">Explanation <span class="required-label">*</span> </label>
+              <p-editor formControlName="Explanation" [placeholder]="'Explanation'" [style]="{'height':'250px'}">
+              </p-editor>
+              <div
+                *ngIf="(questionForm.get('Explanation').touched || questionForm.get('Explanation').dirty) && questionForm.get('Explanation').errors"
+                class="invalid-feedback">
+                <div *ngIf="questionForm.get('Explanation').errors.required">Explanation is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="IsActive">Status</label>
+              <select class="form-control" formControlName="IsActive">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let status of statuses" [value]="status.id">{{status.value}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="DifficultyLevelId">Difficulty Level</label>
+              <select class="form-control" formControlName="DifficultyLevelId">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let difficulty of difficultyLevel" [value]="difficulty.DifficultyLevelId">
+                  {{difficulty.DifficultyLevelName}}</option>
+              </select>
+            </div>
+          </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!formValid()"
+              (click)="saveQuestion()">Save</button>
+            <button class="btn btn-danger" (click)="cancelQuestion()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayQuestions let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Question Details : {{selectedExamInfo?._id }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Topic :</span><span class="content-value"> {{
+              selectedExamInfo?.TopicName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Sub Topic :</span><span class="content-value"> {{
+              selectedExamInfo?.SubTopicName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Can Use Calculator :</span><span class="content-value"> {{
+              selectedExamInfo?.CalculatorId ? 'Yes' : 'No'}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Multiple Choice :</span><span class="content-value"> {{
+              selectedExamInfo?.isMultipleChoice ? 'Yes' : 'No'}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Grid In :</span><span class="content-value"> {{
+              selectedExamInfo?.GridName}}</span>
+          </div>
+        </div>
+        <div class="row add-margin-bottom"></div>
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">Question :</span>
+          </div>
+        </div>
+        <div class="row content-field">
+          <div class="col-12 form-group">
+            <span class="content-label" style="color:#000000 !important">
+              <app-mathjax [content]="selectedExamInfo?.QuestionText.toString()" class="box"></app-mathjax>
+            </span>
+          </div>
+          <div class="col-12 selected-option" *ngIf="selectedExamInfo?.GridId.toString() === '2'">
+            <table class="row table table-striped table-bordered">
+              <td class="col-12" [class.active]="selectedExamInfo.Answer.toString() === '1'">
+                <app-mathjax [content]="selectedExamInfo?.Option1" class="box"></app-mathjax>
+              </td>
+              <td class="col-12" [class.active]="selectedExamInfo.Answer.toString() === '2'">
+                <app-mathjax [content]="selectedExamInfo?.Option2" class="box"></app-mathjax>
+              </td>
+              <td class="col-12" [class.active]="selectedExamInfo.Answer.toString() === '3'">
+                <app-mathjax [content]="selectedExamInfo?.Option3" class="box"></app-mathjax>
+              </td>
+              <td class="col-12" [class.active]="selectedExamInfo.Answer.toString() === '4'">
+                <app-mathjax [content]="selectedExamInfo?.Option4" class="box"></app-mathjax>
+              </td>
+            </table>
+          </div>
+
+          <div class="col-12" *ngIf="selectedExamInfo?.GridId.toString() === '1'">
+            <span>Answer :</span><span>
+              <app-mathjax [content]="selectedExamInfo?.Option4" class="box"></app-mathjax>
+            </span>
+          </div>
+        </div>
+
+        <div class="row content-field question-explanation">
+          <div class="col-12">
+            <span class="content-label"
+              style="color:#000000 !important; font-size: 15px;font-weight: 600; letter-spacing: 1.2px;">Rationale
+              :</span>
+          </div>
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">
+              <app-mathjax [content]="selectedExamInfo?.Explanation"></app-mathjax>
+            </span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Difficulty Level :</span><span class="content-value"> {{
+              selectedExamInfo?.DifficultyLevelName }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Created At :</span><span class="content-value"> {{
+              selectedExamInfo?.CreatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Updated At :</span><span class="content-value"> {{
+              selectedExamInfo?.UpdatedDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Question Created By :</span><span class="content-value"> {{
+              selectedExamInfo?.Createdby }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Updated By :</span><span class="content-value"> {{
+              selectedExamInfo?.Updatedby }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Status :</span><span class="content-value"> {{
+              selectedExamInfo?.IsActive ? 'Active' : 'In-Active' }}</span>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelQuestion()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12" style="font-size: 20px; text-align: center;">
+            Do you want to remove Question Id {{ selectedExamInfo?.QuestionId }} ?
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary next-button" (click)="deleteQuestion(selectedExamInfo)">Ok</button>
+          </div>
+          <div class="col-6" style="text-align: left;">
+            <button class="btn btn-danger cancel-button" (click)="cancelQuestion()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner>

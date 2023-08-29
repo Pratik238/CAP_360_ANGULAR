@@ -1,0 +1,20 @@
+.align-center {
+  text-align: center;
+}
+
+.row-box-shadow {
+  border: 1px solid #b2bec3;
+  border-radius: 25px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.active {
+    font-size: 15px;
+    background-color: #A3CB38;
+    border-radius: 20px;
+    color: #ffffff;
+  }

@@ -1,0 +1,513 @@
+<div class="col-12">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Maths SAT Exam
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <p-table #datatable styleClass="p-datatable-striped" [value]="adminExamInfo" [metaKeySelection]="true"
+                [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="multiple" [autoLayout]="true"
+                [responsive]="true" [scrollable]="true" [lazy]="false"
+                [globalFilterFields]="['Createteddate','Score','Name','NoofQuestions','Noofanswered','Noofskipped']">
+
+                <!-- <p-table [value]="adminExamInfo" [lazy]="true" (onLazyLoad)="loadAdminExamQuestions($event)"
+              [autoLayout]="true" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"> -->
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="datatable.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(adminExamInfo)"
+                        class="export-button-align p-button-success" pTooltip="CSV" tooltipPosition="bottom"></button>
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Test Date
+                        <p-columnFilter type="date" field="Createteddate" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Score
+                        <p-columnFilter type="text" field="Score" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Student
+                        <p-columnFilter type="text" field="Name" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        No. of Questions
+                        <p-columnFilter type="text" field="NoofQuestions" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        No. of Correct Answers
+                        <p-columnFilter type="text" field="Noofanswered" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        No. of Skipped
+                        <p-columnFilter type="text" field="Noofskipped" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Actions
+                        <!-- <p-columnFilter type="text" field="FirstName" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <!-- <th scope="col">Test Date</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Student</th>
+                    <th scope="col">No. of Questions</th>
+                    <th scope="col">No. of Correct Answers</th>
+                    <th scope="col">No. of Skipped</th>
+                    <th scope="col">Actions</th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.Createteddate }} </td>
+                    <td> {{ rowData?.Score }} </td>
+                    <td>{{ rowData?.Name }} </td>
+                    <td>{{ rowData?.NoofQuestions }} </td>
+                    <td>{{ rowData?.Noofanswered }} </td>
+                    <td>{{ rowData?.Noofskipped }} </td>
+                    <td style="position: sticky; width: 150px;">
+                      <button class="btn btn-sm btn-primary" pTooltip="View" tooltipPosition="top"
+                        (click)="viewSatReport(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <button class="btn btn-sm btn-success" pTooltip="View Result" tooltipPosition="top"
+                        (click)="viewQuestionsByExamId(rowData)"><i class="fa fa-info-circle"
+                          aria-hidden="true"></i></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="6">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #displayTopics let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Exam ID: {{selectedExamInfo?.ExamId }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">User :</span><span class="content-value"> {{ selectedExamInfo['Name']}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Break Status :</span><span class="content-value"> {{ 'Yes' }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No Of Questions :</span><span class="content-value"> {{
+              selectedExamInfo['NoofQuestions'] }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Break Time :</span><span class="content-value"> 10 Min </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Non Calc Multiple Choice Questions :</span><span class="content-value">
+              15</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Non Calc Grid In Questions :</span><span class="content-value"> 5</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. Of Non Calc Questions :</span><span class="content-value"> 20</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Non Calc Questions Time :</span><span class="content-value"> {{
+              selectedExamInfo?.NonCalcQuestionstime }} Min</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Calc Multiple Choice Questions :</span><span class="content-value">
+              {{selectedExamInfo?.NoofcalMultiQuestions }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Calc Grid In Questions :</span><span class="content-value">
+              {{selectedExamInfo?.NoofcalcgridQuestions }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No Of Calc Questions :</span><span class="content-value"> 38</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Calc Questions Time :</span><span class="content-value"> {{
+              selectedExamInfo?.CalcQuestionstime }} Min</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Start Time :</span><span class="content-value"> {{ selectedExamInfo?.StartTime
+              }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">End Time :</span><span class="content-value"> {{ selectedExamInfo?.EndTime
+              }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Completion Time :</span><span class="content-value"> {{
+              selectedExamInfo?.CompletionTime }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. of Right Answers in NON Calc Multiple Choice Qs :</span><span
+              class="content-value"> {{ selectedExamInfo?.NoCalMulCorrect }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. of Right Answers in NON Calc GridIn Qs :</span><span class="content-value">
+              {{ selectedExamInfo?.NoCalGridCorrect }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. of Right Answers in Calc Multiple Choice Qs :</span><span
+              class="content-value"> {{ selectedExamInfo?.CalMulCorrect }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. of Right Answers in Calc GridIn Qs :</span><span class="content-value"> {{
+              selectedExamInfo?.CalGridCorrect }}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. of wrong Answers in NON Calc Multiple Choice Qs :</span><span
+              class="content-value"> {{ selectedExamInfo?.NoCalMulWrong }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. of wrong Answers in NON Calc GridIn Qs :</span><span class="content-value">
+              {{ selectedExamInfo?.NoCalGridWrong }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. of wrong Answers in Calc Multiple Choice Qs :</span><span
+              class="content-value"> {{ selectedExamInfo?.CalMulWrong }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. of wrong Answers in Calc GridIn Qs :</span><span class="content-value"> {{
+              selectedExamInfo?.CalGridWrong }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. Of Correct Answered Qs :</span><span class="content-value"> {{
+              selectedExamInfo?.Noofanswered }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. Of Skipped Qs :</span><span class="content-value"> {{
+              selectedExamInfo?.Noofskipped }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. Of unanswered Qs :</span><span class="content-value"> {{
+              selectedExamInfo?.Noofunanswerd }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. Of right Answers :</span><span class="content-value"> {{
+              selectedExamInfo?.CalGridCorrect + selectedExamInfo?.CalMulCorrect + selectedExamInfo?.NoCalGridCorrect +
+              selectedExamInfo?.NoCalMulCorrect }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">No. Of wrong Answeres :</span><span class="content-value"> {{
+              selectedExamInfo?.CalGridWrong + selectedExamInfo?.CalMulWrong + selectedExamInfo?.NoCalGridWrong +
+              selectedExamInfo?.NoCalMulWrong }}</span>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Exam Taken? :</span><span class="content-value"> {{ selectedExamInfo?.examTaken ? 'Yes' : 'No' }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Exam End By User :</span><span class="content-value"> {{ selectedExamInfo?.examEndByUser ? 'Yes' : 'No' }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Exam End By System :</span><span class="content-value"> {{ selectedExamInfo?.examEndBySystem ? 'Yes' : 'No' }}</span>
+          </div>
+        </div>
+         <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Status :</span><span class="content-value"> {{ selectedExamInfo?.status }}</span>
+          </div>
+        </div>
+         <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Created By :</span><span class="content-value"> {{ selectedExamInfo?.createdBy }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Updated By :</span><span class="content-value"> {{ selectedExamInfo?.updatedBy }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Created Dt :</span><span class="content-value"> {{ selectedExamInfo?.createdDt }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 content-field">
+            <span class="content-label">Updated Dt :</span><span class="content-value"> {{ selectedExamInfo?.updatedDt }}</span>
+          </div>
+        </div> -->
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- displaying exam questions based on id code starts here -->
+<ng-template #displayExamInfo let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Test Result </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container" style="padding: 25px;">
+    <div class="row" *ngFor="let record of viewQuestions; let q = index;">
+      <div class="col-12" *ngIf="page === q">
+        <div class="row content-field">
+          <div class="col-2">
+            <span class="content-label">Exam Id :</span><span class="content-value"> {{ record?.ExamId}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Question Id :</span><span class="content-value"> {{ record?.QuestionId}}</span>
+          </div>
+        </div>
+        <hr>
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Subject Name :</span><span class="content-value"> {{
+              record?.SubjectName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Topic :</span><span class="content-value"> {{ record?.TopicName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Sub Topic :</span><span class="content-value"> {{ record?.SubTopicName}}</span>
+          </div>
+          <!-- <div class="col-4">
+            <span class="content-label">Can Use Calculator :</span><span class="content-value"> {{ record?.CalculatorName}}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Multiple Choice :</span><span class="content-value"> {{ record?.GridName }}</span>
+          </div>
+          <div class="col-4">
+            <span class="content-label">Grid In :</span><span class="content-value"> {{ record?.GridName }}</span>
+          </div> -->
+        </div>
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">Question :</span>
+          </div>
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">
+              <app-mathjax [content]="record?.QuestionText"></app-mathjax>
+            </span>
+          </div>
+        </div>
+        <div class="row content-field" *ngIf="record?.GridId === 2">
+          <div class="col-12 selected-option">
+            <table class="table table-striped">
+              <td [class.active]="record.Answer === '1'">
+                <app-mathjax [content]="record?.Option1"></app-mathjax>
+              </td>
+            </table>
+          </div>
+          <div class="col-12 selected-option">
+            <table class="table table-striped">
+              <td [class.active]="record.Answer === '2'">
+                <app-mathjax [content]="record?.Option2"></app-mathjax>
+              </td>
+            </table>
+          </div>
+          <div class="col-12 selected-option">
+            <table class="table table-striped">
+              <td [class.active]="record.Answer === '3'">
+                <app-mathjax [content]="record?.Option3"></app-mathjax>
+              </td>
+            </table>
+          </div>
+          <div class="col-12 selected-option">
+            <table class="table table-striped">
+              <td [class.active]="record.Answer === '4'">
+                <app-mathjax [content]="record?.Option4"></app-mathjax>
+              </td>
+            </table>
+          </div>
+        </div>
+
+        <div class="row content-field" *ngIf="record?.GridId === 1">
+          <div class="col-12">
+            <span class="content-label">Selected Answer :</span><span class="content-value"> {{ record?.Answer}}</span>
+          </div>
+          <div class="col-12">
+            <span class="content-label">Question Id :</span><span class="content-value"> {{ record?.QuestionId}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-12">
+            <span class="content-label">Correct Answer :</span><span class="content-value"> {{ record?.Answer}}</span>
+          </div>
+        </div>
+
+        <div class="row content-field question-explanation">
+          <div class="col-12">
+            <span class="content-label"
+              style="color:#000000 !important; font-size: 15px;font-weight: 600; letter-spacing: 1.2px;">Rationale
+              :</span>
+          </div>
+          <div class="col-12">
+            <span class="content-label" style="color:#000000 !important">
+              <app-mathjax [content]="record?.Explanation"></app-mathjax>
+            </span>
+          </div>
+        </div>
+
+        <div class="row content-field">
+          <div class="col-4">
+            <span class="content-label">Difficulty Level :</span><span class="content-value"> {{
+              record?.DifficultyLevelName }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row add-margin-bottom">
+      <ul class="nav horizontal" *ngFor="let p of viewQuestions; let j =index;">
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="{ 'active-link': j === page }" (click)="currentIndex(j)"> {{ j+1 }} </a>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- displaying exam questions based on id ends here-->
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12" style="font-size: 20px; text-align: center;">
+            Do you want to remove {{ selectedExamInfo?.Name }} report?
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary next-button" (click)="deletePracticeTestReport(adminExamInfo)">Ok</button>
+          </div>
+          <div class="col-6" style="text-align: left;">
+            <button class="btn btn-danger cancel-button" (click)="cancelModal()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-ripple-multiple"
+  [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>

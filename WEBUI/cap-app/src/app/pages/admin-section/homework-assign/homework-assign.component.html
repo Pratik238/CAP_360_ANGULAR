@@ -1,0 +1,296 @@
+<div class="col-12">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4"
+              style="color: #d63031; font-size: 18px; font-weight: 500; display: flex; align-items: center;">
+              Homework Assign
+            </div>
+            <div class="col-8" style="text-align:right;">
+              <button class="btn btn-primary" (click)="assignHomework()">Assign Homework</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- temporarly commented below code -->
+          <!-- <div class="row">
+            <div class="col-12">
+              <form [formGroup]="searchBatchForm">
+                <div class="row">
+                  <div class="col-2 form-group">
+                    <select class="form-control" formControlName="BatchId">
+                      <option [value]="null"> -- Select -- </option>
+                      <option *ngFor="let batch of batches" [value]="batch.BatchId" >{{batch.BatchName}}</option>
+                  </select> 
+                  </div>
+                  <div class="col-2">
+                    <input type="text" class="form-control" formControlName="HomeWorkName" placeholder="HomeWork Name">
+                  </div>
+                  <div class="col-2">
+                    <input type="text" class="form-control" formControlName="TutorName" placeholder="Tutor Name">
+                  </div>
+                  <div class="col-2">
+                    <span (click)="onSearchData()"><i class="fa fa-search admin-search-icon-label" aria-hidden="true"></i></span>
+                  </div>
+              </div>
+              </form>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col-12">
+              <!-- <p-table  [value]="allHomeworkDetails" [lazy]="true" (onLazyLoad)="loadHomeworkData($event)"
+              [autoLayout]="true" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"> -->
+              <p-table #datatable styleClass="p-datatable-striped" [value]="allHomeworkDetails"
+                [metaKeySelection]="true" [rows]="10" [paginator]="true" [pageLinks]="3" selectionMode="multiple"
+                [autoLayout]="true" [responsive]="true" [scrollable]="true" [lazy]="false"
+                [globalFilterFields]="['UserId','FirstName','FranchiseId','FranchiseTitle','EmailId']">
+                <ng-template pTemplate="caption">
+                  <div class="col-12 table-caption-container">
+                    <div class="p-d-flex">
+                      <span class="p-input-icon-left p-ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="datatable.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search keyword" />
+                      </span>
+                    </div>
+                    <div class="p-d-flex">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="downloadFile(csvData)"
+                        class="export-button-align p-button-success" pTooltip="CSV" tooltipPosition="top"></button>
+                    </div>
+                    <!-- <label class="add-padding-right">
+                      <input type="radio" name="status" value="true" (click)="loadHomeworkData($event,'true')" checked
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>Active</label>
+                    <label class="">
+                      <input type="radio" name="statusc" value="false" (click)="loadHomeworkData($event,'false')"
+                        [(ngModel)]="currentstatus" />
+                      <span class="checkmark"></span>In-Active</label> -->
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Assign ID
+                        <p-columnFilter type="text" field="HomeWorkAssignId" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Batch
+                        <p-columnFilter type="text" field="BatchName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Homework
+                        <p-columnFilter type="text" field="HomeWorkName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Tutor Name
+                        <p-columnFilter type="text" field="TutorName" display="menu"></p-columnFilter>
+                      </div>
+                    </th>
+                    <!-- <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Status
+                        <p-columnFilter type="text" field="FirstName" display="menu"></p-columnFilter>
+                      </div>
+                    </th> -->
+                    <th scope="col">
+                      <div class="p-d-flex p-jc-between p-ai-center">
+                        Actions
+                        <!-- <p-columnFilter type="text" field="FirstName" display="menu"></p-columnFilter> -->
+                      </div>
+                    </th>
+                    <!-- <th scope="col">Assign ID</th>
+                    <th scope="col">Batch</th>
+                    <th scope="col">Homework</th>
+                    <th scope="col">Tutor Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td> {{ rowData?.HomeWorkAssignId }} </td>
+                    <td>{{ rowData?.BatchName }} </td>
+                    <td>{{ rowData?.HomeWorkName }} </td>
+                    <td>{{ rowData?.TutorName }} </td>
+                    <!-- <td> {{ rowData?.IsActive ? 'Active' : 'In-Active' }} </td> -->
+                    <td style="    position: sticky; width: 150px;">
+                      <button class="btn btn-sm btn-primary" pTooltip="View" tooltipPosition="top"
+                        (click)="viewTopic(rowData)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                      <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-success p-mr-2" style="height: 27px; width: 30px; margin-right: 5px; margin-left: 5px;"
+                      (click)="editTopic(rowData)"></button> -->
+                      <!-- <button class="btn btn-sm btn-danger"
+                      (click)="removeTopic(rowData)"><i class="fa fa-times" aria-hidden="true"></i></button> -->
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="4">No Records.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #assignHomeworkForm let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Assign Homework</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="batchForm">
+          <div class="row">
+            <div class="col-12 madatory-field-label">
+              * Marked Fields are Required</div>
+          </div>
+          <div class="row">
+            <div class="col-12 form-group">
+              <label for="BatchId">Batch <span class="required-label">*</span></label>
+              <select class="form-control" formControlName="BatchId">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let batch of batches" [value]="batch.BatchId">{{batch.BatchName}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-12 form-group">
+              <label for="SubTopicId">SubTopic <span class="required-label">*</span></label>
+              <select class="form-control" formControlName="SubTopicId" (change)="onChangeSubTopic($event)">
+                <option [value]="null">--Select--</option>
+                <option *ngFor="let subTopic of subTopics" [value]="subTopic.SubTopicId">{{subTopic.SubTopicName}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 form-group multiselect-container">
+              <label for="HomeWorkIds">Homework <span class="required-label">*</span></label>
+              <!-- <select class="form-control" formControlName="HomeWorkIds">
+              <option [value]="null">--Select--</option>
+              <option *ngFor="let homework of homeworkData" [value]="homework.HomeWorkIds" >{{homework.HomeWorkName}}</option>
+          </select>  -->
+              <p-multiSelect [options]="homeworkData" formControlName="HomeWorkIds" optionValue="HomeWorkId"
+                styleClass="homework-dropdown" defaultLabel="Select" optionLabel="HomeWorkName" display="chip"
+                class="multiselect-custom"></p-multiSelect>
+            </div>
+          </div>
+          <hr>
+          <div class="co-12 report-issue-btn-container">
+            <button class="btn btn-success" style="margin-right: 10px;color:#ffffff;" [disabled]="!allFormsValid()"
+              (click)="saveBatch()">Save</button>
+            <button class="btn btn-danger" (click)="cancelBatch()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayHomeworkDetails let-modal>
+  <div class="modal-header report-issue-header">
+    <h4 class="modal-title modal-header-title">Homework Assign Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row form-group">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Batch Name : </span><span class="value"> {{ homeworkDetails?.BatchName }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">HomeWork Name : </span><span class="value"> {{ homeworkDetails?.HomeWorkName }}</span>
+          </div>
+        </div>
+        <!-- <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Status : </span><span class="value"> {{ homeworkDetails?.IsActive ? 'Active' :
+              'In-Active' }}</span>
+          </div>
+        </div> -->
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created By :</span><span class="value"> {{ homeworkDetails?.Createdby }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated By :</span><span class="value"> {{ homeworkDetails?.Updatedby }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Created Date :</span><span class="value"> {{ homeworkDetails?.CreatedDate |
+              date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <span class="label">Updated Date :</span><span class="value"> {{ homeworkDetails?.UpdatedDate |
+              date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <button class="btn btn-primary" (click)="cancelBatch()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete message code starts here -->
+<ng-template #displayWarningMessage>
+  <div class="container">
+    <div class="row">
+      <div class="col-12" style="padding: 25px;">
+        <div class="row">
+          <div class="col-12" style="font-size: 20px; text-align: center;">
+            Do you want to remove {{ homeworkDetails?.BatchName }} batch?
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12" style="text-align: right; margin-bottom:15px;">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary next-button" (click)="deleteBatch(homeworkDetails)">Ok</button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-danger cancel-button" (click)="cancelBatch()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- delete message code ends here-->
+<p-toast></p-toast>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner>

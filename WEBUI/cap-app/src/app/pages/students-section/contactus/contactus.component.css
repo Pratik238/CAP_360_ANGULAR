@@ -1,0 +1,19 @@
+.box-shadow {
+  border-radius: 4px;
+  border: solid 0.5px #e0dee9;
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.contact-form label {
+    font-weight: 600;
+}
+
+.contact-header {
+  font-size: 15px;
+  font-weight: 600;
+
+}
