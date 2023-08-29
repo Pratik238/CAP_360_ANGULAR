@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCAP.Models
 {
     [Table("Attendance")]
-    public class Attendance:CapBaseClass
+    public class Attendance : CapBaseClass
     {
 
 
@@ -27,7 +26,7 @@ namespace WebCAP.Models
         public DateTime? AttendanceDate { get; set; }
         [Required(ErrorMessage = "Attendance State is Required")]
         public string AttendanceState { get; set; }
-       
+
 
 
 

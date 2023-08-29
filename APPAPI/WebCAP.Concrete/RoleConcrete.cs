@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
-using Microsoft.Extensions.Configuration;
 using WebCAP.Interface;
 using WebCAP.Models;
 
@@ -75,12 +71,12 @@ namespace WebCAP.Concrete
         public Role GetRolebyId(int roleId)
         {
             try
-            { 
-            var result = (from role in _context.Role
-                          where role.RoleId == roleId
-                          select role).FirstOrDefault();
+            {
+                var result = (from role in _context.Role
+                              where role.RoleId == roleId
+                              select role).FirstOrDefault();
 
-            return result;
+                return result;
             }
             catch (Exception ex)
             {

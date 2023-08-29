@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 namespace WebCAP.Models
 {
-    public class Contactus 
+    public class Contactus
     {
         [Key]
         public int ContactId { get; set; }
@@ -23,7 +22,7 @@ namespace WebCAP.Models
         public string BatchId { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-              
+
 
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 

@@ -1,24 +1,23 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Stripe;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 using WebCAP.Common;
+using WebCAP.Concrete;
 using WebCAP.Interface;
 using WebCAP.Models;
-using WebCAP.Concrete;
-using Twilio.Rest.Api.V2010.Account;
-using Twilio;
-using System.Data;
-using Newtonsoft.Json.Linq;
-using Stripe;
-using Microsoft.Extensions.Configuration;
 
 
 namespace WebCAP.Controllers
@@ -34,14 +33,14 @@ namespace WebCAP.Controllers
         private readonly ICommon _common;
         private readonly DatabaseContext _context;
         IConfiguration configuration;
-        public StudentController(DatabaseContext context, IStudent users,IUsers users1,ICommon common, IConfiguration configuration)
+        public StudentController(DatabaseContext context, IStudent users, IUsers users1, ICommon common, IConfiguration configuration)
         {
             this.configuration = configuration;
             _context = context;
             _users = users;
             _user = users1;
             _common = common;
-            
+
         }
         // GET: api/User
         [HttpGet]
@@ -66,7 +65,7 @@ namespace WebCAP.Controllers
 
                     using (MailMessage mm = new MailMessage((string)mailSettings.Rows[0]["MailId"], EmailId))
                     {
-                        DataTable SuperAdminResult = (DataTable)_common.UsersList(5, 5, 5,true);
+                        DataTable SuperAdminResult = (DataTable)_common.UsersList(5, 5, 5, true);
                         DataTable dtcenter = _common.GetCenteradminmail(EmailId);
                         if (dtcenter.Rows.Count > 0)
                         {
@@ -125,9 +124,9 @@ namespace WebCAP.Controllers
                     var res = _context.StudentAdmission.Where(p => p.StudentId == student.StudentId).FirstOrDefault();
                     if (res != null)
                     {
-                        if ((student.Discount.HasValue && student.Discount.Value > 0) && (res.IsDiscountApplied==null || res.IsDiscountApplied == false))
+                        if ((student.Discount.HasValue && student.Discount.Value > 0) && (res.IsDiscountApplied == null || res.IsDiscountApplied == false))
                         {
-                           var options = new CouponCreateOptions
+                            var options = new CouponCreateOptions
                             {
                                 Duration = "once",
                                 Id = "Discount" + student.StudentId,
@@ -159,7 +158,7 @@ namespace WebCAP.Controllers
                             student.couponName = coupon.Name;
                             student.Discount = Discount;
                         }
-                        else if ((student.Discount.HasValue && student.Discount.Value ==0) && res.IsDiscountApplied == true)
+                        else if ((student.Discount.HasValue && student.Discount.Value == 0) && res.IsDiscountApplied == true)
                         {
                             var service1 = new CouponService();
                             service1.Delete("Discount" + student.StudentId);
@@ -177,15 +176,15 @@ namespace WebCAP.Controllers
                             student.couponName = coupon.Name;
                             student.Discount = Discount;
                         }
-                        else if ((student.Discount.HasValue==false) && res.IsDiscountApplied == true)
+                        else if ((student.Discount.HasValue == false) && res.IsDiscountApplied == true)
                         {
                             var service1 = new CouponService();
                             service1.Delete("Discount" + student.StudentId);
-                            
+
                         }
                         student.UpdatedDate = DateTime.Now;
 
-                        
+
                         res.couponId = student.couponId;
                         res.couponName = student.couponName;
                         res.Discount = student.Discount;
@@ -264,13 +263,13 @@ namespace WebCAP.Controllers
                         }
 
 
-                        }
+                    }
                     return Ok(res);
                 }
                 else
                 {
                     return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = CAPMessages.Nodata });
-                 
+
                 }
             }
             catch (Exception ex)
@@ -288,8 +287,8 @@ namespace WebCAP.Controllers
                 var result = _common.AddDignastic(dg);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                else if(result.ToString()== CAPMessages.Diagnstictesnotinserted)
-                    return StatusCode(StatusCodes.Status422UnprocessableEntity, new { status = StatusCodes.Status422UnprocessableEntity, message =result });
+                else if (result.ToString() == CAPMessages.Diagnstictesnotinserted)
+                    return StatusCode(StatusCodes.Status422UnprocessableEntity, new { status = StatusCodes.Status422UnprocessableEntity, message = result });
                 return Ok(new { status = CAPMessages.Status, message = result });
             }
             catch (Exception ex)
@@ -448,7 +447,7 @@ namespace WebCAP.Controllers
                     StatusCode = HttpStatusCode.InternalServerError
                 };
 
-                return  response;
+                return response;
             }
         }
 
@@ -508,7 +507,7 @@ namespace WebCAP.Controllers
                     return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = CAPMessages.Nodata });
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -644,11 +643,11 @@ namespace WebCAP.Controllers
                 {
 
                     var userdetails = _user.Studentdata(user.UserName, EncryptionLibrary.EncryptText(user.NewPassword));
-                    if (userdetails!= null)
+                    if (userdetails != null)
                     {
                         return Ok(userdetails);
                     }
-                   
+
                     if (userdetails.ToString() == CAPMessages.Incorrectusername)
                         return StatusCode(StatusCodes.Status422UnprocessableEntity, new { status = StatusCodes.Status422UnprocessableEntity, message = userdetails });
 
@@ -687,7 +686,7 @@ namespace WebCAP.Controllers
             try
             {
                 var result = _users.Updateprofile(Oldemail, EmailId, firstname, lastname, phonenumber);
-                if(result.ToString()== CAPMessages.Incorrectmail)
+                if (result.ToString() == CAPMessages.Incorrectmail)
                     return StatusCode(StatusCodes.Status404NotFound, new { status = StatusCodes.Status404NotFound, message = result });
                 return Ok(result);
             }
@@ -699,7 +698,7 @@ namespace WebCAP.Controllers
         }
         [Authorize]
         [HttpPut("UpdateStudentInfo")]
-        
+
         public IActionResult Put([FromBody] StudentAdmission student)
         {
             try
@@ -799,9 +798,9 @@ namespace WebCAP.Controllers
             {
                 var result = _users.DeleteUser(Studentid);
                 //if (result.ToString() == CAPMessages.Nodata)
-                    return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = result });
+                return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = result });
 
-               // return Ok(result);
+                // return Ok(result);
 
             }
             catch (Exception ex)

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebCAP.ViewModels
 {
@@ -52,7 +47,7 @@ namespace WebCAP.ViewModels
 
         [Required(ErrorMessage = "Please enter Address")]
         public string Address { get; set; }
-        
+
         [Required(ErrorMessage = "Amount Cannot be Empty")]
         public Decimal? Amount { get; set; }
 

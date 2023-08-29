@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WebCAP.Models;
 using WebGYM.Models;
 
@@ -13,10 +8,10 @@ namespace WebCAP.Concrete
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            
+
         }
-       
-        public DbSet<PeriodTB> PeriodTb { get; set; }       
+
+        public DbSet<PeriodTB> PeriodTb { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<MemberRegistration> MemberRegistration { get; set; }
         public DbSet<Users> Users { get; set; }
@@ -24,7 +19,7 @@ namespace WebCAP.Concrete
         public DbSet<StudentAdmission> StudentAdmission { get; set; }
         public DbSet<StripeCustomer> StripeCustomer { get; set; }
         public DbSet<StripePayment> StripePayment { get; set; }
-        
+
         public DbSet<Franchise> Franchise { get; set; }
         public DbSet<BatchAssign> BatchAssign { get; set; }
         public DbSet<Batch> Batch { get; set; }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebCAP.Common;
 using WebCAP.Interface;
 using WebCAP.Models;
@@ -27,7 +25,7 @@ namespace WebCAP.Concrete
                 var result = (from user in _context.Users
                               where user.EmailId == username
                               select user).Count();
-               
+
 
                 return result > 0 ? true : false;
             }
@@ -49,25 +47,25 @@ namespace WebCAP.Concrete
                 throw ex;
             }
         }
-        
+
 
         public object Usersdata(string username, string Password)
         {
             try
-            { 
-            int count = 0;
-            var Userdata = _context.Users.Where(p => p.EmailId == username).FirstOrDefault();
-            if (Userdata != null)
             {
-                Userdata.Password = Password;
-                _context.Users.Update(Userdata);
-                count = _context.SaveChanges();
-                if(count==1)
+                int count = 0;
+                var Userdata = _context.Users.Where(p => p.EmailId == username).FirstOrDefault();
+                if (Userdata != null)
                 {
-                    result = CAPMessages.passwordupdate;
+                    Userdata.Password = Password;
+                    _context.Users.Update(Userdata);
+                    count = _context.SaveChanges();
+                    if (count == 1)
+                    {
+                        result = CAPMessages.passwordupdate;
+                    }
                 }
-            }
-            return result;
+                return result;
             }
             catch (Exception ex)
             {
@@ -92,7 +90,7 @@ namespace WebCAP.Concrete
                         result = CAPMessages.passwordupdate;
                     }
                 }
-                else if(Userdata!=null)
+                else if (Userdata != null)
                 {
                     Userdata.Password = Password;
                     _context.Users.Update(Userdata);
@@ -112,25 +110,25 @@ namespace WebCAP.Concrete
             }
         }
 
-      
 
-      
+
+
 
 
         public bool AuthenticateUsers(string username, string password)
         {
             try
-            { 
-            var result = (from user in _context.Users
-                          
-                          where user.EmailId == username && user.Password == password
-                          select user).Count();
-            var result1= (from student in _context.StudentAdmission
-                         where student.EmailId== username && student.Password ==password
-                          select student).Count();
+            {
+                var result = (from user in _context.Users
+
+                              where user.EmailId == username && user.Password == password
+                              select user).Count();
+                var result1 = (from student in _context.StudentAdmission
+                               where student.EmailId == username && student.Password == password
+                               select student).Count();
 
 
-            return (result > 0 || result1>0)  ? true : false;
+                return (result > 0 || result1 > 0) ? true : false;
             }
             catch (Exception ex)
             {
@@ -140,14 +138,14 @@ namespace WebCAP.Concrete
         }
         public bool AuthenticateStudent(string username, string password)
         {
-           try
-            { 
-            var result1 = (from student in _context.StudentAdmission
-                           where student.EmailId == username && student.Password == password
-                           select student).Count();
+            try
+            {
+                var result1 = (from student in _context.StudentAdmission
+                               where student.EmailId == username && student.Password == password
+                               select student).Count();
 
 
-            return ( result1 > 0) ? true : false;
+                return (result1 > 0) ? true : false;
             }
             catch (Exception ex)
             {
@@ -182,7 +180,7 @@ namespace WebCAP.Concrete
             {
                 var result = (from user in _context.Users
 
-                              where user.EmailId == username && user.IsActive==true && user.IsDeleted==false
+                              where user.EmailId == username && user.IsActive == true && user.IsDeleted == false
 
                               select new LoginResponse
                               {
@@ -249,15 +247,15 @@ namespace WebCAP.Concrete
             try
             {
                 var result = (from student in _context.StudentAdmission
-                              //join batch in _context.BatchAssign on student.StudentId equals batch.StudentId
-                              where student.EmailId == username && student.IsDeleted==false && student.IsActive==true
+                                  //join batch in _context.BatchAssign on student.StudentId equals batch.StudentId
+                              where student.EmailId == username && student.IsDeleted == false && student.IsActive == true
 
                               select new LoginResponse
                               {
                                   UserId = student.StudentId,
-                                  Name = student.StudentLastName==null? student.StudentFirstName : student.StudentFirstName + " " + student.StudentLastName,
+                                  Name = student.StudentLastName == null ? student.StudentFirstName : student.StudentFirstName + " " + student.StudentLastName,
                                   RoleId = Convert.ToInt32(UserTypes.User),
-                                  FranchiseId=  student.FranchiseId,
+                                  FranchiseId = student.FranchiseId,
                                   Status = student.IsActive,
                                   UserName = student.EmailId,
                                   BatchIds = string.Join(",", _context.BatchAssign.Where(p => p.StudentId == student.StudentId && p.IsDeleted == false).Select(p => p.BatchId))//.FirstOrDefault()//batch.BatchId
@@ -273,7 +271,7 @@ namespace WebCAP.Concrete
                 throw ex;
             }
         }
-      
+
         public object DeleteUsers(int userId)
         {
             try
@@ -313,12 +311,12 @@ namespace WebCAP.Concrete
         public List<Users> GetAllUsers()
         {
             try
-            { 
-            var result = (from user in _context.Users
-                          where user.IsActive == true
-                          select user).ToList();
+            {
+                var result = (from user in _context.Users
+                              where user.IsActive == true
+                              select user).ToList();
 
-            return result;
+                return result;
             }
             catch (Exception ex)
             {
@@ -329,12 +327,12 @@ namespace WebCAP.Concrete
         public Users GetUsersbyId(int userId)
         {
             try
-            { 
-            var result = (from user in _context.Users
-                          where user.UserId == userId
-                          select user).FirstOrDefault();
+            {
+                var result = (from user in _context.Users
+                              where user.UserId == userId
+                              select user).FirstOrDefault();
 
-            return result;
+                return result;
             }
             catch (Exception ex)
             {
@@ -362,7 +360,7 @@ namespace WebCAP.Concrete
                 throw ex;
             }
         }
-        public string Updateprofile(string Oldemail,string EmailId, string firstname, string lastname, string phonenumber)
+        public string Updateprofile(string Oldemail, string EmailId, string firstname, string lastname, string phonenumber)
         {
             try
             {
@@ -401,7 +399,7 @@ namespace WebCAP.Concrete
                 if (res.EmailId != null)
                 {
                     res.Password = EncryptionLibrary.EncryptText(password);
-                 
+
                     _context.Users.Update(res);
                     int count = _context.SaveChanges();
                     if (count > 0)
@@ -427,10 +425,10 @@ namespace WebCAP.Concrete
             try
             {
                 var userinfo = _context.Users.Where(p => p.UserId == user.UserId).FirstOrDefault();
-                
-                if (userinfo != null )
+
+                if (userinfo != null)
                 {
-                  
+
                     userinfo.EmailId = user.EmailId;
                     userinfo.PhoneNumber = user.PhoneNumber;
                     userinfo.FirstName = user.FirstName;

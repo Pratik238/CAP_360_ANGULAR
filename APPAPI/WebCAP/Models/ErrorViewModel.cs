@@ -1,5 +1,3 @@
-using System;
-
 namespace WebCAP.Models
 {
     public class ErrorViewModel

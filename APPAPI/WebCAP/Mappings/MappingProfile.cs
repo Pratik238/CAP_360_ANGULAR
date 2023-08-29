@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using WebCAP.Models;
 using WebCAP.ViewModels;
 
@@ -12,9 +8,9 @@ namespace WebCAP.Mappings
     {
         public MappingProfile()
         {
-             CreateMap<Role, RoleViewModel>()
-                .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.RoleName))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
+            CreateMap<Role, RoleViewModel>()
+               .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.RoleName))
+               .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
 
             CreateMap<MemberRegistrationViewModel, MemberRegistration>()
                 .ForMember(dest => dest.MemberId, opt => opt.MapFrom(src => src.MemberId))
@@ -36,7 +32,7 @@ namespace WebCAP.Mappings
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
 
             CreateMap<UsersViewModel, Users>()
-                
+
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ForMember(dest => dest.EmailId, opt => opt.MapFrom(src => src.EmailId))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))

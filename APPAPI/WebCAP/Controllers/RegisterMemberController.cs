@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using WebCAP.Common;
 using WebCAP.Interface;
 using WebCAP.Models;
 using WebCAP.ViewModels;
@@ -30,7 +23,7 @@ namespace WebCAP.Controllers
             _memberRegistration = memberRegistration;
             _urlHelper = urlHelper;
         }
-        
+
         // GET: api/RegisterMember/5
         [HttpGet("{id}", Name = "GetMember")]
         public MemberRegistrationViewModel Get(int id)
@@ -109,7 +102,7 @@ namespace WebCAP.Controllers
                 {
                     var automember = AutoMapper.Mapper.Map<MemberRegistration>(member);
                     automember.JoiningDate = DateTime.Now;
-                    
+
                     var result = _memberRegistration.UpdateMember(automember);
                     if (result > 0)
                     {

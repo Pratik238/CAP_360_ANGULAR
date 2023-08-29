@@ -7,8 +7,8 @@ namespace WebCAP.Interface
     public interface IUsers
     {
         bool InsertUsers(Users user);
-        object Usersdata(string Username,string password);
-        object Studentdata(string Username,string password);
+        object Usersdata(string Username, string password);
+        object Studentdata(string Username, string password);
         string Updateprofile(string Oldemail, string EmailId, string firstname, string lastname, string phonenumber);
         bool CheckUsersExits(string username);
         bool CheckUsersExits1(string username);

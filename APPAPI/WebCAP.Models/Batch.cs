@@ -1,11 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCAP.Models
 {
     [Table("Batch")]
-    public class Batch:CapBaseClass
+    public class Batch : CapBaseClass
     {
 
 

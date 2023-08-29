@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebCAP.Models
@@ -40,7 +38,7 @@ namespace WebCAP.Models
         public string HomeWorkId { get; set; }
         public string HomeWorkName { get; set; }
         public int? SubjectId { get; set; }
-        
+
 
     }
 }

@@ -1,31 +1,30 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using WebCAP.Concrete;
 using WebCAP.Interface;
 using WebCAP.Models;
-using Microsoft.AspNetCore.Authorization;
-using WebCAP.Concrete;
 using WebCAP.ViewModels;
-using EntityFrameworkPaginate;
-using System.Data;
-using System.Collections.Generic;
 
 namespace WebCAP.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-   
+
     public class CommonController : Controller
     {
         private readonly ICommon _common;
-    
+
         private FileSettings fileSettings { get; set; }
-        
+
         public CommonController(ICommon common)
         {
             _common = common;
-          
+
         }
 
 
@@ -123,11 +122,11 @@ namespace WebCAP.Controllers
         //Pratice Exam test Report-english-pi chart
 
         [HttpGet("GetPracticeEnglishExamReport")]
-        public IActionResult GetPracticeEnglishExamReport(int StudentId,int ExamId)
+        public IActionResult GetPracticeEnglishExamReport(int StudentId, int ExamId)
         {
             try
             {
-                var result = _common.PraticeEnglishPichartReport(StudentId,ExamId);
+                var result = _common.PraticeEnglishPichartReport(StudentId, ExamId);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
 
@@ -225,7 +224,7 @@ namespace WebCAP.Controllers
                 var result = _common.PracticeExamEnglishTopicsandsubtopicsScore(StudentId, ExamId, ExamtypeID);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                else if  (result.ToString() == CAPMessages.Nosectionid)
+                else if (result.ToString() == CAPMessages.Nosectionid)
                 {
                     return StatusCode(StatusCodes.Status404NotFound, new { status = StatusCodes.Status404NotFound, message = result });
                 }
@@ -510,8 +509,8 @@ namespace WebCAP.Controllers
 
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-              
-                else if ((result.ToString() == CAPMessages.Doesnotassignsat)||(result.ToString()==CAPMessages.ExamAlreadywritten))
+
+                else if ((result.ToString() == CAPMessages.Doesnotassignsat) || (result.ToString() == CAPMessages.ExamAlreadywritten))
                 {
                     return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status404NotFound, message = result });
                 }
@@ -538,7 +537,7 @@ namespace WebCAP.Controllers
 
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-              
+
                 else if ((result.ToString() == CAPMessages.Doesnotassignsat) || (result.ToString() == CAPMessages.ExamAlreadywritten))
                 {
                     return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status404NotFound, message = result });
@@ -917,11 +916,11 @@ namespace WebCAP.Controllers
                 var result = _common.List(entityName, orderby, orderbyvalue, condition, status);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                else if(result.ToString()==string.Empty)
+                else if (result.ToString() == string.Empty)
                     return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = result });
 
 
-                 return Ok(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1126,7 +1125,7 @@ namespace WebCAP.Controllers
                 var result = _common.GetSubtopiccount(BatchId, StudentId);
                 if (result == false)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-               
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -1200,7 +1199,7 @@ namespace WebCAP.Controllers
         }
         //Franchise delet
         [HttpPost("FranchiseDelete")]
-        public IActionResult FranchiseDelete(int FranchiseId,int CenteradminId)
+        public IActionResult FranchiseDelete(int FranchiseId, int CenteradminId)
         {
             try
             {
@@ -1208,7 +1207,7 @@ namespace WebCAP.Controllers
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
 
-              
+
 
                 return Ok(new { status = CAPMessages.Status, message = result });
             }
@@ -1226,7 +1225,7 @@ namespace WebCAP.Controllers
                 var result = _common.ChangeStatus(commonParams);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-              
+
                 return Ok(new { status = CAPMessages.Status, message = result });
             }
             catch (Exception ex)
@@ -1259,7 +1258,7 @@ namespace WebCAP.Controllers
 
                 var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
                 QuestionFilters.Results = Newtonsoft.Json.JsonConvert.DeserializeObject<List<QuestionFilters>>(jsonData);
-                var result=  QuestionFilters;
+                var result = QuestionFilters;
                 //var result = _common.GetMathsQuestionList(QuestionFilters);
 
                 return Ok(result);
@@ -1309,7 +1308,7 @@ namespace WebCAP.Controllers
                 var result = _common.MailsentbyTestdetails(BatchId, SubjectId, StudentId, Name, ExamtypeId, ExamId);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                else if ((result.ToString() == CAPMessages.NoMailMessageData)|| (result.ToString() == CAPMessages.NoTutorMailIdData) || (result.ToString() == CAPMessages.MailUpdatesent) || (result.ToString() == CAPMessages.Mailsent))
+                else if ((result.ToString() == CAPMessages.NoMailMessageData) || (result.ToString() == CAPMessages.NoTutorMailIdData) || (result.ToString() == CAPMessages.MailUpdatesent) || (result.ToString() == CAPMessages.Mailsent))
                 {
                     return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = result });
                 }
@@ -1331,7 +1330,7 @@ namespace WebCAP.Controllers
                 var result = _common.AddExamQuestions(exam);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                
+
                 return Ok(result);
 
             }
@@ -1350,7 +1349,7 @@ namespace WebCAP.Controllers
                 var result = _common.UpdateexamQuestions(exam);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                else if (result.ToString() == CAPMessages.NoMailMessageData) 
+                else if (result.ToString() == CAPMessages.NoMailMessageData)
                 {
                     return StatusCode(StatusCodes.Status404NotFound, new { status = StatusCodes.Status404NotFound, message = result });
                 }
@@ -1599,7 +1598,7 @@ namespace WebCAP.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { status = StatusCodes.Status500InternalServerError, message = ex.Message });
             }
         }
-      
+
         //add Franchise
         [HttpPost("AddFranchise")]
         public IActionResult AddFranchise([FromBody] Franchise fr)
@@ -1611,13 +1610,13 @@ namespace WebCAP.Controllers
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
                 else if (result == CAPMessages.InsertFranchise)
                     return Ok(new { status = CAPMessages.Status, message = result });
-                else if((result== CAPMessages.Centeradminalready)|| (result == CAPMessages.FrachiseTitle))
+                else if ((result == CAPMessages.Centeradminalready) || (result == CAPMessages.FrachiseTitle))
                     return StatusCode(StatusCodes.Status409Conflict, new { status = StatusCodes.Status409Conflict, message = result });
                 else
                 {
-                   
+
                     return StatusCode(StatusCodes.Status500InternalServerError, new { status = StatusCodes.Status500InternalServerError, message = result });
-                    
+
                 }
 
             }
@@ -1635,11 +1634,11 @@ namespace WebCAP.Controllers
                 var result = _common.UpdateFranchise(fr);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                if(result == CAPMessages.Updatefranchise)
-                return Ok(new { status = CAPMessages.Status, message = result });
+                if (result == CAPMessages.Updatefranchise)
+                    return Ok(new { status = CAPMessages.Status, message = result });
                 else
                 {
-                 
+
                     return StatusCode(StatusCodes.Status500InternalServerError, new { status = StatusCodes.Status500InternalServerError, message = result });
                 }
             }
@@ -1660,7 +1659,7 @@ namespace WebCAP.Controllers
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
                 else if (result == CAPMessages.DataExist)
                 {
-                    
+
                     return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = result });
                 }
                 return Ok(new { status = CAPMessages.Status, message = result });
@@ -1680,7 +1679,7 @@ namespace WebCAP.Controllers
                 var result = _common.AddQuestions(questions);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-              
+
                 return Ok(new { status = CAPMessages.Status, message = result });
             }
             catch (Exception ex)
@@ -1782,7 +1781,7 @@ namespace WebCAP.Controllers
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
                 if (result == CAPMessages.SatexamalreadyAssign)
                 {
-                    
+
                     return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = result });
                 }
                 else
@@ -1896,7 +1895,7 @@ namespace WebCAP.Controllers
                 var result = _common.Update(commonParams);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                else if((result.ToString()==CAPMessages.Nodata)||(result.ToString()==CAPMessages.Nochange))
+                else if ((result.ToString() == CAPMessages.Nodata) || (result.ToString() == CAPMessages.Nochange))
                     return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = result });
                 return Ok(new { status = CAPMessages.Status, message = result });
             }
@@ -1907,17 +1906,17 @@ namespace WebCAP.Controllers
         }
         //Get Centeradminuser
         [HttpGet("GetCenteradminUsers")]
-        public IActionResult GetCenteradminUsers(int Centeradminid=0)
+        public IActionResult GetCenteradminUsers(int Centeradminid = 0)
         {
             try
             {
                 var result = _common.DropdownforCenteradminuser(Centeradminid);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                else if(result.ToString()==string.Empty)
+                else if (result.ToString() == string.Empty)
                     return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = result });
                 else
-                return Ok( result);
+                    return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1989,10 +1988,10 @@ namespace WebCAP.Controllers
                 var result = _common.GetDiscountedStudentList(usertype, centeradminid, ISSuperAdmin);
                 if (result == null)
                     return StatusCode(StatusCodes.Status204NoContent, new { status = StatusCodes.Status204NoContent, message = CAPMessages.Norecords });
-                else if(result.ToString()==string.Empty)
-                
+                else if (result.ToString() == string.Empty)
+
                     return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = result });
-                
+
                 return Ok(result);
             }
             catch (Exception ex)

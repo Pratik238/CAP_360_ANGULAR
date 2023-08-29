@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 namespace WebCAP.Models
 {
-    public class DignasticTest 
+    public class DignasticTest
     {
         [Key]
         public int Id { get; set; }
@@ -16,7 +15,7 @@ namespace WebCAP.Models
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        
+
 
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 

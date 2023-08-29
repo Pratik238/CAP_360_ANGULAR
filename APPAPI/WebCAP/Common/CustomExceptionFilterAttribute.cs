@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
+using System;
+using System.Globalization;
+using System.IO;
 
 namespace WebCAP.Common
 {
@@ -84,7 +81,7 @@ namespace WebCAP.Common
 
             // Close the stream:
             log.Close();
-          
+
 
             if (!_hostingEnvironment.IsDevelopment())
             {

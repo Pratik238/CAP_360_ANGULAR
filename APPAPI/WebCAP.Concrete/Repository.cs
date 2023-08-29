@@ -3,17 +3,15 @@
 // www.ebenmonney.com/quickapp-pro
 // ===============================
 
-using WebCAP.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
+using System.Linq.Expressions;
+using WebCAP.Interface;
 
 namespace WebCAP.Concrete
 {
@@ -123,7 +121,7 @@ namespace WebCAP.Concrete
         {
             return _entities.SingleOrDefault(predicate);
         }
-       
+
         public virtual TEntity Get(object id)
         {
             return _entities.Find(id);

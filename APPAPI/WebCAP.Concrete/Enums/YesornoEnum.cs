@@ -2,9 +2,9 @@
 
 namespace WebCAP.Concrete
 {
-    public  enum YesornoEnum
+    public enum YesornoEnum
     {
-        True=1,
-        False=0
+        True = 1,
+        False = 0
     }
 }

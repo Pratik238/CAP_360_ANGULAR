@@ -1,11 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCAP.Models
 {
     [Table("HomeWorkAssign")]
-    public class HomeWorkAssign:CapBaseClass
+    public class HomeWorkAssign : CapBaseClass
     {
 
 
@@ -21,8 +20,8 @@ namespace WebCAP.Models
         public int HomeWorkId { get; set; }
         [NotMapped]
         public string[] HomeWorkIds { get; set; }
-        
-     
+
+
 
 
 

@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using WebCAP.Interface;
 using WebCAP.Models;
 using WebCAP.ViewModels;
@@ -40,7 +37,7 @@ namespace WebCAP.Controllers
             }
         }
 
-       
+
         // POST: api/UsersInRoles
         [HttpPost]
         public HttpResponseMessage Post([FromBody] UsersInRoles usersInRoles)

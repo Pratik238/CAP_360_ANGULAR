@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Stripe;
 
 namespace WebCAP.Controllers
@@ -23,15 +18,15 @@ namespace WebCAP.Controllers
                 Source = createOptions.tokenId,
                 Description = "This Test Data",
                 ReceiptEmail = "Test@Test.com",
-                
-                
+
+
             };
             var service = new ChargeService();
             var charge = service.Create(options);
 
             return Ok(charge.StripeResponse.Content);
         }
-       public class StripePaymentRequest
+        public class StripePaymentRequest
         {
             public string tokenId { get; set; }
             public string productName { get; set; }

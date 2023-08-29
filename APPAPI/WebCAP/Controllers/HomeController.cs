@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using WebCAP.Interface;
 using WebCAP.Models;
 
 namespace WebCAP.Controllers
 {
-    public class HomeController  : Controller
+    public class HomeController : Controller
     {
-       
+
         public IActionResult Index()
         {
             return View();

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using WebCAP.Interface;
 using WebCAP.Models;
 
@@ -32,7 +27,7 @@ namespace WebCAP.Controllers
             {
                 if (_usersInRoles.CheckRoleExists(usersInRoles))
                 {
-                  
+
                     usersInRoles.UserRolesId = 0;
                     _usersInRoles.RemoveRole(usersInRoles);
 

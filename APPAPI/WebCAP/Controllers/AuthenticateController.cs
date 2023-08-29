@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using WebCAP.Common;
+using WebCAP.Concrete;
 using WebCAP.Interface;
 using WebCAP.Models;
 using WebCAP.ViewModels;
-using WebCAP.Concrete;
 namespace WebCAP.Controllers
 {
     [Route("api/[controller]")]
@@ -22,7 +19,7 @@ namespace WebCAP.Controllers
     {
         private readonly AppSettings _appSettings;
         private readonly IUsers _users;
-        
+
         public AuthenticateController(IOptions<AppSettings> appSettings, IUsers users)
         {
             _users = users;
@@ -43,7 +40,7 @@ namespace WebCAP.Controllers
                     {
                         var userdetails = _users.GetUserDetailsbyCredentials(value.UserName);
                         var userdetails1 = _users.GetstudentDetailsbyCredentials(value.UserName);
-                        
+
 
                         if (userdetails != null)
                         {
@@ -72,7 +69,7 @@ namespace WebCAP.Controllers
                             return Ok(value);
 
                         }
-                        else if(userdetails1!=null)
+                        else if (userdetails1 != null)
                         {
                             if (userdetails1.BatchIds != "")
                             {
@@ -96,7 +93,7 @@ namespace WebCAP.Controllers
                                 value.UserId = userdetails1.UserId;
                                 value.Usertype = userdetails1.RoleId;
                                 value.Name = userdetails1.Name;
-                               // value.BatchId = userdetails1.BatchId;
+                                // value.BatchId = userdetails1.BatchId;
                                 value.BatchIds = userdetails1.BatchIds;
                                 value.FranchiseId = userdetails1.FranchiseId;
                                 return Ok(value);
@@ -109,11 +106,11 @@ namespace WebCAP.Controllers
                         else
                         {
                             return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = CAPMessages.Incorrectmail });
-                          
+
                         }
                     }
                     return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = CAPMessages.Incorrectmail });
-                 
+
                 }
                 value.Password = null;
                 value.Usertype = 0;
@@ -127,7 +124,7 @@ namespace WebCAP.Controllers
         }
 
 
-       
+
 
     }
 }

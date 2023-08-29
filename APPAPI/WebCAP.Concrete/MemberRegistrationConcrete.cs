@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
-using Microsoft.Extensions.Configuration;
+using System.Linq.Dynamic.Core;
 using WebCAP.Interface;
 using WebCAP.Models;
 using WebCAP.ViewModels;
-using System.Linq.Dynamic.Core;
 
 namespace WebCAP.Concrete
 {
@@ -91,7 +87,7 @@ namespace WebCAP.Concrete
                 return con.Query<MemberRegistrationViewModel>("sprocMemberRegistrationSelectSingleItem", para, null, true, 0, commandType: CommandType.StoredProcedure).Single();
             }
         }
-     
+
 
 
         public int InsertMember(MemberRegistration memberRegistration)
@@ -178,13 +174,13 @@ namespace WebCAP.Concrete
                     return 0;
                 }
             }
-        }       
+        }
 
         public int Count(int userId)
         {
             var membercount = (from payment in _context.MemberRegistration
-                            where payment.Createdby == userId
-                select payment).Count();
+                               where payment.Createdby == userId
+                               select payment).Count();
             return membercount;
         }
 

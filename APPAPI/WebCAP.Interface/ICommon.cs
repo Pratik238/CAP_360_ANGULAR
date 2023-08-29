@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Collections;
 using System.Data;
 using WebCAP.Models;
 using WebCAP.ViewModels;
-    
+
 namespace WebCAP.Interface
 {
-   public interface ICommon
+    public interface ICommon
     {
         object TopicsList(string SubjectId, string orderby, string orderbyvalue, string condition);
         object TestTime();
@@ -36,7 +30,7 @@ namespace WebCAP.Interface
         object AddSATEnglishJumbleQuestions(SATExamEnglishJumbleQuestion ques);
         object AddSATJumbleQuestions(SATExamJumbleQuestion ques);
         object UpdateSATJumbleQuestions(SATExamJumbleQuestion ques);
-        object PraticeEnglishPichartReport(int StudentId,int ExamId);
+        object PraticeEnglishPichartReport(int StudentId, int ExamId);
 
         object SATEnglishPichartReport(int StudentId);
 
@@ -47,15 +41,15 @@ namespace WebCAP.Interface
         object GetPracticeSATTestScores(int StudentId, int PracticeorSAT);
         object PraticeQuestions(int UserId, int SubjectId, int TopicId, int CalculatorId, int SubTopicIds, int Ishomework);
         object PraticeEnglishQuestions(int UserId, int SubjectId, int TopicId, int SectionId, int SubTopicIds, int Ishomework);
-        object HomeWorkQuestions(int SubjectId, int TopicId, int SubTopicId,string HomeworkIds, int Ishomework);
-        object SATExamQuestions(int UserId,int SubjectId, int BatchId, int CalculatorId);
+        object HomeWorkQuestions(int SubjectId, int TopicId, int SubTopicId, string HomeworkIds, int Ishomework);
+        object SATExamQuestions(int UserId, int SubjectId, int BatchId, int CalculatorId);
         object SATEnglishExamQuestions(int UserId, int SubjectId, int BatchId, int SectionId);
-        
-        
-        object List(string entityName, string orderby, string orderbyvalue,string condition,bool status);
-        
+
+
+        object List(string entityName, string orderby, string orderbyvalue, string condition, bool status);
+
         object GeneralList(string entityName, string orderby, string orderbyvalue, string condition);
-        object UsersList(int usertype, int centeradminid, int ISSuperAdmin,bool IsActive);
+        object UsersList(int usertype, int centeradminid, int ISSuperAdmin, bool IsActive);
         object StudentList(int centeradminid);
         object HomeWorkQuestionReport(int Id, int Usertype);
         object HomeWorkEnglishQuestionReport(int Id, int Usertype);
@@ -69,26 +63,26 @@ namespace WebCAP.Interface
         object GetSubtopics(int StudentId, string Batchid);
 
         object Gettopics(int StudentId, string Batchid, int SubjectId);
-        object GetSubtopics( string Batchid);
-        object Gettopics( string Batchid,int SubjectId);
-        object GetHomeWorks( string Batchid);
+        object GetSubtopics(string Batchid);
+        object Gettopics(string Batchid, int SubjectId);
+        object GetHomeWorks(string Batchid);
         DataTable GetmailSettings(int Subject);
 
         DataTable GetmailSettings(string Subject);
-        string MailsentbyTestdetails(int BatchId, int SubjectId, int StudentId ,string Name, int ExamtypeId, int ExamId);
+        string MailsentbyTestdetails(int BatchId, int SubjectId, int StudentId, string Name, int ExamtypeId, int ExamId);
         DataTable GetMessageSettings(int id);
         DataTable GetCenteradminmail(string EmailId);
         object GetBatches(int TutorId);
         object GetFranchisebasedonlattitude(decimal Lattitude, decimal Longitude);
         object GetAttendancereport(int BatchId, DateTime FromDate, DateTime ToDate);
-        
+
         object PracticeExamTopicsandsubtopicsScore(int StudentId, int ExamId, int ExamtypeID);
         object ScorecardanswerersList(int StudentId, int ExamId, string Name, string Type, int ExamtypeId);
         object AllQuestionbyexamid(int ExamId, int Examtype);
 
-        
+
         string ChangeStatus(CommonParams singleScreenParams);
-        
+
         object PracticeExamSATCUMReport(int StudentId, int ExamTypeId);
         object AddExamQuestions(PracticeExamQuestion ques);
         object UpdateexamQuestions(PracticeExamQuestion ques);
@@ -132,7 +126,7 @@ namespace WebCAP.Interface
         string ReStore(CommonParams singleScreenParams);
         string Update(CommonParams singleScreenParams);
         object DropdownList(CommonParams singleScreenParams);
-       
+
         object GetHistory(string tableName, string id);
         object GetDiscountedStudentList(int usertype, int centeradminid, int ISSuperAdmin);
     }

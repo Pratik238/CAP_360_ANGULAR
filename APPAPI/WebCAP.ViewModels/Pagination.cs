@@ -1,14 +1,13 @@
 ﻿
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCAP.ViewModels
 {
-   
+
     public class CustomPaginate<T> where T : class
     {
         public int First { get; set; }
-        public int PageNo { get { return this.First + 1; }  }
+        public int PageNo { get { return this.First + 1; } }
         public int Rows { get; set; }
         public string SortField { get; set; }
         public int SortOrder { get; set; }

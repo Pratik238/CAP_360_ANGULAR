@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebCAP.Interface;
 using WebCAP.Models;
 
@@ -24,7 +21,7 @@ namespace WebCAP.Concrete
             {
                 Text = "---Select---",
                 Value = string.Empty
-            },0);
+            }, 0);
 
             return listofPeriod;
         }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCAP.Models
 {
     [Table("BatchAssign")]
-    public class BatchAssign:CapBaseClass
+    public class BatchAssign : CapBaseClass
     {
 
 
@@ -21,8 +20,8 @@ namespace WebCAP.Models
         public int StudentId { get; set; }
         [NotMapped]
         public string[] StudentIds { get; set; }
-        
-      
+
+
 
 
 

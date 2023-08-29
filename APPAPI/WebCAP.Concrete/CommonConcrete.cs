@@ -1,26 +1,24 @@
 ﻿
-using WebCAP.Models;
-using WebCAP.Interface;
+using EntityFrameworkPaginate;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using WebCAP.DAL;
-using Microsoft.Extensions.Options;
-using System.Net.Mail;
-using System.IO;
 using System.Net;
+using System.Net.Mail;
 using WebCAP.Common;
-
-using EntityFrameworkPaginate;
+using WebCAP.DAL;
+using WebCAP.Interface;
+using WebCAP.Models;
 using WebCAP.ViewModels;
 namespace WebCAP.Concrete
 {
     public class CommonConcrete : Repository<Users>, ICommon
     {
         string result = string.Empty;
-        private  Settings Settings { get; set; }
+        private Settings Settings { get; set; }
         public CommonConcrete(DatabaseContext context, IOptions<Settings> settings) : base(context)
         {
             if (settings != null)
@@ -60,7 +58,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -138,7 +136,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-              //  return result;
+                //  return result;
 
 
             }
@@ -267,7 +265,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -307,7 +305,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -320,7 +318,7 @@ namespace WebCAP.Concrete
 
             try
             {
-                DataSet dsResult=new DataSet();
+                DataSet dsResult = new DataSet();
                 CommonConcrete commonRepository = new CommonConcrete(_appContext, settings);
                 SqlHelper sqlHelper = new SqlHelper(Settings.ConnectionString);
                 SqlParameter[] arrSqlParam = new SqlParameter[3];
@@ -502,7 +500,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
 
@@ -590,7 +588,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -630,7 +628,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -708,7 +706,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -866,7 +864,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-              //  return result;
+                //  return result;
             }
             catch (Exception ex)
             {
@@ -902,7 +900,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
             }
@@ -944,7 +942,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-              //  return result;
+                //  return result;
             }
             catch (Exception ex)
             {
@@ -1053,7 +1051,7 @@ namespace WebCAP.Concrete
                     return dsResult.Tables[0];
                 }
 
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -1118,7 +1116,7 @@ namespace WebCAP.Concrete
                     arrSqlParam[0] = new SqlParameter("@StudentId", StudentId);
                     arrSqlParam[1] = new SqlParameter("@ExamId", ExamId);
                     arrSqlParam[2] = new SqlParameter("@ExamTypeid", ExamtypeID);
-                    arrSqlParam[3] = new SqlParameter("@SectionId",Convert.ToUInt32(EnglishSectiontypes.Reading));
+                    arrSqlParam[3] = new SqlParameter("@SectionId", Convert.ToUInt32(EnglishSectiontypes.Reading));
 
                     SqlHelper sqlHelper = new SqlHelper(Settings.ConnectionString);
                     DataSet dsResult = sqlHelper.ExecuteDataSet("dbo.SP_GetEnglishPracticeScore", arrSqlParam);
@@ -1161,7 +1159,7 @@ namespace WebCAP.Concrete
                 arrSqlParam2[0] = new SqlParameter("@StudentId", StudentId);
                 arrSqlParam2[1] = new SqlParameter("@ExamId", ExamId);
                 DataSet dsResult2 = sqlHelper.ExecuteDataSet("dbo.SP_GetEnglishExamSectionid", arrSqlParam2);
-               
+
 
                 SqlParameter[] arrSqlParam = new SqlParameter[4];
 
@@ -1172,20 +1170,20 @@ namespace WebCAP.Concrete
                 {
                     if (ExamtypeID == Convert.ToInt32(TestTypes.Practice))
                     {
-                        arrSqlParam[3] = new SqlParameter("@SectionId",int.Parse( dsResult2.Tables[0].Rows[0]["EnglishSectionId"].ToString()));
+                        arrSqlParam[3] = new SqlParameter("@SectionId", int.Parse(dsResult2.Tables[0].Rows[0]["EnglishSectionId"].ToString()));
                     }
                     else
                     {
-                        arrSqlParam[3] = new SqlParameter("@SectionId", Convert.ToInt32( EnglishSectiontypes.Reading));
+                        arrSqlParam[3] = new SqlParameter("@SectionId", Convert.ToInt32(EnglishSectiontypes.Reading));
                     }
                 }
                 else
                 {
                     result = CAPMessages.Nosectionid;
                 }
-                
 
-               
+
+
                 DataSet dsResult = sqlHelper.ExecuteDataSet("dbo.SP_GetEnglishPracticeExam_Score", arrSqlParam);
                 if (ExamtypeID == Convert.ToInt32(TestTypes.Practice))
                 {
@@ -1273,7 +1271,7 @@ namespace WebCAP.Concrete
                     return dsResult.Tables[0];
                 }
 
-              //  return result;
+                //  return result;
             }
             catch (Exception ex)
             {
@@ -1311,7 +1309,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
             }
@@ -1324,7 +1322,7 @@ namespace WebCAP.Concrete
 
 
 
-        public object PraticeEnglishPichartReport(int StudentId,int ExamId)
+        public object PraticeEnglishPichartReport(int StudentId, int ExamId)
         {
 
             try
@@ -1342,7 +1340,7 @@ namespace WebCAP.Concrete
                     arrSqlParam[0] = new SqlParameter("@StudentId", StudentId);
                     arrSqlParam[1] = new SqlParameter("@SectionId", int.Parse(dsResult1.Tables[0].Rows[0]["EnglishSectionId"].ToString()));
 
-                    
+
 
                     DataSet dsResult = sqlHelper1.ExecuteDataSet("dbo.SP_GetPracticeEnglishPiChart", arrSqlParam);
                     if (dsResult.Tables.Count > 0)
@@ -1365,7 +1363,7 @@ namespace WebCAP.Concrete
                 else
                 {
                     result = CAPMessages.Nosectionid;
-                }    
+                }
                 return result;
 
 
@@ -1484,7 +1482,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
             }
@@ -1565,7 +1563,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
             }
@@ -1606,7 +1604,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
             }
@@ -1663,7 +1661,7 @@ namespace WebCAP.Concrete
                 {
                     return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
             }
@@ -1762,7 +1760,7 @@ namespace WebCAP.Concrete
                     return dsResult.Tables[0];
                 }
 
-              //  return result;
+                //  return result;
 
 
             }
@@ -1873,14 +1871,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
             }
@@ -1938,14 +1936,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
 
 
             }
@@ -1963,7 +1961,7 @@ namespace WebCAP.Concrete
 
             try
             {
-                int Sectionid =0;
+                int Sectionid = 0;
                 CommonConcrete commonRepository = new CommonConcrete(_appContext, settings);
                 SqlParameter[] arrSqlParam2 = new SqlParameter[2];
                 SqlHelper sqlHelper2 = new SqlHelper(Settings.ConnectionString);
@@ -2031,12 +2029,12 @@ namespace WebCAP.Concrete
                         }
                         else
                         {
-                             return dsResult.Tables[0];
+                            return dsResult.Tables[0];
                         }
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
 
@@ -2069,14 +2067,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -2100,14 +2098,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -2188,14 +2186,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -2228,14 +2226,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -2269,14 +2267,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -2286,7 +2284,7 @@ namespace WebCAP.Concrete
         }
 
 
-        public object UsersList(int usertype, int centeradminid, int ISSuperAdmin,bool IsActive)
+        public object UsersList(int usertype, int centeradminid, int ISSuperAdmin, bool IsActive)
         {
 
             try
@@ -2296,7 +2294,7 @@ namespace WebCAP.Concrete
                 arrSqlParam[0] = new SqlParameter("@usertype", usertype);
                 arrSqlParam[1] = new SqlParameter("@centeradminid", centeradminid);
                 arrSqlParam[2] = new SqlParameter("@ISSuperAdmin", ISSuperAdmin);
-                if(IsActive== true)
+                if (IsActive == true)
                 {
                     arrSqlParam[3] = new SqlParameter("@IsActive", Convert.ToInt32(ActiveTypeStatusEnum.Active));
                 }
@@ -2304,7 +2302,7 @@ namespace WebCAP.Concrete
                 {
                     arrSqlParam[3] = new SqlParameter("@IsActive", Convert.ToInt32(ActiveTypeStatusEnum.Inactive));
                 }
-                
+
                 SqlHelper sqlHelper = new SqlHelper(Settings.ConnectionString);
                 DataSet dsResult = sqlHelper.ExecuteDataSet("dbo.SP_GetUsersList", arrSqlParam);
 
@@ -2323,14 +2321,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -2360,12 +2358,12 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
                 //return result;
             }
@@ -2396,14 +2394,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -2513,14 +2511,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
-              //  return result;
+                //  return result;
 
             }
             catch (Exception ex)
@@ -2534,15 +2532,15 @@ namespace WebCAP.Concrete
         {
             try
             {
-                
+
 
                 CommonConcrete commonRepository = new CommonConcrete(_appContext, settings);
                 SqlParameter[] arrSqlParam = new SqlParameter[2];
                 arrSqlParam[0] = new SqlParameter("@FranchiseId", FranchiseId);
                 arrSqlParam[1] = new SqlParameter("@CenteradminId", CenteradminId);
-              
+
                 SqlHelper sqlHelper = new SqlHelper(Settings.ConnectionString);
-               int count = sqlHelper.ExecuteNonQuery("dbo.SP_DeleteFranchise", arrSqlParam);
+                int count = sqlHelper.ExecuteNonQuery("dbo.SP_DeleteFranchise", arrSqlParam);
                 if (count > 1)
                     result = CAPMessages.Franchisedelete;
 
@@ -2556,7 +2554,7 @@ namespace WebCAP.Concrete
             }
         }
 
-        
+
 
         public DataTable GetMathsQuestionList(CustomPaginate<QuestionFilters> QuestionFilters)
         {
@@ -2581,7 +2579,7 @@ namespace WebCAP.Concrete
                 }
                 sortColumn = char.ToUpper(sortColumn[0]) + sortColumn.Substring(1);
                 var propertyInfo = typeof(QuestionFilters).GetProperty(sortColumn);
-                if(QuestionFilters.filters.TopicName==null)
+                if (QuestionFilters.filters.TopicName == null)
                 {
                     QuestionFilters.filters.TopicName = string.Empty;
                 }
@@ -2609,7 +2607,7 @@ namespace WebCAP.Concrete
                 {
                     QuestionFilters.filters.Option4 = string.Empty;
                 }
-              
+
                 if (QuestionFilters.filters.Explanation == null)
                 {
                     QuestionFilters.filters.Explanation = string.Empty;
@@ -2623,7 +2621,7 @@ namespace WebCAP.Concrete
                 {
                     QuestionFilters.filters.UpdatedBy = string.Empty;
                 }
-               
+
                 if (QuestionFilters.SortOrder == -1)
                 {
                     sorts.Add(true, x => propertyInfo.GetValue(x, null), true);
@@ -2712,9 +2710,9 @@ namespace WebCAP.Concrete
                 //}
 
                 //QuestionFilters.ResultSetSize = dataTable.Rows.Count;
-                
 
-                
+
+
                 //var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataTable);
                 //QuestionFilters.Results = Newtonsoft.Json.JsonConvert.DeserializeObject<List<QuestionFilters>>(jsonData);
                 return dataTable;
@@ -2855,7 +2853,7 @@ namespace WebCAP.Concrete
                     ("Answer", EnglishQsFilters.filters.Answer),
                     ("SectionId", EnglishQsFilters.filters.SectionId),
                     ("DifficultyLevelId", EnglishQsFilters.filters.DifficultyLevelName),
-                   
+
                     ("Explanation", EnglishQsFilters.filters.Explanation),
                     ("HomeWorkId", EnglishQsFilters.filters.HomeWorkId),
                     ("IsHomeWork", EnglishQsFilters.filters.IsHomeWork),
@@ -2903,7 +2901,7 @@ namespace WebCAP.Concrete
 
                 SqlHelper sqlHelper = new SqlHelper(Settings.ConnectionString);
                 count = sqlHelper.ExecuteNonQuery("dbo.SP_ChangeStatus", arrSqlParam);
-                if (count>0)
+                if (count > 0)
                     result = CAPMessages.Statuschanged;
 
                 return result;
@@ -2936,7 +2934,7 @@ namespace WebCAP.Concrete
                 count = sqlHelper.ExecuteNonQuery("dbo.SP_DeleteRecord", arrSqlParam);
 
 
-                if (count>0)
+                if (count > 0)
                     result = CAPMessages.Delete;
 
                 return result;
@@ -2965,7 +2963,7 @@ namespace WebCAP.Concrete
                 count = sqlHelper.ExecuteNonQuery("dbo.SP_RestoreRecord", arrSqlParam);
 
 
-                if (count>0)
+                if (count > 0)
                     result = CAPMessages.Restore;
 
                 return result;
@@ -3009,14 +3007,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -3044,7 +3042,7 @@ namespace WebCAP.Concrete
                     SqlParameter[] arrSqlParam = new SqlParameter[1];
                     arrSqlParam[0] = new SqlParameter("@Centeradminid", Centeradminid);
                     SqlHelper sqlHelper = new SqlHelper(Settings.ConnectionString);
-                    dtresult = sqlHelper.ExecuteDataSet("dbo.SP_GetCenterDropDownListInUpdate",arrSqlParam);
+                    dtresult = sqlHelper.ExecuteDataSet("dbo.SP_GetCenterDropDownListInUpdate", arrSqlParam);
                 }
                 if (dtresult.Tables.Count > 0)
                 {
@@ -3095,14 +3093,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -3131,14 +3129,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -3167,14 +3165,14 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
-               // return result;
+                // return result;
             }
             catch (Exception ex)
             {
@@ -3202,12 +3200,12 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
                 //dtresult   return result;
             }
@@ -3237,12 +3235,12 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
                 //dtresult return result;
             }
@@ -3272,12 +3270,12 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
                 //dtresult return result;
             }
@@ -3307,12 +3305,12 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
                 //dtresult  return result;
             }
@@ -3343,12 +3341,12 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dtresult.Tables[0];
+                        return dtresult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dtresult.Tables[0];
+                    return dtresult.Tables[0];
                 }
                 //dtresult return result;
             }
@@ -3389,7 +3387,7 @@ namespace WebCAP.Concrete
                 ques.UpdatedDate = DateTime.Now;
                 _appContext.Questions.Add(ques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertQuestion;
 
@@ -3499,7 +3497,7 @@ namespace WebCAP.Concrete
                                         _appContext.englishQuestions.Update(Questiondata);
                                     }
                                 }
-                                
+
                             }
 
                             int count1 = _appContext.SaveChanges();
@@ -3561,7 +3559,7 @@ namespace WebCAP.Concrete
                     Qsresult.UpdatedDate = DateTime.Now;
                     _appContext.Questions.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateQuestion;
                     }
@@ -3583,7 +3581,7 @@ namespace WebCAP.Concrete
                 ques.ExamId = _appContext.ExamIds.Where(p => p.StudentId == ques.StudentId && p.Status != "Completed" && p.TestId == Convert.ToInt32(TestTypes.Practice)).Select(p => p.ExamId).FirstOrDefault();
                 _appContext.PracticeExamQuestion.Add(ques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertExamQuestion;
 
@@ -3615,14 +3613,14 @@ namespace WebCAP.Concrete
 
                     _appContext.PracticeExamQuestion.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateExamQuestion;
                     }
                 }
                 else
                 {
-                   return Qsresult;
+                    return Qsresult;
                 }
                 return ques;
             }
@@ -3643,7 +3641,7 @@ namespace WebCAP.Concrete
                 Hwques.ExamId = _appContext.ExamIds.Where(p => p.StudentId == Hwques.StudentId && p.Status != "Completed" && p.TestId == Convert.ToInt32(TestTypes.HomeWork)).Select(p => p.ExamId).FirstOrDefault();
                 _appContext.HomeworkQuestion.Add(Hwques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertHomeworkQuestion;
 
@@ -3674,7 +3672,7 @@ namespace WebCAP.Concrete
 
                     _appContext.HomeworkQuestion.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateHomeworkQuestion;
                     }
@@ -3696,7 +3694,7 @@ namespace WebCAP.Concrete
                 ques.ExamId = _appContext.ExamIds.Where(p => p.StudentId == ques.StudentId && p.Status != "Completed" && p.TestId == Convert.ToInt32(TestTypes.SAT)).Select(p => p.ExamId).FirstOrDefault();
                 _appContext.SATExamQuestion.Add(ques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertSATQuestion;
                 }
@@ -3719,7 +3717,7 @@ namespace WebCAP.Concrete
                 if (count > 0)
                 {
                     result = CAPMessages.Diagnstictes;
-                    DataTable DgMail = GetmailSettings(Convert.ToString( MailEnums.DiagnosticTest));
+                    DataTable DgMail = GetmailSettings(Convert.ToString(MailEnums.DiagnosticTest));
                     using (MailMessage mm = new MailMessage((string)DgMail.Rows[0]["MailId"], DgMail.Rows[0]["MailId"].ToString()))
                     {
                         mm.Subject = DgMail.Rows[0]["Subject"].ToString();
@@ -3743,9 +3741,9 @@ namespace WebCAP.Concrete
                         smtp.Send(mm);
 
 
-                       
+
                     }
-                  
+
 
                 }
                 else
@@ -3779,7 +3777,7 @@ namespace WebCAP.Concrete
 
                     _appContext.SATExamQuestion.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateSATQuestion;
                     }
@@ -3801,7 +3799,7 @@ namespace WebCAP.Concrete
                 ques.ExamId = _appContext.ExamIds.Where(p => p.StudentId == ques.StudentId && p.Status != "Completed" && p.TestId == Convert.ToInt32(TestTypes.SATJumble)).Select(p => p.ExamId).FirstOrDefault();
                 _appContext.SATExamJumbleQuestion.Add(ques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertSATQuestion;
                 }
@@ -3831,7 +3829,7 @@ namespace WebCAP.Concrete
 
                     _appContext.SATExamJumbleQuestion.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateSATQuestion;
                     }
@@ -3855,7 +3853,7 @@ namespace WebCAP.Concrete
                 ques.ExamId = _appContext.EnglishExamIds.Where(p => p.StudentId == ques.StudentId && p.Status != "Completed" && p.TestId == Convert.ToInt32(TestTypes.Practice)).Select(p => p.ExamId).FirstOrDefault();
                 _appContext.PracticeExamEnglishQuestion.Add(ques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertExamQuestion;
 
@@ -3887,7 +3885,7 @@ namespace WebCAP.Concrete
 
                     _appContext.PracticeExamEnglishQuestion.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateExamQuestion;
                     }
@@ -3908,7 +3906,7 @@ namespace WebCAP.Concrete
                 Hwques.ExamId = _appContext.EnglishExamIds.Where(p => p.StudentId == Hwques.StudentId && p.Status != "Completed" && p.TestId == Convert.ToInt32(TestTypes.HomeWork)).Select(p => p.ExamId).FirstOrDefault();
                 _appContext.HomeworkEnglishQuestion.Add(Hwques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertHomeworkQuestion;
 
@@ -3939,7 +3937,7 @@ namespace WebCAP.Concrete
 
                     _appContext.HomeworkEnglishQuestion.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateHomeworkQuestion;
                     }
@@ -3960,7 +3958,7 @@ namespace WebCAP.Concrete
                 ques.ExamId = _appContext.EnglishExamIds.Where(p => p.StudentId == ques.StudentId && p.Status != "Completed" && p.TestId == Convert.ToInt32(TestTypes.SAT)).Select(p => p.ExamId).FirstOrDefault();
                 _appContext.SATExamEnglishQuestion.Add(ques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertSATQuestion;
                 }
@@ -3990,7 +3988,7 @@ namespace WebCAP.Concrete
 
                     _appContext.SATExamEnglishQuestion.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateSATQuestion;
                     }
@@ -4012,7 +4010,7 @@ namespace WebCAP.Concrete
                 ques.ExamId = _appContext.EnglishExamIds.Where(p => p.StudentId == ques.StudentId && p.Status != "Completed" && p.TestId == Convert.ToInt32(TestTypes.SATJumble)).Select(p => p.ExamId).FirstOrDefault();
                 _appContext.SATExamEnglishJumbleQuestions.Add(ques);
                 int count = _appContext.SaveChanges();
-                if (count>0)
+                if (count > 0)
                 {
                     result = CAPMessages.InsertSATQuestion;
                 }
@@ -4042,7 +4040,7 @@ namespace WebCAP.Concrete
 
                     _appContext.SATExamEnglishJumbleQuestions.Update(Qsresult);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.UpdateSATQuestion;
                     }
@@ -4058,7 +4056,7 @@ namespace WebCAP.Concrete
         {
             try
             {
-                var frresult = _appContext.Franchise.Where(p => p.FranchiseTitle == franchise.FranchiseTitle ).FirstOrDefault();
+                var frresult = _appContext.Franchise.Where(p => p.FranchiseTitle == franchise.FranchiseTitle).FirstOrDefault();
                 var frresult2 = _appContext.Franchise.Where(p => p.Centeradminid == franchise.Centeradminid).FirstOrDefault();
                 if (frresult == null)
                 {
@@ -4068,7 +4066,7 @@ namespace WebCAP.Concrete
                         franchise.UpdatedDate = DateTime.Now;
                         _appContext.Franchise.Add(franchise);
                         int count = _appContext.SaveChanges();
-                        if (count>0)
+                        if (count > 0)
                         {
                             result = CAPMessages.InsertFranchise;
                         }
@@ -4109,7 +4107,7 @@ namespace WebCAP.Concrete
                             frresult.DomainId = fran.DomainId;
                             frresult.Email = fran.Email;
                             frresult.FacebookId = fran.FacebookId;
-                           // frresult.FranchiseId = fran.FranchiseId;
+                            // frresult.FranchiseId = fran.FranchiseId;
                             frresult.FranchiseTitle = fran.FranchiseTitle;
                             frresult.IsActive = fran.IsActive;
                             frresult.IsDeleted = fran.IsDeleted;
@@ -4128,7 +4126,7 @@ namespace WebCAP.Concrete
 
                             _appContext.Franchise.Update(frresult);
                             int count = _appContext.SaveChanges();
-                            if (count>0)
+                            if (count > 0)
                             {
                                 result = CAPMessages.Updatefranchise;
                             }
@@ -4157,7 +4155,7 @@ namespace WebCAP.Concrete
             {
                 websiteContactus.CreatedDate = DateTime.Now;
                 websiteContactus.UpdatedDate = DateTime.Now;
-                 _appContext.websiteContactus.Add(websiteContactus);
+                _appContext.websiteContactus.Add(websiteContactus);
                 var count = _context.SaveChanges();
                 if (count > 0)
                 {
@@ -4167,7 +4165,7 @@ namespace WebCAP.Concrete
                         mm.Subject = DgMail.Rows[0]["Subject"].ToString();
                         mm.CC.Add(websiteContactus.EmailId);
                         mm.Body = DgMail.Rows[0]["Dear"].ToString() + '\n' +
-                            DgMail.Rows[0]["Body"].ToString() +" "+ websiteContactus.EmailId + " Please Find The Details" + '\n' +
+                            DgMail.Rows[0]["Body"].ToString() + " " + websiteContactus.EmailId + " Please Find The Details" + '\n' +
                             "Name :" + websiteContactus.Name + '\n' +
                            "Phone :" + " " + websiteContactus.Phone + '\n' +
                            "Email :" + websiteContactus.EmailId + '\n' +
@@ -4216,12 +4214,12 @@ namespace WebCAP.Concrete
                         mm.Subject = DgMail.Rows[0]["Subject"].ToString();
                         mm.CC.Add(Contactus.EmailId);
                         mm.Body = DgMail.Rows[0]["Dear"].ToString() + '\n' +
-                            DgMail.Rows[0]["Body"].ToString()+" " + Contactus.EmailId + " Please Find The Details" + '\n' +
+                            DgMail.Rows[0]["Body"].ToString() + " " + Contactus.EmailId + " Please Find The Details" + '\n' +
                             "Name :" + Contactus.Name + '\n' +
                            "Phone :" + " " + Contactus.Phone + '\n' +
                            "Subject :" + Contactus.Subject + '\n' +
-                           "Message :" + Contactus.Message + '\n' +'\n'+
-                           
+                           "Message :" + Contactus.Message + '\n' + '\n' +
+
                            DgMail.Rows[0]["Regards"].ToString() + '\n' +
                            DgMail.Rows[0]["RegardsName"].ToString();
 
@@ -4268,7 +4266,7 @@ namespace WebCAP.Concrete
                     }
                     _appContext.BatchAssign.AddRange(listofstudentNames);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.BactchAssign;
 
@@ -4290,14 +4288,14 @@ namespace WebCAP.Concrete
         {
             try
             {
-                var satinfo= _appContext.SATExamAssign.Where(p => p.SubTopicId == satexamassign.SubTopicId && p.BatchId== satexamassign.BatchId).FirstOrDefault();
+                var satinfo = _appContext.SATExamAssign.Where(p => p.SubTopicId == satexamassign.SubTopicId && p.BatchId == satexamassign.BatchId).FirstOrDefault();
                 if (satinfo == null)
                 {
                     satexamassign.CreatedDate = DateTime.Now;
                     satexamassign.UpdatedDate = DateTime.Now;
                     _appContext.SATExamAssign.Add(satexamassign);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.SatAssign;
                     }
@@ -4333,7 +4331,7 @@ namespace WebCAP.Concrete
                     }
                     _appContext.homeWorkAssign.AddRange(listofhomeworkNames);
                     int count = _appContext.SaveChanges();
-                    if (count>0)
+                    if (count > 0)
                     {
                         result = CAPMessages.Homeworkassign;
 
@@ -4464,7 +4462,7 @@ namespace WebCAP.Concrete
                 throw ex;
             }
         }
-        
+
 
 
         public string Add(CommonParams commonParams)
@@ -4516,7 +4514,7 @@ namespace WebCAP.Concrete
                     arrSqlParam[1] = new SqlParameter("@FieldNames", FieldNames);
                     arrSqlParam[2] = new SqlParameter("@FieldValues", FieldValues);
                     count = sqlHelper.ExecuteNonQuery("dbo.SP_InsertData", arrSqlParam);
-                    
+
                     if (count > 0)
 
                         result = CAPMessages.Insert;
@@ -4571,7 +4569,7 @@ namespace WebCAP.Concrete
 
 
                         count = sqlHelper.ExecuteNonQuery("dbo.SP_UpdateData", arrSqlParam1);
-                        if (count>0)
+                        if (count > 0)
                             result = CAPMessages.Update;
                     }
                     else
@@ -4698,12 +4696,12 @@ namespace WebCAP.Concrete
                     }
                     else
                     {
-                         return dsResult.Tables[0];
+                        return dsResult.Tables[0];
                     }
                 }
                 else
                 {
-                     return dsResult.Tables[0];
+                    return dsResult.Tables[0];
                 }
                 return result;
             }

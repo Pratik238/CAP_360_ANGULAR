@@ -1,21 +1,17 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WebCAP.DAL;
 using WebCAP.Interface;
 using WebCAP.Models;
 using WebCAP.ViewModels;
-using System.Net.Mail;
-using Microsoft.Extensions.Options;
-using System.Data.SqlClient;
 using WebGYM.Models;
-using WebCAP.DAL;
-using System.Data;
 
 namespace WebCAP.Concrete
 {
-   public class StudentConcrete:IStudent
+    public class StudentConcrete : IStudent
     {
         private readonly DatabaseContext _context;
         private readonly IUsers _users;
@@ -28,7 +24,7 @@ namespace WebCAP.Concrete
             if (settings != null)
                 Settings = settings.Value;
         }
-        private DatabaseContext _appContext => (DatabaseContext)_context;
+        private DatabaseContext _appContext => _context;
         IOptions<Settings> settings;
 
 
@@ -54,7 +50,7 @@ namespace WebCAP.Concrete
             {
                 var result = (from student in _context.StudentAdmission
 
-                              where student.EmailId == username && student.IsActive==true && student.IsDeleted==false
+                              where student.EmailId == username && student.IsActive == true && student.IsDeleted == false
 
                               select new LoginResponse
                               {
@@ -305,7 +301,8 @@ namespace WebCAP.Concrete
             }
         }
 
-        public StudentAdmission GetStudentAdmissionById(int StudentId) {
+        public StudentAdmission GetStudentAdmissionById(int StudentId)
+        {
 
             var res = _context.StudentAdmission.Where(p => p.StudentId == StudentId).FirstOrDefault();
             return res;
@@ -374,7 +371,8 @@ namespace WebCAP.Concrete
             }
         }
 
-        public bool SaveStripeResponce(StripePayment obj) {
+        public bool SaveStripeResponce(StripePayment obj)
+        {
             try
             {
                 var res_SessionId = _context.StripePayment.Where(p => p.SessionId == obj.SessionId).FirstOrDefault();
@@ -392,11 +390,12 @@ namespace WebCAP.Concrete
                         return false;
                     }
                 }
-                else {
+                else
+                {
                     return false;
                 }
-                   
-               
+
+
             }
             catch (Exception ex)
             {

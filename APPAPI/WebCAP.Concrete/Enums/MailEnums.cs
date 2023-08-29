@@ -1,10 +1,10 @@
 ﻿
 namespace WebCAP.Concrete
 {
-   public enum MailEnums
+    public enum MailEnums
     {
-        DiagnosticTest=1,
-        WebsiteContactus=2,
+        DiagnosticTest = 1,
+        WebsiteContactus = 2,
         Contactus = 3
     }
 }

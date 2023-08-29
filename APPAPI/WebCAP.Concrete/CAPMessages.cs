@@ -9,7 +9,7 @@ namespace WebCAP.Concrete
         public const string studentlogin = "Student does not have permission to login. please contact admin";
         public const string error = "Error";
         public const string Incorrectmail = "Incorrect EmailId or Password...";
-        
+
         public const string Enrolled = "Enrolled Sucessfully...";
         public const string Incorrectpassword = "Incorrectpassword";
         public const string Incorrectusername = "Incorrect username or Password...";
@@ -19,7 +19,7 @@ namespace WebCAP.Concrete
         public const string Nodata = "There is No Data for this record...";
         public const string Restore = "Record restored successfully! ";
         public const string Delete = "Record deleted successfully! ";
-        public const string Statuschanged= "Status changed successfully! ";
+        public const string Statuschanged = "Status changed successfully! ";
         public const string Statuswithmessage = "status: 500,message: ";
         public const string InsertQuestion = "Question Inserted Sucessfully";
         public const string UpdateQuestion = "Question Updated Sucessfully";
@@ -47,11 +47,11 @@ namespace WebCAP.Concrete
         public const string passwordupdate = "Password Updated successfully! ";
         public const string ExamIdcreated = "Exam Id Created Successfully!.";
         public const string PracticeExam = "Prcatice Exam Questions Saved Failed!";
-        public const string Mailsent= "Mail Sent Successfully";
+        public const string Mailsent = "Mail Sent Successfully";
         public const string MailUpdatesent = "Update Home work status failed";
         public const string NoTutorMailIdData = "Tutor Mail Data Not available...";
         public const string NoMailMessageData = "Mail Message Data Not available...";
-        
+
         public const string DeleteUser = "Deleted Sucessfully";
         public const string Deletestudent = "Student Deleted Sucessfully";
         public const string CAPPassword = "CAP Password Recovery";

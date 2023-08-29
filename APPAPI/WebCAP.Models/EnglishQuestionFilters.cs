@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebCAP.Models
@@ -26,11 +24,11 @@ namespace WebCAP.Models
         public int? Answer { get; set; }
         public string Explanation { get; set; }
         public int? SectionId { get; set; }
-     
+
 
         public int? DifficultyLevelId { get; set; }
         public string DifficultyLevelName { get; set; }
-        
+
         public bool IsActive { get; set; } = true;
 
         public bool IsDeleted { get; set; } = false;
@@ -44,7 +42,7 @@ namespace WebCAP.Models
         public string HomeWorkId { get; set; }
         public string HomeWorkName { get; set; }
         public int? SubjectId { get; set; }
-        
+
 
     }
 }

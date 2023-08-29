@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using WebCAP.Models;
 using WebCAP.ViewModels;
 
@@ -9,8 +8,8 @@ namespace WebCAP.Interface
     {
         int InsertMember(MemberRegistration memberRegistration);
         long CheckNameExitsforUpdate(string memberFName, string memberLName, string memberMName);
-        bool CheckNameExits(string memberFName ,string memberLName, string memberMName);
-        
+        bool CheckNameExits(string memberFName, string memberLName, string memberMName);
+
         MemberRegistrationViewModel GetMemberbyId(int memberId);
         bool DeleteMember(long memberId);
         int UpdateMember(MemberRegistration memberRegistration);

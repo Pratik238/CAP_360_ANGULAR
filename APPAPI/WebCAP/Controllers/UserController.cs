@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Mail;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using WebCAP.Common;
+using WebCAP.Concrete;
 using WebCAP.Interface;
 using WebCAP.Models;
 using WebCAP.ViewModels;
-using WebCAP.Concrete;
 namespace WebCAP.Controllers
 {
     [Authorize]
@@ -28,8 +24,8 @@ namespace WebCAP.Controllers
             _users = users;
             _context = context;
         }
-        
-       
+
+
         // GET: api/User
         [HttpGet]
         public IEnumerable<Users> Get()
@@ -54,10 +50,10 @@ namespace WebCAP.Controllers
                 {
                     if (_users.CheckUsersExits(users.EmailId))
                     {
-                        return StatusCode(StatusCodes.Status409Conflict, new { status = StatusCodes.Status409Conflict, message= CAPMessages.EmailAlreadyexist });
-                      
+                        return StatusCode(StatusCodes.Status409Conflict, new { status = StatusCodes.Status409Conflict, message = CAPMessages.EmailAlreadyexist });
+
                     }
-                    else if(_users.CheckUsersExits1(users.EmailId))
+                    else if (_users.CheckUsersExits1(users.EmailId))
                     {
                         return StatusCode(StatusCodes.Status409Conflict, new { status = StatusCodes.Status409Conflict, message = CAPMessages.EmailAlreadyexist });
                     }
@@ -70,29 +66,29 @@ namespace WebCAP.Controllers
                         tempUsers.Updatedby = users.UpdatedBy;
                         tempUsers.UpdatedDate = DateTime.Now;
                         tempUsers.Password = EncryptionLibrary.EncryptText(users.Password);
-                        
-                       bool status= _users.InsertUsers(tempUsers);
+
+                        bool status = _users.InsertUsers(tempUsers);
                         if (status == true)
                         {
-                            return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message= CAPMessages.InsertUser });
-                           
+                            return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = CAPMessages.InsertUser });
+
                         }
                         else
                         {
-                            return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message=CAPMessages.InsertUserfailed });
+                            return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = CAPMessages.InsertUserfailed });
                         }
 
-                        
+
                     }
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message=CAPMessages.InsertUserfailed });
+                    return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = CAPMessages.InsertUserfailed });
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message=ex.InnerException });
+                return StatusCode(StatusCodes.Status400BadRequest, new { status = StatusCodes.Status400BadRequest, message = ex.InnerException });
             }
 
         }
@@ -105,9 +101,9 @@ namespace WebCAP.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var userinfo =  _context.Users.Where(p => p.UserId != users.UserId && p.EmailId == users.EmailId && p.IsActive==true && p.IsDeleted==false).FirstOrDefault();
+                    var userinfo = _context.Users.Where(p => p.UserId != users.UserId && p.EmailId == users.EmailId && p.IsActive == true && p.IsDeleted == false).FirstOrDefault();
                     var studentinfo = _context.StudentAdmission.Where(p => p.EmailId == users.EmailId && p.IsActive == true && p.IsDeleted == false).FirstOrDefault();
-                    if (userinfo == null && studentinfo==null)
+                    if (userinfo == null && studentinfo == null)
                     {
                         var tempUsers = AutoMapper.Mapper.Map<Users>(users);
                         tempUsers.UpdatedDate = DateTime.Now;
@@ -143,7 +139,7 @@ namespace WebCAP.Controllers
 
 
                 var result = _users.Updateprofile(Oldemail, EmailId, firstname, lastname, phonenumber);
-                if(result.ToString()== CAPMessages.Incorrectmail)
+                if (result.ToString() == CAPMessages.Incorrectmail)
                     return StatusCode(StatusCodes.Status422UnprocessableEntity, new { status = StatusCodes.Status422UnprocessableEntity, message = result });
                 return Ok(result);
 
@@ -162,7 +158,7 @@ namespace WebCAP.Controllers
             {
 
 
-                var result = _users.Updatepassword(EmailId,Password);
+                var result = _users.Updatepassword(EmailId, Password);
                 if (result.ToString() == CAPMessages.Incorrectmail)
                     return StatusCode(StatusCodes.Status422UnprocessableEntity, new { status = StatusCodes.Status422UnprocessableEntity, message = result });
                 return Ok(result);
@@ -184,9 +180,9 @@ namespace WebCAP.Controllers
             try
             {
                 var result = _users.DeleteUsers(id);
-               // if (result.ToString() == CAPMessages.Nodata)
-                    return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = result });
-               // return Ok(result);
+                // if (result.ToString() == CAPMessages.Nodata)
+                return StatusCode(StatusCodes.Status200OK, new { status = StatusCodes.Status200OK, message = result });
+                // return Ok(result);
             }
             catch (Exception ex)
             {
@@ -194,7 +190,7 @@ namespace WebCAP.Controllers
             }
         }
 
-        
+
         [HttpPost("ChangePassword")]
         public IActionResult ChangePassword(string OldPassword, string NewPassword, string UserName)
         {
@@ -214,7 +210,7 @@ namespace WebCAP.Controllers
                     }
                     else
                         return StatusCode(StatusCodes.Status404NotFound, new { status = StatusCodes.Status404NotFound, message = CAPMessages.Incorrectpassword });
-                    
+
                 }
                 return StatusCode(StatusCodes.Status404NotFound, new { status = StatusCodes.Status404NotFound, message = CAPMessages.Incorrectpassword });
             }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCAP.Models
 {
     [Table("SATExamAssign")]
-    public class SATExamAssign:CapBaseClass
+    public class SATExamAssign : CapBaseClass
     {
 
 
@@ -19,8 +18,8 @@ namespace WebCAP.Models
         [Required(ErrorMessage = "SubTopic Id is Required")]
         [ForeignKey("SubTopicId")]
         public int SubTopicId { get; set; }
-        
-       
+
+
 
 
 

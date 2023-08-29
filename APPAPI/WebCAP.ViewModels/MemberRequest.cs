@@ -6,8 +6,8 @@
     }
     public class MemberResponse
     {
-       public string MemberNo { get; set; }
-       public string MemberName { get; set; }
+        public string MemberNo { get; set; }
+        public string MemberName { get; set; }
     }
 
     public class MemberNoRequest

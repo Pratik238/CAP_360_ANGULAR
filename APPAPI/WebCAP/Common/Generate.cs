@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace WebCAP.Common
 {
@@ -137,7 +134,7 @@ namespace WebCAP.Common
             string str = string.Empty;
             Random random = new Random();
             for (int i = 0; i < length; i++)
-            {              
+            {
                 int index = random.Next(1, chArray.Length);
                 if (!str.Contains(chArray.GetValue(index).ToString()))
                 {

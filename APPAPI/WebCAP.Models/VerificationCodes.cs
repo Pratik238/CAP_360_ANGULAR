@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCAP.Models
@@ -16,7 +15,7 @@ namespace WebCAP.Models
         public string EmailId { get; set; }
         public string VerificationCode { get; set; }
         public bool Verified { get; set; } = false;
-       
+
 
 
 

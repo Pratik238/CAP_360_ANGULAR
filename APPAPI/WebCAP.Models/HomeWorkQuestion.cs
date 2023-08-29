@@ -29,6 +29,6 @@ namespace WebCAP.Models
         public DateTime Startdate { get; set; }
         public DateTime? EndDate { get; set; }
 
-  
+
     }
 }

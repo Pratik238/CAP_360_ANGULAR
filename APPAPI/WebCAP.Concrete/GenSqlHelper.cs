@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Text;
 
 namespace WebCAP.DAL
 {
@@ -592,7 +590,7 @@ namespace WebCAP.DAL
 
         public static long? HandleNullableLong(object obj)
         {
-            if(Convert.IsDBNull(obj))
+            if (Convert.IsDBNull(obj))
             {
                 return null;
             }

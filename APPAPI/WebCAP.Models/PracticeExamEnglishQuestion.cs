@@ -22,7 +22,7 @@ namespace WebCAP.Models
         [ForeignKey("QuestionId")]
 
         public int QuestionId { get; set; }
-        
+
         public string SelectedAnswer { get; set; }
         public int Skipped { get; set; } = 0;
         public int Answered { get; set; } = 0;
@@ -30,6 +30,6 @@ namespace WebCAP.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime Startdate { get; set; }
         public DateTime? EndDate { get; set; }
-    
+
     }
 }

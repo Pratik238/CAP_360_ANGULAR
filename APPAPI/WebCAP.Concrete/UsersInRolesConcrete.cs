@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using WebCAP.Interface;
 using WebCAP.Models;
 using WebCAP.ViewModels;
@@ -46,12 +44,12 @@ namespace WebCAP.Concrete
         public bool CheckRoleExists(UsersInRoles usersInRoles)
         {
             try
-            { 
-            var result = (from userrole in _context.UsersInRoles
-                          where userrole.UserId == usersInRoles.UserId && userrole.RoleId == usersInRoles.RoleId
-                          select userrole).Count();
+            {
+                var result = (from userrole in _context.UsersInRoles
+                              where userrole.UserId == usersInRoles.UserId && userrole.RoleId == usersInRoles.RoleId
+                              select userrole).Count();
 
-            return result > 0 ? true : false;
+                return result > 0 ? true : false;
             }
             catch (Exception ex)
             {
